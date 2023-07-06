@@ -62,5 +62,8 @@ jobs:
 
         # Parse
         text=$(cat "$files")
+        # echo "text: $text"
 
-        echo "text: $text"
+        # Latest
+        match=$(echo "$string" | grep -m 1 -Pzo "(?s)- \d+\.\d+\.\d+:(.*?)\n-")
+        echo "match: $match"
