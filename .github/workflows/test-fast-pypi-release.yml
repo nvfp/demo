@@ -44,21 +44,22 @@ jobs:
 
     - name: Match version
       run: |
-        echo "version: ${{ needs.check.outputs.version }}"
+        echo "INFO: version: ${{ needs.check.outputs.version }}"
         
-        files=$(find Docs -iname "*changelog*")
-        echo "files: $files"
+        # Look for files in the "docs" folder with "changelog" in their name (ignore case)
+        files=$(find docs -iname "*changelog*")
+        echo "DEBUG: files: $files"
 
-        # Check if any matching files are found
-        if [ -n "$files" ]; then
-          # Print the content of each matching file
-          for file in $files; do
-            echo "=== $file ==="
-            cat "$file"
-          done
-        else
-          # Exit with exit code 1 if no matching files are found
+        # Validation I: Only one changelog file should be in the "docs" folder
+        file_count=$(echo "$files" | wc -l)
+        echo "DEBUG: file_count: $file_count"
+        if [ "$file_count" -ne 1 ]; then
+          echo "ERROR: Multiple changelog files found in the "docs" folder."
           exit 1
         fi
+
+        # Print the content of the matching file
+        echo "=== $files ==="
+        cat "$files"
 
         echo "foo"
