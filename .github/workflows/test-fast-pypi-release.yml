@@ -62,18 +62,20 @@ jobs:
       - name: step3
         shell: python
         run: |
-          import subprocess as sp
+          import uuid
 
 
           bar = 'barrr'
           print(f"bar: '{bar}'")
 
-          script = f"""
-          #!/bin/bash
-          echo "bar={bar}" >> $GITHUB_OUTPUT
-          echo "Test: {bar}"
-          """
-          sp.run(['bash', '-c', script], shell=True)
+          # From: https://github.com/orgs/community/discussions/28146
+          def set_multiline_output(name, value):
+              with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+                  delimiter = uuid.uuid1()
+                  print(f'{name}<<{delimiter}', file=fh)
+                  print(value, file=fh)
+                  print(delimiter, file=fh)
+          set_multiline_output('bar', bar)
       
       - name: step4
         run: |
