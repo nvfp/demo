@@ -68,7 +68,7 @@ jobs:
           echo "DEBUG: text: '$text'"
 
           # Parse the latest changelog
-          latest_changelog=$(echo "$text" | grep -Pzo -m 1 '\- \d+\.\d+\.\d+:.*?')
+          latest_changelog=$(echo "$text" | grep -Pzo -m 1 '\- \d+\.\d+\.\d+:.*?\n\-')
           echo "DEBUG: latest_changelog: '$latest_changelog'"
 
           # Trim the ending "\n-" (the last 2 chars; '\n' counts as 1 char)
