@@ -68,12 +68,11 @@ jobs:
           echo "DEBUG: text: '$text'"
 
           # Parse the latest changelog
-          pattern="- [0-9]+\.[0-9]+\.[0-9]+(.*?)\n-"
-          latest_changelog=$(echo "$text")
+          latest_changelog=$(echo "$text" | grep -m 1 -oE '- [0-9]+\.[0-9]+\.[0-9]+.*?')
           echo "DEBUG: latest_changelog: '$latest_changelog'"
 
           # Trim the ending "\n-" (the last 2 chars; '\n' counts as 1 char)
-          latest_changelog_trimmed=${latest_changelog%???}
+          latest_changelog_trimmed=${latest_changelog%??}
           echo "DEBUG: latest_changelog_trimmed: '$latest_changelog_trimmed'"
 
           # Parse the version from the changelog file
