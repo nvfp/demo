@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "test"
+version = "0.0.0"
+description = "foo"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+  	{email = "foo@bar.com"},
+]
+keywords = ["foo", "bar", "baz"]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+	"Topic :: Scientific/Engineering",
+]
+dependencies = [
+	"foo==0.0.0",
+]
+
+
+[tool.setuptools.packages.find]
+exclude = [
+    "foo*",
+    "bar*",
+]
