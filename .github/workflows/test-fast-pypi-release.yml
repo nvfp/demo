@@ -141,7 +141,7 @@ jobs:
           CHANGELOG="${CHANGELOG//'%0D'/$'\r'}"
           CHANGELOG="${CHANGELOG//'%0A'/$'\n'}"
           CHANGELOG="${CHANGELOG//'%25'/'%'}"
-          
+
           # Add to GH env
           echo "CHANGELOG=$CHANGELOG" >> $GITHUB_ENV
     
