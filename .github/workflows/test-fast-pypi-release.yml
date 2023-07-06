@@ -46,7 +46,7 @@ jobs:
       run: |
         echo "version: ${{ needs.check.outputs.version }}"
         
-        files=$(find docs -iname "*changelog*")
+        files=$(find Docs -iname "*changelog*")
         echo "files: $files"
 
         # Check if any matching files are found
