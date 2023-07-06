@@ -62,32 +62,20 @@ jobs:
       - name: step3
         shell: python
         run: |
-          import subprocess as sp
-
-
           bar = 'barrr'
           print(f"bar: '{bar}'")
 
-          script = f"""
-          echo "bar={bar}" >> $GITHUB_OUTPUT
-          echo "Test: '{bar}'"
-          """
-
-          # Save the script to a file
-          script_file = "script.sh"
-          with open(script_file, "w") as file:
-              file.write(script)
-
-          # Make the script file executable
-          sp.run(["chmod", "+x", script_file])
-
-          # Run the script using bash
-          sp.run(["bash", script_file])
+          # From: https://github.com/orgs/community/discussions/28146
+          import os
+          name = 'bar'
+          value = bar
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+              print(f'{name}={value}', file=fh)
 
       - name: step4
         run: |
-          echo "::debug::again2, foo: '${{ steps.step1.outputs.foo }}'"
-          echo "::debug::again, bar: '${{ steps.step3.outputs.bar }}'"
+          echo "again2, foo: '${{ steps.step1.outputs.foo }}'"
+          echo "again, bar: '${{ steps.step3.outputs.bar }}'"
 
       - id: check
         name: Match versions
