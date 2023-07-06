@@ -60,3 +60,5 @@ jobs:
           # Exit with exit code 1 if no matching files are found
           exit 1
         fi
+
+        echo "foo"
