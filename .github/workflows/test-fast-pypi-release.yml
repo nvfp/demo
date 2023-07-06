@@ -70,8 +70,8 @@ jobs:
 
           # From: https://github.com/orgs/community/discussions/28146
           def set_output(name, value):
-            with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
-                print(f'{name}={value}', file=fh)
+              with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+                  print(f'{name}={value}', file=fh)
           def set_multiline_output(name, value):
               with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
                   delimiter = uuid.uuid1()
@@ -83,6 +83,7 @@ jobs:
       
       - name: step4
         run: |
+          echo "again2, foo: '${{ steps.step1.outputs.foo }}'"
           echo "again, bar: '${{ steps.step3.outputs.bar }}'"
 
       - id: check
