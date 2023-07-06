@@ -80,7 +80,7 @@ jobs:
       
       - name: step4
         run: |
-          echo "again, bar: '${{ steps.step1.outputs.bar }}'"
+          echo "again, bar: '${{ steps.step3.outputs.bar }}'"
 
       - id: check
         name: Match versions
