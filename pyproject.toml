@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "test"
-version = "3.2.0"
+version = "1.1.1"
 description = "foo"
 readme = "README.md"
 requires-python = ">=3.8"
