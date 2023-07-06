@@ -83,7 +83,7 @@ jobs:
             echo "Versions don't match."
         fi
 
-  update-pyproject.toml:
+  update-pyproject-toml:
     needs: [check-commit-message, check-changelog-file]
 
     runs-on: ubuntu-latest
@@ -97,7 +97,7 @@ jobs:
         echo "foo"
 
   publish-to-PyPI:
-    needs: [check-commit-message, check-changelog-file, update-pyproject.toml]
+    needs: [check-commit-message, check-changelog-file, update-pyproject-toml]
 
     runs-on: ubuntu-latest
 
