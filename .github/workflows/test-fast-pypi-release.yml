@@ -66,12 +66,20 @@ jobs:
           bar = 'barrr'
           print(f"bar: '{bar}'")
 
-          # From: https://github.com/orgs/community/discussions/28146
-          import os
-          name = 'bar'
-          value = bar
-          with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
-              print(f'{name}={value}', file=fh)
+          # Using subprocess
+          import subprocess as sp
+          script = f"""
+          echo "bar={bar}" >> $GITHUB_OUTPUT
+          echo "Using subprocess: '{bar}'"
+          """
+          sp.run(['bash', '-c', script])
+
+          # ## From: https://github.com/orgs/community/discussions/28146
+          # import os
+          # name = 'bar'
+          # value = bar
+          # with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+          #     print(f'{name}={value}', file=fh)
 
       - name: step4
         run: |
