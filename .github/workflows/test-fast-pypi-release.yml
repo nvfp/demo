@@ -71,6 +71,7 @@ jobs:
           script = f"""
           #!/bin/bash
           echo "bar={bar}" >> $GITHUB_OUTPUT
+          echo "Test: {bar}"
           """
           sp.run(['bash', '-c', script])
       
