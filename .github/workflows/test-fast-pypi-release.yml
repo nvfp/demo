@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  check:
+  Check-I:
     runs-on: ubuntu-latest
 
     outputs:
@@ -34,9 +34,9 @@ jobs:
           echo "status=fail" >> $GITHUB_OUTPUT
         fi
 
-  work:
-    needs: check
-    if: needs.check.outputs.status == 'success'
+  Check-II:
+    needs: Check-I
+    if: needs.Check-I.outputs.status == 'success'
 
     runs-on: ubuntu-latest
 
@@ -46,7 +46,7 @@ jobs:
 
     - name: Match version
       run: |
-        echo "INFO: version: ${{ needs.check.outputs.version }}"
+        echo "INFO: version: ${{ needs.Check-I.outputs.version }}"
         
         # Look for files in the "docs" folder with "changelog" in their name (ignore case)
         files=$(find docs -iname "*changelog*")
