@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check commit message
-        uses: nvfp/gh-action-simple-release@1.2
+        uses: nvfp/gh-action-simple-release@1.2.0
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
         with:
