@@ -15,6 +15,7 @@ jobs:
 
     steps:
     - id: check
+      name: Check commit message
       env:
         COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
       run: |
@@ -67,6 +68,6 @@ jobs:
         match=$(echo "$text" | grep -m 1 -Pzo "(?s)- \d+\.\d+\.\d+(.*?)\n-")
         echo "match: '$match'"
 
-        # Trim the ending "\n-" (the last 3 chars) using sed
-        trimmed_match=$(echo "$match" | sed 's/...$//')
+        # Trim the ending "\n-" (the last 3 chars)
+        trimmed_match=$(match%???)
         echo "trimmed_match: '$trimmed_match'"
