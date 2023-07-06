@@ -60,7 +60,6 @@ jobs:
           echo "again, foo: '${{ steps.step1.outputs.foo }}'"
       
       - name: step3
-        shell: python
         run: |
           import os
           import uuid
@@ -80,6 +79,7 @@ jobs:
                   print(value, file=fh)
                   print(delimiter, file=fh)
           set_output('bar', bar)
+        shell: python
       
       - name: step4
         run: |
