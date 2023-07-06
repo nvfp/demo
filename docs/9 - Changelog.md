@@ -1,5 +1,9 @@
 # Changelog
 
+- 7.0.0:
+    - should
+    - work
+        - now?
 - 6.100.200:
     - foo
     - bar

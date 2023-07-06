@@ -65,13 +65,13 @@ jobs:
 
           # Parse the changelog file
           text=$(cat "$files")
-          # echo "DEBUG: text: $text"
+          echo "DEBUG: text: '$text'"
 
           # Parse the latest changelog
-          latest_changelog=$(echo "$text" | grep -m 1 -Pzo "(?s)- \d+\.\d+\.\d+(.*?)\n- ")
+          latest_changelog=$(echo "$text" | grep -o -m 1 "- \d+\.\d+\.\d+(.*?)\n-")
           echo "DEBUG: latest_changelog: '$latest_changelog'"
 
-          # Trim the ending "\n- " (the last 3 chars; '\n' counts as 1 char)
+          # Trim the ending "\n-" (the last 2 chars; '\n' counts as 1 char)
           latest_changelog_trimmed=${latest_changelog%???}
           echo "DEBUG: latest_changelog_trimmed: '$latest_changelog_trimmed'"
 
