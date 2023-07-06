@@ -117,7 +117,7 @@ jobs:
       - name: Commit
         run: |
           git config user.name "nvfp/fast-pypi-release"
-          git config user.email "foo@bar.baz"
+          git config user.email "nichovts@gmail.com"
           git commit -am "Update version in pyproject.toml"
           git push
 
