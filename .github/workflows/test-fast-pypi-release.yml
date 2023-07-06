@@ -73,7 +73,7 @@ jobs:
         echo "trimmed_match: '$trimmed_match'"
 
         # Get the version from the changelog file
-        ver_from_changelog=$(echo "$trimmed_match" | grep -m 1 -oE '\d+\.\d+\.\d+')
+        ver_from_changelog=$(echo "$trimmed_match" | grep -oP '\d+\.\d+\.\d+' | head -n 1)
         echo "ver_from_changelog: '$ver_from_changelog'"
 
         # Match the version
