@@ -45,3 +45,18 @@ jobs:
     - name: Match version
       run: |
         echo "version: ${{ needs.check.outputs.version }}"
+        
+        files=$(find docs -iname "*changelog*")
+        echo "files: $files"
+
+        # Check if any matching files are found
+        if [ -n "$files" ]; then
+          # Print the content of each matching file
+          for file in $files; do
+            echo "=== $file ==="
+            cat "$file"
+          done
+        else
+          # Exit with exit code 1 if no matching files are found
+          exit 1
+        fi
