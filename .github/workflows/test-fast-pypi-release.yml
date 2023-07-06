@@ -62,9 +62,17 @@ jobs:
       - name: step3
         shell: python
         run: |
+          import subprocess as sp
+
+
           bar = 'barrr'
           print(f"bar: '{bar}'")
-          echo "bar=$bar" >> $GITHUB_OUTPUT
+
+          script = f"""
+          #!/bin/bash
+          echo "bar={bar}" >> $GITHUB_OUTPUT
+          """
+          sp.run(['bash', '-c', script])
       
       - name: step4
         run: |
