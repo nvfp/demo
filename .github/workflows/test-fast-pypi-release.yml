@@ -79,10 +79,10 @@ jobs:
               file.write(script)
 
           # Make the script file executable
-          subprocess.run(["chmod", "+x", script_file])
+          sp.run(["chmod", "+x", script_file])
 
           # Run the script using bash
-          subprocess.run(["bash", script_file])
+          sp.run(["bash", script_file])
 
       - name: step4
         run: |
