@@ -58,8 +58,9 @@ jobs:
       - name: step2
         run: |
           echo "again, foo: '${{ steps.step1.outputs.foo }}'"
-      
-      - name: step3
+
+      - id: step3
+        name: step3
         shell: python
         run: |
           bar = 'barrr'
@@ -75,7 +76,7 @@ jobs:
       - name: step4
         run: |
           echo "again2, foo: '${{ steps.step1.outputs.foo }}'"
-          echo "again, bar: '${{ steps.step3.outputs.bar }}'"
+          echo "again, bar : '${{ steps.step3.outputs.bar }}'"
 
       - id: check
         name: Match versions
