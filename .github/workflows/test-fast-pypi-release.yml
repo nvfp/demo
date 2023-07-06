@@ -39,12 +39,16 @@ jobs:
     if: needs.check-commit-message.outputs.status == 'success'
 
     runs-on: ubuntu-latest
+    
+    outputs:
+      status: ${{ steps.check.outputs.status }}
 
     steps:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Match version
+    - id: check
+      name: Match version
       run: |
         echo "INFO: version: ${{ needs.check-commit-message.outputs.version }}"
         
@@ -77,14 +81,17 @@ jobs:
         echo "ver_from_changelog: '$ver_from_changelog'"
 
         # Match the version
-        if [ "$needs.check-commit-message.outputs.version" == "$ver_from_changelog" ]; then
-            echo "Versions matched."
+        if [[ "$needs.check-commit-message.outputs.version" == "$ver_from_changelog" ]]; then
+            echo "INFO: Versions matched."
+            echo "status=success" >> $GITHUB_OUTPUT
         else
-            echo "Versions don't match."
+            echo "INFO: Versions don't match."
+            echo "status=fail" >> $GITHUB_OUTPUT
         fi
 
   update-pyproject-toml:
     needs: [check-commit-message, check-changelog-file]
+    if: needs.check-changelog-file.outputs.status == 'success'
 
     runs-on: ubuntu-latest
 
