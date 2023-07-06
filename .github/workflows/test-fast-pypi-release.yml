@@ -68,7 +68,7 @@ jobs:
           echo "DEBUG: text: '$text'"
 
           # Parse the latest changelog
-          latest_changelog=$(echo "$text" | grep -Pzo -m 1 '(?s)- \d+\.\d+\.\d+.*?\\n-')
+          latest_changelog=$(echo "$text" | grep -Pzo -m 1 '(?s)- \d+\.\d+\.\d+.*?\x00-')
           echo "DEBUG: latest_changelog: '$latest_changelog'"
           exit 9  # debugging purposes
 
