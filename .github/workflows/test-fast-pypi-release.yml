@@ -83,7 +83,7 @@ jobs:
           if [[ "${{ needs.check-commit-message.outputs.version }}" == "$ver_from_changelog" ]]; then
               echo "INFO: Versions matched."
               echo "status=success" >> $GITHUB_OUTPUT
-              echo "changelog=$latest_changelog_trimmed" >> $GITHUB_OUTPUT
+              echo "changelog=$(echo "$latest_changelog_trimmed")" >> "$GITHUB_OUTPUT"
           else
               echo "INFO: Versions don't match."
               echo "status=fail" >> $GITHUB_OUTPUT
