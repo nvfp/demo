@@ -1,0 +1,18 @@
+name: "Testing nvfp/gh-action-simple-release"
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check commit message
+        uses: nvfp/gh-action-simple-release@v1.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+        with:
+          tag: 100.200.300
+          desc: Test release
