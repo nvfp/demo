@@ -97,6 +97,8 @@ jobs:
     if: needs.check-changelog-file.outputs.status == 'success'
 
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout
@@ -105,6 +107,9 @@ jobs:
       - name: Rewriting
         run: |
           version=${{ env.CHANGELOG }}
+          echo "INFO: new version: '$version'"
+
+          # Change the version
           sed -E -i "s/(version = \")[0-9]+\.[0-9]+\.[0-9]+/\1$version/" pyproject.toml
 
       - name: Commit
