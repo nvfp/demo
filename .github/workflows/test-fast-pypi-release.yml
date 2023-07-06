@@ -42,7 +42,6 @@ jobs:
     
     outputs:
       status: ${{ steps.check.outputs.status }}
-      changelog: ${{ steps.check.outputs.changelog }}
 
     steps:
       - name: Checkout
@@ -83,7 +82,11 @@ jobs:
           if [[ "${{ needs.check-commit-message.outputs.version }}" == "$ver_from_changelog" ]]; then
               echo "INFO: Versions matched."
               echo "status=success" >> $GITHUB_OUTPUT
-              echo "changelog=$(echo "$latest_changelog_trimmed")" >> "$GITHUB_OUTPUT"
+              
+              # Appending the latest changelog to github env for later use
+              echo "CHANGELOG<<EOF" >> $GITHUB_ENV
+              echo "$latest_changelog_trimmed" >> $GITHUB_ENV
+              echo "EOF" >> $GITHUB_ENV
           else
               echo "INFO: Versions don't match."
               echo "status=fail" >> $GITHUB_OUTPUT
@@ -101,6 +104,7 @@ jobs:
 
       - name: Rewriting
         run: |
+          version=${{ env.CHANGELOG }}
           sed -E -i "s/(version = \")[0-9]+\.[0-9]+\.[0-9]+/\1$version/" pyproject.toml
 
       - name: Commit
