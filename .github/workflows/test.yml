@@ -14,5 +14,5 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         with:
-          tag: 100.200.300
-          desc: Test release
+          tag: 300.200.100
+          desc: Test release using `nvfp/gh-action-simple-release@1.2.0`
