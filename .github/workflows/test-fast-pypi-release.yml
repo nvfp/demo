@@ -143,7 +143,10 @@ jobs:
           CHANGELOG="${CHANGELOG//'%25'/'%'}"
 
           # Add to GH env
-          echo "CHANGELOG=$CHANGELOG" >> $GITHUB_ENV
+          echo "CHANGELOG<<EOF" >> $GITHUB_ENV
+          echo "$CHANGELOG" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+          echo "DEBUG: env.CHANGELOG: ${{ env.CHANGELOG }}"
     
       - name: Release
         uses: nvfp/gh-action-simple-release@1.4.0

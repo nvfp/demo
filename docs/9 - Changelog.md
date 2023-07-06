@@ -1,5 +1,9 @@
 # Changelog
 
+- 5.5.9:
+    - Testing3
+    - Only
+        - Foo bar
 - 5.5.7:
     - Testing2
     - Only
