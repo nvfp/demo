@@ -65,5 +65,9 @@ jobs:
         # echo "text: $text"
 
         # Latest
-        match=$(echo "$text" | grep -m 1 -Pzo "(?s)- \d+\.\d+\.\d+:(.*?)\n-")
-        echo "match: $match"
+        match=$(echo "$text" | grep -m 1 -Pzo "(?s)- \d+\.\d+\.\d+(.*?)\n-")
+        echo "match: '$match'"
+
+        # Trim the ending "\n-" using sed
+        trimmed_match=$(echo "$match" | sed 's/\n-$//')
+        echo "trimmed_match: '$trimmed_match'"
