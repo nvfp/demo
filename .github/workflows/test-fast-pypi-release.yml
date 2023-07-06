@@ -73,7 +73,7 @@ jobs:
           echo "bar={bar}" >> $GITHUB_OUTPUT
           echo "Test: {bar}"
           """
-          sp.run(['bash', '-c', script])
+          sp.run(['bash', '-c', script], shell=True)
       
       - name: step4
         run: |
