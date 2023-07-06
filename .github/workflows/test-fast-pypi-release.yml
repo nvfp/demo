@@ -81,17 +81,17 @@ jobs:
 
           # Match the versions
           if [[ "${{ needs.check-commit-message.outputs.version }}" == "$ver_from_changelog" ]]; then
-              echo "INFO: Versions matched."
-              echo "status=success" >> $GITHUB_OUTPUT
+            echo "INFO: Versions matched."
+            echo "status=success" >> $GITHUB_OUTPUT
 
-              # Convert newline characters before saving the variable to job outputs.
-              latest_changelog_trimmed="${latest_changelog_trimmed//'%'/'%25'}"
-              latest_changelog_trimmed="${latest_changelog_trimmed//$'\n'/'%0A'}"
-              latest_changelog_trimmed="${latest_changelog_trimmed//$'\r'/'%0D'}"
-              echo "changelog=$latest_changelog_trimmed" >> $GITHUB_OUTPUT
+            # Convert newline characters before saving the variable to job outputs.
+            latest_changelog_trimmed="${latest_changelog_trimmed//'%'/'%25'}"
+            latest_changelog_trimmed="${latest_changelog_trimmed//$'\n'/'%0A'}"
+            latest_changelog_trimmed="${latest_changelog_trimmed//$'\r'/'%0D'}"
+            echo "changelog=$latest_changelog_trimmed" >> $GITHUB_OUTPUT
           else
-              echo "INFO: Versions don't match."
-              echo "status=fail" >> $GITHUB_OUTPUT
+            echo "INFO: Versions don't match."
+            echo "status=fail" >> $GITHUB_OUTPUT
           fi
 
   rewrite-pyproject-toml:
@@ -116,8 +116,8 @@ jobs:
 
       - name: Commit
         run: |
-          git config user.name "nvfp/fast-pypi-release"
-          git config user.email "nicho@scapeville.com"
+          git config user.name "nvfp/fast-pypi-release"  # Edit the custom value
+          git config user.email "nicho@scapeville.com"   # Edit the custom value
           git commit -am "Update version in pyproject.toml"
           git push
 
@@ -132,6 +132,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      
+      - name: Revert Changelog conversion
+        run: |
+          CHANGELOG="${{ needs.check-changelog-file.outputs.changelog }}"
+          
+          # Convert back to 'newline' char
+          CHANGELOG="${CHANGELOG//'%0D'/$'\r'}"
+          CHANGELOG="${CHANGELOG//'%0A'/$'\n'}"
+          CHANGELOG="${CHANGELOG//'%25'/'%'}"
+          
+          # Add to GH env
+          echo "CHANGELOG=$CHANGELOG" >> $GITHUB_ENV
     
       - name: Release
         uses: nvfp/gh-action-simple-release@1.4.0
@@ -139,7 +151,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         with:
           tag: ${{ needs.check-commit-message.outputs.version }}
-          desc: ${{ needs.check-changelog-file.outputs.changelog }}
+          desc: ${{ env.CHANGELOG }}
 
   publish-to-PyPI:
     needs: [check-commit-message, check-changelog-file, rewrite-pyproject-toml]
