@@ -81,7 +81,7 @@ jobs:
         echo "ver_from_changelog: '$ver_from_changelog'"
 
         # Match the version
-        if [[ "$needs.check-commit-message.outputs.version" == "$ver_from_changelog" ]]; then
+        if [[ "${{ needs.check-commit-message.outputs.version }}" == "$ver_from_changelog" ]]; then
             echo "INFO: Versions matched."
             echo "status=success" >> $GITHUB_OUTPUT
         else
