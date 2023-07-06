@@ -9,10 +9,10 @@ jobs:
   test-job:
     runs-on: ubuntu-latest
     steps:
-      - name: Check commit message
-        uses: nvfp/gh-action-simple-release@1.2.0
+      - name: Releasing
+        uses: nvfp/gh-action-simple-release@1.3.0
         env:
           GH_TOKEN: ${{ github.token }}
         with:
           tag: 300.200.100
-          desc: Test release using `nvfp/gh-action-simple-release@1.2.0`
+          desc: Test release using `nvfp/gh-action-simple-release@1.3.0`
