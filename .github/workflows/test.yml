@@ -14,5 +14,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
         with:
-          tag: 100.200.300
+          tag: 100.200.30
           desc: Test release
