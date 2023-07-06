@@ -82,3 +82,29 @@ jobs:
         else
             echo "Versions don't match."
         fi
+
+  update-pyproject.toml:
+    needs: [check-commit-message, check-changelog-file]
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Rewriting
+      run: |
+        echo "foo"
+
+  publish-to-PyPI:
+    needs: [check-commit-message, check-changelog-file, update-pyproject.toml]
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Publish
+      run: |
+        echo "bar"
