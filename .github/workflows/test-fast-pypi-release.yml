@@ -72,12 +72,22 @@ jobs:
           echo "bar={bar}" >> $GITHUB_OUTPUT
           echo "Test: '{bar}'"
           """
-          sp.call(['bash', script])
+
+          # Save the script to a file
+          script_file = "script.sh"
+          with open(script_file, "w") as file:
+              file.write(script)
+
+          # Make the script file executable
+          subprocess.run(["chmod", "+x", script_file])
+
+          # Run the script using bash
+          subprocess.run(["bash", script_file])
 
       - name: step4
         run: |
-          echo "again2, foo: '${{ steps.step1.outputs.foo }}'"
-          echo "again, bar: '${{ steps.step3.outputs.bar }}'"
+          echo "::debug::again2, foo: '${{ steps.step1.outputs.foo }}'"
+          echo "::debug::again, bar: '${{ steps.step3.outputs.bar }}'"
 
       - id: check
         name: Match versions
