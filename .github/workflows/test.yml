@@ -12,13 +12,13 @@ jobs:
       contents: write
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      # - name: Checkout
+      #   uses: actions/checkout@v3
 
-      - name: Release
-        uses: nvfp/gh-action-simple-release@1.4.0
-        env:
-          GH_TOKEN: ${{ github.token }}
-        with:
-          tag: 10.20.300
-          desc: Test release using `nvfp/gh-action-simple-release@1.4.0`
+      # - name: Release
+      #   uses: nvfp/gh-action-simple-release@1.4.0
+      #   env:
+      #     GH_TOKEN: ${{ github.token }}
+      #   with:
+      #     tag: 10.20.300
+      #     desc: Test release using `nvfp/gh-action-simple-release@1.4.0`
