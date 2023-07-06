@@ -69,5 +69,5 @@ jobs:
         echo "match: '$match'"
 
         # Trim the ending "\n-" (the last 3 chars)
-        trimmed_match=$(match%???)
+        trimmed_match=${match%???}
         echo "trimmed_match: '$trimmed_match'"
