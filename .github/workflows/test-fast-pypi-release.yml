@@ -69,7 +69,7 @@ jobs:
 
           # Parse the latest changelog
           pattern="- [0-9]+\.[0-9]+\.[0-9]+(.*?)\n-"
-          latest_changelog=$(echo "$text" | grep -Po -m 1 "$pattern")
+          latest_changelog=$(echo "$text")
           echo "DEBUG: latest_changelog: '$latest_changelog'"
 
           # Trim the ending "\n-" (the last 2 chars; '\n' counts as 1 char)
