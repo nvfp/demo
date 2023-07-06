@@ -68,6 +68,17 @@ jobs:
         match=$(echo "$text" | grep -m 1 -Pzo "(?s)- \d+\.\d+\.\d+(.*?)\n-")
         echo "match: '$match'"
 
-        # Trim the ending "\n-" (the last 3 chars)
-        trimmed_match=${match%???}
+        # Trim the ending "\n-" (the last 2 chars; '\n' counts as 1 char)
+        trimmed_match=${match%??}
         echo "trimmed_match: '$trimmed_match'"
+
+        # Get the version from the changelog file
+        ver_from_changelog=$(echo "$trimmed_match" | grep -m 1 -oE '\d+\.\d+\.\d+')
+        echo "ver_from_changelog: '$ver_from_changelog'"
+
+        # Match the version
+        if [ "$needs.check-commit-message.outputs.version" == "$ver_from_changelog" ]; then
+            echo "Versions matched."
+        else
+            echo "Versions don't match."
+        fi
