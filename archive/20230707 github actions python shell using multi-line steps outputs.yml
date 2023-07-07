@@ -1,0 +1,29 @@
+jobs:
+  foo:
+    runs-on: ubuntu-latest
+    steps:
+      - id: step1
+        name: step1
+        run: |
+          multiline='multiline string'
+          echo "multiline: '$multiline'"
+          
+          # Store the multi-line string into outputs
+          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          echo "multiline<<$EOF" >> $GITHUB_OUTPUT
+          echo "$multiline" >> $GITHUB_OUTPUT
+          echo "$EOF" >> $GITHUB_OUTPUT
+
+      - name: step2
+        run: |
+          # Get the multi-line string
+          script = """
+          echo "${{ steps.step1.outputs.multiline }}"
+          """
+          multiline = sp.check_output(['bash', '-c', script]).decode().strip()
+          print(f'DEBUG: repr(multiline): {repr(multiline)}')
+          print(f'DEBUG: multiline: "{multiline}"')
+
+
+          # Wrong way to do it
+          multiline = ${{ steps.step1.outputs.multiline }}
