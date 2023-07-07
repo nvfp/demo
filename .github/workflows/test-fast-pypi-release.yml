@@ -48,7 +48,7 @@ jobs:
     
     outputs:
       status: ${{ steps.match.outputs.status }}
-      changelog: ${{ steps.parse.outputs.changelog }}
+      latest_changelog: ${{ steps.parse.outputs.latest_changelog }}
 
     steps:
       - name: Checkout
@@ -107,6 +107,7 @@ jobs:
           script = f"""
           echo "DEBUG: Using subprocess."
 
+          # Store the multi-line `latest_changelog` into steps outputs
           EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
           echo "latest_changelog<<$EOF" >> $GITHUB_OUTPUT
           echo "{latest_changelog}" >> $GITHUB_OUTPUT
@@ -133,12 +134,6 @@ jobs:
           else
             echo "INFO: Versions matched."
             echo "status=success" >> $GITHUB_OUTPUT
-
-            # Store the multi-line `latest_changelog` into steps outputs
-            EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
-            echo "changelog<<$EOF" >> $GITHUB_OUTPUT
-            echo "$latest_changelog" >> $GITHUB_OUTPUT
-            echo "$EOF" >> $GITHUB_OUTPUT
           fi
 
   rewrite-pyproject-toml:
@@ -165,7 +160,10 @@ jobs:
         run: |
           git config user.name "nvfp/fast-pypi-release"  # Edit the custom value
           git config user.email "nicho@scapeville.com"   # Edit the custom value
-          git commit -am "Update version in pyproject.toml"
+          
+          commit_number=$(git rev-list --count HEAD)
+          git commit -am "Update version in pyproject.toml (#$commit_number commit)"
+          
           git push
 
   create-gh-release:
@@ -185,7 +183,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         with:
           tag: ${{ needs.check-commit-message.outputs.version }}
-          desc: ${{ needs.check-changelog-file.outputs.changelog }}
+          desc: ${{ needs.check-changelog-file.outputs.latest_changelog }}
 
   publish-to-PyPI:
     needs: [check-commit-message, check-changelog-file, rewrite-pyproject-toml]
