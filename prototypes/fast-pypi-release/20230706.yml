@@ -1,0 +1,170 @@
+name: Publish on release commit
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  check-commit-message:
+    runs-on: ubuntu-latest
+
+    outputs:
+      status: ${{ steps.check.outputs.status }}
+      version: ${{ steps.check.outputs.version }}
+
+    steps:
+      - id: check
+        name: Check commit message
+        env:
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+        run: |
+          echo "INFO: Commit message: $COMMIT_MESSAGE"
+          
+          regex="^([0-9]+\.[0-9]+\.[0-9]+) Release.*"
+          
+          if [[ $COMMIT_MESSAGE =~ $regex ]]; then 
+            echo "INFO: Pattern matched."
+            ver="${BASH_REMATCH[1]}"
+            echo "INFO: Version: $ver"
+            echo "status=success" >> $GITHUB_OUTPUT
+            echo "version=$ver" >> $GITHUB_OUTPUT
+          else
+            echo "INFO: Pattern doesn't match."
+            echo "status=fail" >> $GITHUB_OUTPUT
+          fi
+
+  check-changelog-file:
+    needs: check-commit-message
+    if: needs.check-commit-message.outputs.status == 'success'
+
+    runs-on: ubuntu-latest
+    
+    outputs:
+      status: ${{ steps.check.outputs.status }}
+      changelog: ${{ steps.check.outputs.changelog }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - id: check
+        name: Match versions
+        run: |
+          # Look for files in the "docs" folder with "changelog" in their name (ignore case)
+          files=$(find docs -iname "*changelog*")
+          echo "DEBUG: files: $files"
+
+          # Validation I: Only one changelog file should be in the "docs" folder
+          file_count=$(echo "$files" | wc -l)
+          echo "DEBUG: file_count: $file_count"
+          if [ "$file_count" -ne 1 ]; then
+            echo "ERROR: Multiple changelog files found in the "docs" folder."
+            exit 1
+          fi
+
+          # Parse the changelog file
+          text=$(cat "$files")
+          # echo "DEBUG: text: $text"
+
+          # Parse the latest changelog
+          latest_changelog=$(echo "$text" | grep -m 1 -Pzo "(?s)- \d+\.\d+\.\d+(.*?)\n-")
+          echo "DEBUG: latest_changelog: '$latest_changelog'"
+
+          # Trim the ending "\n-" (the last 2 chars; '\n' counts as 1 char)
+          latest_changelog_trimmed=${latest_changelog%??}
+          echo "DEBUG: latest_changelog_trimmed: '$latest_changelog_trimmed'"
+
+          # Parse the version from the changelog file
+          ver_from_changelog=$(echo "$latest_changelog_trimmed" | grep -oP '\d+\.\d+\.\d+' | head -n 1)
+          echo "DEBUG: ver_from_changelog: '$ver_from_changelog'"
+
+          # Match the versions
+          if [[ "${{ needs.check-commit-message.outputs.version }}" == "$ver_from_changelog" ]]; then
+              echo "INFO: Versions matched."
+              echo "status=success" >> $GITHUB_OUTPUT
+
+              # Convert newline characters before saving the variable to job outputs.
+              latest_changelog_trimmed="${latest_changelog_trimmed//'%'/'%25'}"
+              latest_changelog_trimmed="${latest_changelog_trimmed//$'\n'/'%0A'}"
+              latest_changelog_trimmed="${latest_changelog_trimmed//$'\r'/'%0D'}"
+              echo "changelog=$latest_changelog_trimmed" >> $GITHUB_OUTPUT
+          else
+              echo "INFO: Versions don't match."
+              echo "status=fail" >> $GITHUB_OUTPUT
+          fi
+
+  rewrite-pyproject-toml:
+    needs: [check-commit-message, check-changelog-file]
+    if: needs.check-changelog-file.outputs.status == 'success'
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Rewriting
+        run: |
+          version=${{ needs.check-commit-message.outputs.version }}
+          echo "INFO: new version: '$version'"
+
+          # Change the version
+          sed -E -i "s/(version = \")[0-9]+\.[0-9]+\.[0-9]+/\1$version/" pyproject.toml
+
+      - name: Commit
+        run: |
+          git config user.name "nvfp/fast-pypi-release"
+          git config user.email "nicho@scapeville.com"
+          git commit -am "Update version in pyproject.toml"
+          git push
+
+
+  create-gh-release:
+    needs: [check-commit-message, check-changelog-file, rewrite-pyproject-toml]
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+    
+      - name: Release
+        uses: nvfp/gh-action-simple-release@1.4.0
+        env:
+          GH_TOKEN: ${{ github.token }}
+        with:
+          tag: ${{ needs.check-commit-message.outputs.version }}
+          desc: ${{ needs.check-changelog-file.outputs.changelog }}
+
+  publish-to-PyPI:
+    needs: [check-commit-message, check-changelog-file, rewrite-pyproject-toml]
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install build twine
+
+      - name: Build
+        run: python -m build
+
+      # - name: Publish
+      #   env:
+      #     TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+      #     TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+      #   run: twine upload dist/*
