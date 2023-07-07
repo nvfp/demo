@@ -87,7 +87,10 @@ jobs:
 
 
           # Get the changelog file text from previous step
-          text = ${{ steps.validation.outputs.text }}
+          script = """
+          echo ${{ steps.validation.outputs.text }}
+          """
+          text = sp.check_output(['bash', '-c', script]).decode()
           print(f"DEBUG: text: '{text}'")
 
           latest_changelog = 'fooo'
