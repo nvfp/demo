@@ -155,8 +155,8 @@ jobs:
 
       - name: Rewriting
         run: |
-          version=${{ needs.check-commit-message.outputs.version }}
-          echo "INFO: new version: '$version'"
+          version="${{ needs.check-commit-message.outputs.version }}"
+          echo "INFO: New version: '$version'"
 
           # Change the version
           sed -E -i "s/(version = \")[0-9]+\.[0-9]+\.[0-9]+/\1$version/" pyproject.toml
@@ -167,7 +167,6 @@ jobs:
           git config user.email "nicho@scapeville.com"   # Edit the custom value
           git commit -am "Update version in pyproject.toml"
           git push
-
 
   create-gh-release:
     needs: [check-commit-message, check-changelog-file, rewrite-pyproject-toml]
@@ -180,29 +179,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       
-      - name: Revert Changelog conversion
-        run: |
-          CHANGELOG="${{ needs.check-changelog-file.outputs.changelog }}"
-          
-          # Convert back to 'newline' char
-          CHANGELOG="${CHANGELOG//'%0D'/$'\r'}"
-          CHANGELOG="${CHANGELOG//'%0A'/$'\n'}"
-          CHANGELOG="${CHANGELOG//'%25'/'%'}"
-          echo "DEBUG: Reverted changelog: '$CHANGELOG'"
-
-          # Add to GH env
-          echo "CHANGELOG<<EOF" >> $GITHUB_ENV
-          echo "$CHANGELOG" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
-          echo "DEBUG: env.CHANGELOG: '${{ env.CHANGELOG }}'"
-    
       - name: Release
         uses: nvfp/gh-action-simple-release@1.4.0
         env:
           GH_TOKEN: ${{ github.token }}
         with:
           tag: ${{ needs.check-commit-message.outputs.version }}
-          desc: ${{ env.CHANGELOG }}
+          desc: ${{ needs.check-changelog-file.outputs.changelog }}
 
   publish-to-PyPI:
     needs: [check-commit-message, check-changelog-file, rewrite-pyproject-toml]
