@@ -160,9 +160,9 @@ jobs:
         run: |
           git config user.name "nvfp/fast-pypi-release"  # Edit the custom value
           git config user.email "nicho@scapeville.com"   # Edit the custom value
-          
-          commit_number=$(git rev-list --count HEAD)
-          git commit -am "Update version in pyproject.toml (#$commit_number commit)"
+
+          current_date=$(date +"%b %e, %l:%M %p")
+          git commit -am "Update version in pyproject.toml (on $current_date)"
           
           git push
 
