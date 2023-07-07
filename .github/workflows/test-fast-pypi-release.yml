@@ -74,9 +74,10 @@ jobs:
           echo "DEBUG: text: '$text'"
           
           # Store the multi-line `text` into outputs
-          echo "text<<EOF" >> $GITHUB_OUTPUT
-          echo "'$text'" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          echo "text<<$EOF" >> $GITHUB_OUTPUT
+          echo "$text" >> $GITHUB_OUTPUT
+          echo "$EOF" >> $GITHUB_OUTPUT
 
       - id: parse
         name: Parse the latest changelog
