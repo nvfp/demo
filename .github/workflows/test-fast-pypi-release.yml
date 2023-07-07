@@ -93,7 +93,8 @@ jobs:
           echo "${{ steps.validation.outputs.text }}"
           """
           text = sp.check_output(['bash', '-c', script]).decode().strip()
-          print(f'DEBUG: text: {repr(text)}')
+          print(f'DEBUG: repr(text): {repr(text)}')
+          print(f'DEBUG: text: "{text}"')
 
           res = re.search(r'^(?P<latest>- \d+\.\d+\.\d+.+?)\n-', text, re.MULTILINE | re.DOTALL)
           if res is None:
@@ -101,11 +102,15 @@ jobs:
             sys.exit(1)
           else:
             latest_changelog = res.group('latest')
-            print(f'INFO: latest_changelog: {repr(latest_changelog)}')
+            print(f'INFO: latest_changelog: "{latest_changelog}"')
 
           script = f"""
-          echo "latest_changelog={latest_changelog}" >> $GITHUB_OUTPUT
           echo "DEBUG: Using subprocess."
+
+          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          echo "latest_changelog<<$EOF" >> $GITHUB_OUTPUT
+          echo "$latest_changelog" >> $GITHUB_OUTPUT
+          echo "$EOF" >> $GITHUB_OUTPUT
           """
           sp.run(['bash', '-c', script])
 
