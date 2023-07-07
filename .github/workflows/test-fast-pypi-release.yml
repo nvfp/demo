@@ -126,9 +126,12 @@ jobs:
           echo "DEBUG: ver_from_changelog: '$ver_from_changelog'"
 
           # Match the versions
-          if [[ "${{ needs.check-commit-message.outputs.version }}" == "$ver_from_changelog" ]]; then
+          ver_from_commit="${{ needs.check-commit-message.outputs.version }}"
+          if [[ "$ver_from_commit" == "$ver_from_changelog" ]]; then
             echo "INFO: Versions matched."
             echo "status=success" >> $GITHUB_OUTPUT
+
+            exit 9  # Debugging purposes
 
             # Convert newline characters before saving the variable to job outputs.
             latest_changelog="${latest_changelog//'%'/'%25'}"
@@ -136,7 +139,7 @@ jobs:
             latest_changelog="${latest_changelog//$'\r'/'%0D'}"
             echo "changelog=$latest_changelog" >> $GITHUB_OUTPUT
           else
-            echo "INFO: Versions don't match."
+            echo "INFO: Versions don't match ($ver_from_commit != $ver_from_changelog)."
             echo "status=fail" >> $GITHUB_OUTPUT
           fi
 
