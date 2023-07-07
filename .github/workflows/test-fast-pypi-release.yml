@@ -127,20 +127,18 @@ jobs:
 
           # Match the versions
           ver_from_commit="${{ needs.check-commit-message.outputs.version }}"
-          if [[ "$ver_from_commit" == "$ver_from_changelog" ]]; then
+          if [[ "$ver_from_commit" != "$ver_from_changelog" ]]; then
+            echo "ERROR: Versions don't match ($ver_from_commit != $ver_from_changelog)."
+            exit 1
+          else
             echo "INFO: Versions matched."
             echo "status=success" >> $GITHUB_OUTPUT
 
-            exit 9  # Debugging purposes
-
-            # Convert newline characters before saving the variable to job outputs.
-            latest_changelog="${latest_changelog//'%'/'%25'}"
-            latest_changelog="${latest_changelog//$'\n'/'%0A'}"
-            latest_changelog="${latest_changelog//$'\r'/'%0D'}"
-            echo "changelog=$latest_changelog" >> $GITHUB_OUTPUT
-          else
-            echo "INFO: Versions don't match ($ver_from_commit != $ver_from_changelog)."
-            echo "status=fail" >> $GITHUB_OUTPUT
+            # Store the multi-line `latest_changelog` into steps outputs
+            EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+            echo "changelog<<$EOF" >> $GITHUB_OUTPUT
+            echo "$latest_changelog" >> $GITHUB_OUTPUT
+            echo "$EOF" >> $GITHUB_OUTPUT
           fi
 
   rewrite-pyproject-toml:
