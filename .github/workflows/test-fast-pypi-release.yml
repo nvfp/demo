@@ -72,7 +72,11 @@ jobs:
           # Parse the changelog file
           text=$(cat "$files")
           echo "DEBUG: text: '$text'"
-          echo "text=$text" >> $GITHUB_OUTPUT
+          
+          # Store the multi-line `text` into outputs
+          echo "text<<EOF" >> $GITHUB_OUTPUT
+          echo "$text" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
       - id: parse
         name: Parse the latest changelog
