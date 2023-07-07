@@ -75,7 +75,7 @@ jobs:
           
           # Store the multi-line `text` into outputs
           echo "text<<EOF" >> $GITHUB_OUTPUT
-          echo "$text" >> $GITHUB_OUTPUT
+          echo "'$text'" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
       - id: parse
@@ -86,7 +86,7 @@ jobs:
 
 
           # Get the changelog file text from previous step
-          print(f"DEBUG: text: '{'''${{ steps.validation.outputs.text }}'''}'")
+          print(f"DEBUG: text: '{${{ steps.validation.outputs.text }}}'")
 
           latest_changelog = 'fooo'
 
