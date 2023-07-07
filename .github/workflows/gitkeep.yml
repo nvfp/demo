@@ -1,0 +1,14 @@
+name: gitkeep
+
+on:
+  push:
+    branches:
+      - foo
+
+jobs:
+  test-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Foo
+        run: echo "bar"
