@@ -76,7 +76,7 @@ jobs:
           # Store the multi-line `text` into outputs
           EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
           echo "text<<$EOF" >> $GITHUB_OUTPUT
-          echo '$text' >> $GITHUB_OUTPUT
+          echo "$text" >> $GITHUB_OUTPUT
           echo "$EOF" >> $GITHUB_OUTPUT
 
       - id: parse
@@ -88,7 +88,7 @@ jobs:
 
           # Get the changelog file text from previous step
           script = """
-          echo ${{ steps.validation.outputs.text }}
+          echo "${{ steps.validation.outputs.text }}"
           """
           text = sp.check_output(['bash', '-c', script]).decode()
           print(f"DEBUG: text: '{text}'")
