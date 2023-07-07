@@ -83,17 +83,25 @@ jobs:
         name: Parse the latest changelog
         shell: python
         run: |
+          import re
           import subprocess as sp
+          import sys
 
 
           # Get the changelog file text from previous step
           script = """
           echo "${{ steps.validation.outputs.text }}"
           """
-          text = sp.check_output(['bash', '-c', script]).decode()
-          print(f"DEBUG: text: '{text}'")
+          text = sp.check_output(['bash', '-c', script]).decode().strip()
+          print(f'DEBUG: text: {repr(text)}')
 
-          latest_changelog = 'fooo'
+          res = re.search(r'^(?P<latest>- \d+\.\d+\.\d+.+?)\n-', text, re.MULTILINE | re.DOTALL)
+          if res is None:
+            print(f'ERROR: No latest changelog matches.')
+            sys.exit(1)
+          else:
+            latest_changelog = res.group('latest')
+            print(f'INFO: latest_changelog: {repr(latest_changelog)}')
 
           script = f"""
           echo "latest_changelog={latest_changelog}" >> $GITHUB_OUTPUT
@@ -106,6 +114,7 @@ jobs:
         run: |
           # Get the parsed latest changelog
           latest_changelog=${{ steps.parse.outputs.latest_changelog }}
+          echo "DEBUG: latest_changelog: '$latest_changelog'"
 
           # Parse the version from the changelog file
           ver_from_changelog=$(echo "$latest_changelog" | grep -oP '\d+\.\d+\.\d+' | head -n 1)
