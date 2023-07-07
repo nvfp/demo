@@ -86,7 +86,7 @@ jobs:
 
 
           # Get the changelog file text from previous step
-          print(f"DEBUG: text: '{str(${{ steps.validation.outputs.text }})}'")
+          print(f"DEBUG: text: '{'''${{ steps.validation.outputs.text }}'''}'")
 
           latest_changelog = 'fooo'
 
