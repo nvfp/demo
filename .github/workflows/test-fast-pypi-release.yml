@@ -86,12 +86,14 @@ jobs:
 
 
           # Get the changelog file text from previous step
-          print(f"DEBUG: text: ${{ steps.validation.outputs.text }}")
+          text = ${{ steps.validation.outputs.text }}  # The variable must be stored for string interpolation, not directly called within it.
+          print(f"DEBUG: text: '{text}'")
 
           latest_changelog = 'fooo'
 
           script = f"""
           echo "latest_changelog={latest_changelog}" >> $GITHUB_OUTPUT
+          echo "DEBUG: Using subprocess."
           """
           sp.run(['bash', '-c', script])
 
