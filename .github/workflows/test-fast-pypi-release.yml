@@ -20,8 +20,9 @@ jobs:
           COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
         run: |
           echo "INFO: Commit message: $COMMIT_MESSAGE"
-          
-          regex="^([0-9]+\.[0-9]+\.[0-9]+) Release.*"
+
+          # `(?i)` makes the regex ignore the word's casing (Release, RELEASE, release)
+          regex="(?i)^([0-9]+\.[0-9]+\.[0-9]+) Release.*"
           
           if [[ $COMMIT_MESSAGE =~ $regex ]]; then 
             echo "INFO: Pattern matched."
@@ -41,53 +42,15 @@ jobs:
     runs-on: ubuntu-latest
     
     outputs:
-      status: ${{ steps.check.outputs.status }}
-      changelog: ${{ steps.check.outputs.changelog }}
+      status: ${{ steps.match.outputs.status }}
+      changelog: ${{ steps.parse.outputs.changelog }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      
-      - id: step1
-        name: step1
-        run: |
-          foo='foooo'
-          echo "foo: '$foo'"
-          echo "foo=$foo" >> $GITHUB_OUTPUT
-      
-      - name: step2
-        run: |
-          echo "again, foo: '${{ steps.step1.outputs.foo }}'"
 
-      - id: step3
-        name: step3
-        shell: python
-        run: |
-          bar = 'barrr'
-          print(f"bar: '{bar}'")
-
-          # Using subprocess
-          import subprocess as sp
-          script = f"""
-          echo "bar={bar}" >> $GITHUB_OUTPUT
-          echo "Using subprocess: '{bar}'"
-          """
-          sp.run(['bash', '-c', script])
-
-          # ## From: https://github.com/orgs/community/discussions/28146
-          # import os
-          # name = 'bar'
-          # value = bar
-          # with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
-          #     print(f'{name}={value}', file=fh)
-
-      - name: step4
-        run: |
-          echo "again2, foo: '${{ steps.step1.outputs.foo }}'"
-          echo "again, bar : '${{ steps.step3.outputs.bar }}'"
-
-      - id: check
-        name: Match versions
+      - id: validation
+        name: Validating
         run: |
           # Look for files in the "docs" folder with "changelog" in their name (ignore case)
           files=$(find docs -iname "*changelog*")
@@ -104,19 +67,36 @@ jobs:
           # Parse the changelog file
           text=$(cat "$files")
           echo "DEBUG: text: '$text'"
+          echo "text=$text" >> $GITHUB_OUTPUT
 
-          # Parse the latest changelog
-          latest_changelog=$(echo "$text" | grep -Pzo -m 1 '\- \d+\.\d+\.\d+.*?^\-')
-          echo "DEBUG: latest_changelog: '$latest_changelog'"
-          exit 9  # debugging purposes
+      - id: parse
+        name: Parse the latest changelog
+        shell: python
+        run: |
+          import subprocess as sp
 
-          # Trim the ending "\n-" (the last 2 chars; '\n' counts as 1 char)
-          latest_changelog_trimmed=${latest_changelog%??}
-          echo "DEBUG: latest_changelog_trimmed: '$latest_changelog_trimmed'"
+
+          # Get the changelog file text from previous step
+          print(f"DEBUG: text: ${{ steps.validation.outputs.text }}")
+
+          latest_changelog = 'fooo'
+
+          script = f"""
+          echo "latest_changelog={latest_changelog}" >> $GITHUB_OUTPUT
+          """
+          sp.run(['bash', '-c', script])
+
+      - id: match
+        name: Match the versions
+        run: |
+          # Get the parsed latest changelog
+          latest_changelog=${{ steps.parse.outputs.latest_changelog }}
 
           # Parse the version from the changelog file
-          ver_from_changelog=$(echo "$latest_changelog_trimmed" | grep -oP '\d+\.\d+\.\d+' | head -n 1)
+          ver_from_changelog=$(echo "$latest_changelog" | grep -oP '\d+\.\d+\.\d+' | head -n 1)
           echo "DEBUG: ver_from_changelog: '$ver_from_changelog'"
+
+          exit 9  # Testing purposes
 
           # Match the versions
           if [[ "${{ needs.check-commit-message.outputs.version }}" == "$ver_from_changelog" ]]; then
@@ -124,10 +104,10 @@ jobs:
             echo "status=success" >> $GITHUB_OUTPUT
 
             # Convert newline characters before saving the variable to job outputs.
-            latest_changelog_trimmed="${latest_changelog_trimmed//'%'/'%25'}"
-            latest_changelog_trimmed="${latest_changelog_trimmed//$'\n'/'%0A'}"
-            latest_changelog_trimmed="${latest_changelog_trimmed//$'\r'/'%0D'}"
-            echo "changelog=$latest_changelog_trimmed" >> $GITHUB_OUTPUT
+            latest_changelog="${latest_changelog//'%'/'%25'}"
+            latest_changelog="${latest_changelog//$'\n'/'%0A'}"
+            latest_changelog="${latest_changelog//$'\r'/'%0D'}"
+            echo "changelog=$latest_changelog" >> $GITHUB_OUTPUT
           else
             echo "INFO: Versions don't match."
             echo "status=fail" >> $GITHUB_OUTPUT
