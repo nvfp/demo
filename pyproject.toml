@@ -4,14 +4,14 @@ build-backend = "setuptools.build_meta"
 
 
 [project]
-name = "test"
+name = "for-testing"
 version = "10.1.1"
 description = "foo"
 readme = "README.md"
 requires-python = ">=3.8"
 license = {text = "MIT"}
 authors = [
-  	{email = "foo@bar.com"},
+  	{email = "ascacascascdac@acacascaiuvbasceav.ascaeavav"},
 ]
 keywords = ["foo", "bar", "baz"]
 classifiers = [
@@ -22,7 +22,7 @@ classifiers = [
 	"Topic :: Scientific/Engineering",
 ]
 dependencies = [
-	"foo==0.0.0",
+	"fooacascasc==0.0.0",
 ]
 
 
