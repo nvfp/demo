@@ -118,14 +118,12 @@ jobs:
         name: Match the versions
         run: |
           # Get the parsed latest changelog
-          latest_changelog=${{ steps.parse.outputs.latest_changelog }}
+          latest_changelog="${{ steps.parse.outputs.latest_changelog }}"
           echo "DEBUG: latest_changelog: '$latest_changelog'"
 
           # Parse the version from the changelog file
           ver_from_changelog=$(echo "$latest_changelog" | grep -oP '\d+\.\d+\.\d+' | head -n 1)
           echo "DEBUG: ver_from_changelog: '$ver_from_changelog'"
-
-          exit 9  # Testing purposes
 
           # Match the versions
           if [[ "${{ needs.check-commit-message.outputs.version }}" == "$ver_from_changelog" ]]; then
