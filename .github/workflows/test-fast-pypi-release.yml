@@ -92,7 +92,9 @@ jobs:
 
           # Get the changelog file text from previous step
           script = r"""
+          echo "DEBUG: Start."
           echo '${{ steps.validation.outputs.text }}'
+          echo "DEBUG: End."
           """
           text = sp.check_output(['bash', '-c', script]).decode().strip()
           print(f'DEBUG: repr(text): {repr(text)}')
@@ -189,9 +191,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      
+
       - name: Release
-        uses: nvfp/gh-action-simple-release@1.5.0
+        uses: nvfp/gh-action-simple-release@1.6.0
         env:
           GH_TOKEN: ${{ github.token }}
         with:
