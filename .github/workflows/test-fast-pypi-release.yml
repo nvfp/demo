@@ -187,6 +187,9 @@ jobs:
       contents: write
 
     steps:
+      - name: Wait before Checkout
+        run: sleep 30s
+
       - name: Checkout
         uses: actions/checkout@v3
       
@@ -197,7 +200,7 @@ jobs:
           echo "---"
 
       - name: Release
-        uses: nvfp/gh-action-simple-release@1.6.0
+        uses: nvfp/gh-action-simple-release@1.7.0
         env:
           GH_TOKEN: ${{ github.token }}
         with:
