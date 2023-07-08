@@ -91,7 +91,7 @@ jobs:
 
 
           # Get the changelog file text from previous step
-          script = """
+          script = r"""
           echo '${{ steps.validation.outputs.text }}'
           """
           text = sp.check_output(['bash', '-c', script]).decode().strip()
@@ -216,12 +216,16 @@ jobs:
 
       - name: Debugging
         run: |
-          echo "DEBUG: Checkout with hash: '${{ needs.rewrite-pyproject-toml.outputs.hash }}'"
+          echo "DEBUG: Latest commit hash: '${{ needs.rewrite-pyproject-toml.outputs.hash }}'"
+          
+          echo "DEBUG: ls:"
+          ls
+          echo "-----"
 
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          ref: main/${{ needs.rewrite-pyproject-toml.outputs.hash }}  # EDITME: Edit the name of your main branch (e.g. master)
+          ref: main/${{ needs.rewrite-pyproject-toml.outputs.hash }}
           fetch-depth: 0
 
       - name: Build
