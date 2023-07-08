@@ -92,9 +92,7 @@ jobs:
 
           # Get the changelog file text from previous step
           script = r"""
-          echo "DEBUG: Start."
           echo '${{ steps.validation.outputs.text }}'
-          echo "DEBUG: End."
           """
           text = sp.check_output(['bash', '-c', script]).decode().strip()
           print(f'DEBUG: repr(text): {repr(text)}')
@@ -191,6 +189,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      
+      - name: Debugging
+        run: |
+          echo "DEBUG: Run 'git log -2'"
+          git log -2
+          echo "---"
 
       - name: Release
         uses: nvfp/gh-action-simple-release@1.6.0
