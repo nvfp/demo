@@ -1,5 +1,9 @@
 # Changelog
 
+- 41.1.1:
+    - Last `test`
+    - foo
+        - bar `baz.md` baz
 - 40.1.1:
     - Now
     - Fix `the` Checkout `problem` ...

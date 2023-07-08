@@ -146,9 +146,6 @@ jobs:
     permissions:
       contents: write
 
-    outputs:
-      hash: ${{ steps.commit.outputs.hash }}
-
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -161,8 +158,7 @@ jobs:
           # Change the version
           sed -E -i "s/(version = \")[0-9]+\.[0-9]+\.[0-9]+/\1$version/" pyproject.toml
 
-      - id: commit
-        name: Commit
+      - name: Commit
         run: |
           git config user.name "Your Name"    # EDITME
           git config user.email "your@email"  # EDITME
@@ -171,13 +167,6 @@ jobs:
           git commit -am "Update the version in \`pyproject.toml\` — $current_date"
 
           git push
-
-          # Store the hash
-          hash=$(git log -n 1 --pretty=format:"%H")
-          echo "INFO: hash: '$hash'"
-
-          # Export the hash
-          echo "hash=$hash" >> $GITHUB_OUTPUT
 
   create-gh-release:
     needs: [check-commit-message, check-changelog-file, rewrite-pyproject-toml]
@@ -190,10 +179,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       
-      - name: Pull the latest commit
+      - name: Manual pull
         run: | 
           # Seems like actions/checkout@v3 doesn't grab the latest commit
-          # from the 'rewrite-pyproject-toml' job. Gotta do a manual 'git pull' to get it.
+          # from the 'rewrite-pyproject-toml' job. To get it, perform a manual 'git pull'.
           git pull
 
           # Check it
@@ -225,19 +214,19 @@ jobs:
           python -m pip install --upgrade pip
           pip install build twine
 
-      - name: Debugging
-        run: |
-          echo "DEBUG: Latest commit hash: '${{ needs.rewrite-pyproject-toml.outputs.hash }}'"
-          
-          echo "DEBUG: ls:"
-          ls
-          echo "-----"
-
       - name: Checkout
         uses: actions/checkout@v3
-        with:
-          ref: main/${{ needs.rewrite-pyproject-toml.outputs.hash }}
-          fetch-depth: 0
+
+      - name: Manual pull
+        run: | 
+          # Seems like actions/checkout@v3 doesn't grab the latest commit
+          # from the 'rewrite-pyproject-toml' job. To get it, perform a manual 'git pull'.
+          git pull
+
+          # Check it
+          echo "DEBUG: Run 'git log -2'"
+          git log -2
+          echo "---"
 
       - name: Build
         run: python -m build
