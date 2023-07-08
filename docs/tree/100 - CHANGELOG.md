@@ -1,5 +1,9 @@
 # Changelog
 
+- 40.1.1:
+    - Now
+    - Fix `the` Checkout `problem` ...
+        - Foo
 - 39.1.1:
     - Work `ok` `?` foo
 - 38.1.1:
