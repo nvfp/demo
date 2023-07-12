@@ -8,4 +8,4 @@ redirect_from:
   - /about/
 ---
 
-About
+About with redirect
