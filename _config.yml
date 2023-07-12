@@ -17,3 +17,6 @@ plugins:
   - jekyll-redirect-from
 whitelist:
   - jekyll-redirect-from
+
+
+permalink: /:categories/:title.html
