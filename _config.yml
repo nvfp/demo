@@ -4,7 +4,7 @@ title: NVfastplease
 author: Nicholas Valentinus
 
 baseurl: /demo
-url: https://nvfp.github.io/demo
+url: https://nvfp.github.io
 
 
 include: [_sass, pages]
