@@ -1,0 +1,14 @@
+
+
+title: NVfastplease
+author: Nicholas Valentinus
+
+baseurl: /demo
+url: https://nvfp.github.io/demo
+
+
+include: [_sass, pages]
+
+sass:
+  style: compact  # possible values: nested expanded compact compressed
+  sass_dir: _sass
