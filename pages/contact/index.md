@@ -6,3 +6,5 @@ style: pages/contact/style.scss
 ---
 
 without redirect
+
+to [about]({{ site.baseurl }}/about.html)
