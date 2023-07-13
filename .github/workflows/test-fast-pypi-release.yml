@@ -1,4 +1,5 @@
-# Fast PyPI Release (https://github.com/nvfp/fast-pypi-release) version 1.2.0
+# Fast PyPI release (version 1.2.0).
+# Source code: https://github.com/nvfp/fast-pypi-release
 
 name: Fast PyPI release
 
@@ -23,7 +24,8 @@ jobs:
         run: |
           echo "INFO: Commit message: '$COMMIT_MESSAGE'"
 
-          # The regex ignore the word's casing (Release, RELEASE, release)  (https://stackoverflow.com/questions/44106842/case-insensitive-regex-in-bash)
+          # The regex ignore the word's casing (Release, RELEASE, release),
+          # ref: https://stackoverflow.com/questions/44106842/case-insensitive-regex-in-bash .
           # set nocasematch option
           shopt -s nocasematch
           regex="^([0-9]+\.[0-9]+\.[0-9]+) Release.*"
@@ -92,10 +94,9 @@ jobs:
           if res is None:
             print(f'ERROR: No latest changelog matches.')
             sys.exit(1)
-          else:
-            latest_changelog = res.group('latest')
-            print(f'INFO: latest_changelog: "{latest_changelog}"')
-          
+          latest_changelog = res.group('latest')
+          print(f'INFO: latest_changelog: "{latest_changelog}"')
+
           ## Parse the version from the latest changelog
           ver_from_changelog = re.search(r'\d+\.\d+\.\d+', latest_changelog).group()
 
@@ -150,18 +151,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       
+      # actions/checkout@v3 doesn't grab the latest commit. Perform a manual 'git pull' to get it.
       - name: Manual pull
         run: | 
-          # Seems like actions/checkout@v3 doesn't grab the latest commit
-          # from the 'rewrite-pyproject-toml' job. To get it, perform a manual 'git pull'.
           git pull
-
-          # Check it
-          echo "::group:: Debugging"
           echo "DEBUG: Run 'git log -2'"
           git log -2
-          echo "---"
-          echo "::endgroup::"
 
       - name: Release
         uses: nvfp/gh-action-simple-release@1.8.0
@@ -190,18 +185,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      # actions/checkout@v3 doesn't grab the latest commit. Perform a manual 'git pull' to get it.
       - name: Manual pull
         run: | 
-          # Seems like actions/checkout@v3 doesn't grab the latest commit
-          # from the 'rewrite-pyproject-toml' job. To get it, perform a manual 'git pull'.
           git pull
-
-          # Check it
-          echo "::group:: Debugging"
           echo "DEBUG: Run 'git log -2'"
           git log -2
-          echo "---"
-          echo "::endgroup::"
 
       - name: Build
         run: python -m build
