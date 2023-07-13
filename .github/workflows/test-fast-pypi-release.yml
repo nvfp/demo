@@ -49,7 +49,6 @@ jobs:
     runs-on: ubuntu-latest
     
     outputs:
-      status: ${{ steps.match.outputs.status }}
       latest_changelog: ${{ steps.match.outputs.latest_changelog }}
 
     steps:
@@ -105,9 +104,7 @@ jobs:
           if ver_from_changelog != ver_from_commit:
             print(f"ERROR: Versions don't match ({ver_from_commit} != {ver_from_changelog}).")
             sys.exit(1)
-          else:
-            print('INFO: Versions matched.')
-            sp.run(['bash', '-c', 'echo "status=success" >> $GITHUB_OUTPUT'])
+          print('INFO: Versions matched.')
 
           ## Pass the latest changelog for the step 'create-gh-release'
           latest_changelog = latest_changelog.replace("'", "\\'")  # Doing this because when using `echo '$x'`, x shouldn't have any single quotes.
@@ -121,7 +118,6 @@ jobs:
 
   rewrite-pyproject-toml:
     needs: [check-commit-message, check-changelog-file]
-    if: needs.check-changelog-file.outputs.status == 'success'
 
     runs-on: ubuntu-latest
     permissions:
