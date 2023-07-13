@@ -96,10 +96,10 @@ jobs:
 
           # Get the changelog file text from previous step
           script = """
-          #!/bin/bash
           echo '${{ steps.validation.outputs.text }}'
           """
-          text = sp.check_output(script, shell=True, executable='/bin/bash', universal_newlines=True)
+          result = sp.run(['bash', '-c', script], stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
+          text = result.stdout.decode().strip()
           print(f'DEBUG: repr(text): {repr(text)}')
           print(f'DEBUG: text: "{text}"')
 
