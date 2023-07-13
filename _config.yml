@@ -13,10 +13,9 @@ sass:
   style: compact  # possible values: nested expanded compact compressed
   sass_dir: _sass
 
+
+# Redirection purposes
 plugins:
   - jekyll-redirect-from
 whitelist:
   - jekyll-redirect-from
-
-
-permalink: /:categories/:title.html

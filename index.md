@@ -1,7 +1,10 @@
 ---
 layout: main
-permalink: /
 title: Page 1
+
+permalink: ""
+redirect_from:
+    - /
 ---
 
-Page 1
+Homepage
