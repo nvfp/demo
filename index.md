@@ -2,7 +2,7 @@
 layout: main
 title: Page 1
 
-permalink: 
+permalink: ''
 redirect_from:
     - /
 ---
