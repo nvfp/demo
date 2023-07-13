@@ -78,6 +78,7 @@ jobs:
         name: Parse the latest changelog
         shell: python
         run: |
+          import os
           import re
           import subprocess as sp
           import sys
