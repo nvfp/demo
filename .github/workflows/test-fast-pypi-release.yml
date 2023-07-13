@@ -113,7 +113,7 @@ jobs:
           # echo "latest_changelog<<$EOF" >> $GITHUB_OUTPUT
           # echo '{latest_changelog}' >> $GITHUB_OUTPUT
           # echo "$EOF" >> $GITHUB_OUTPUT
-          echo "latest_changelog={latest_changelog}" >> $GITHUB_OUTPUT
+          echo "latest_changelog='{latest_changelog}'" >> $GITHUB_OUTPUT
           """
           sp.run(['bash', '-c', script])
 
