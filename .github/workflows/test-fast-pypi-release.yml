@@ -98,7 +98,7 @@ jobs:
           script = """
           echo '${{ steps.validation.outputs.text }}'
           """
-          result = sp.run(['bash', '-c', script], stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
+          result = sp.run(['bash', '-c', script], stdout=sp.PIPE, stderr=sp.PIPE, check=True)
           text = result.stdout.decode().strip()
           print(f'DEBUG: repr(text): {repr(text)}')
           print(f'DEBUG: text: "{text}"')
