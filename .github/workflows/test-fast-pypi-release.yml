@@ -122,6 +122,8 @@ jobs:
           """
           sp.run(['bash', '-c', script])
 
+          sys.exit(9)  # Debugging purposes
+
       - id: match
         name: Match the versions
         run: |
