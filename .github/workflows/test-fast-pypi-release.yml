@@ -78,7 +78,11 @@ jobs:
           # Parse the changelog file
           text=$(cat "$files")
           echo "DEBUG: text: '$text'"
-          
+
+          # Replace all single quotes with escaped single quotes
+          text=$(echo "$text" | sed "s/'/\\\'/g")
+          echo "DEBUG: text (with escaped single quotes): '$text'"
+
           # Store the multi-line `text` into outputs
           EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
           echo "text<<$EOF" >> $GITHUB_OUTPUT
