@@ -79,8 +79,8 @@ jobs:
         run: |
           import os
           import re
-          import subprocess as sp
           import sys
+          import uuid
 
           ## Open the Changelog file
           with open('${{ steps.validation.outputs.pth }}', 'r') as file:
@@ -107,15 +107,11 @@ jobs:
           print('INFO: Versions matched.')
 
           ## Pass the latest changelog for the step 'create-gh-release'
-          latest_changelog = latest_changelog.replace("'", "\\'")  # Doing this because when using `echo '$x'`, x shouldn't have any single quotes.
-          script = f"""
-          # EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64 | tr -cd '[:alnum:]')
-          # echo "latest_changelog<<$EOF" >> $GITHUB_OUTPUT
-          # echo '{latest_changelog}' >> $GITHUB_OUTPUT
-          # echo "$EOF" >> $GITHUB_OUTPUT
-          echo "latest_changelog='{latest_changelog}'" >> $GITHUB_OUTPUT
-          """
-          sp.run(['bash', '-c', script])
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+            delimiter = uuid.uuid1()
+            print(f'latest_changelog<<{delimiter}', file=fh)
+            print(latest_changelog, file=fh)
+            print(delimiter, file=fh)
 
   rewrite-pyproject-toml:
     needs: [check-commit-message, check-changelog-file]
