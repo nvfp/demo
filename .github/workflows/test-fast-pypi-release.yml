@@ -54,20 +54,19 @@ jobs:
     
     outputs:
       status: ${{ steps.match.outputs.status }}
-      latest_changelog: ${{ steps.parse.outputs.latest_changelog }}
+      latest_changelog: ${{ steps.match.outputs.latest_changelog }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - id: validation
-        name: Validating
+      - name: Validating
         run: |
           # Look (recursively) for files in the "docs" folder with "changelog" in their name (ignore case)
           files=$(find docs -iname "*changelog*")
           echo "DEBUG: files: '$files'"
 
-          # Validation I: Only one changelog file should be in the "docs" folder
+          # Only one changelog file should be in the "docs" folder
           file_count=$(echo "$files" | wc -l)
           echo "DEBUG: file_count: $file_count"
           if [ "$file_count" -ne 1 ]; then
@@ -75,27 +74,24 @@ jobs:
             exit 1
           fi
 
-          # Parse the changelog file
-          text=$(cat "$files")
-          echo "DEBUG: text: '$text'"
-
-          # Replace all single quotes with escaped single quotes
-          text=$(echo "$text" | sed "s/'/\\\'/g")
-          echo "DEBUG: text (with escaped single quotes): '$text'"
-
-          # Store the multi-line `text` into outputs
-          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
-          echo "text<<$EOF" >> $GITHUB_OUTPUT
-          echo "$text" >> $GITHUB_OUTPUT
-          echo "$EOF" >> $GITHUB_OUTPUT
-
-      - id: parse
+      - id: match
         name: Parse the latest changelog
         shell: python
         run: |
           import re
           import subprocess as sp
           import sys
+
+          cwd = os.getcwd()
+          print("Current Working Directory:", cwd)
+
+          # List all files in the current working directory
+          files = os.listdir(cwd)
+          print("Files in Current Directory:")
+          for file in files:
+              print(file)
+
+          sys.exit(9)
 
 
           # Get the changelog file text from previous step
@@ -127,7 +123,7 @@ jobs:
 
           sys.exit(9)  # Debugging purposes
 
-      - id: match
+      - id: match2
         name: Match the versions
         run: |
           # Get the parsed latest changelog
