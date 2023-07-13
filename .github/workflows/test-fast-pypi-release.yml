@@ -60,7 +60,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Validating
+      - id: validation
+        name: Validating
         run: |
           # Look (recursively) for files in the "docs" folder with "changelog" in their name (ignore case)
           files=$(find docs -iname "*changelog*")
@@ -73,6 +74,9 @@ jobs:
             echo "ERROR: Multiple changelog files found in the "docs" folder."
             exit 1
           fi
+
+          # Pass the Changelog file path
+          echo "pth=$files" >> $GITHUB_OUTPUT
 
       - id: match
         name: Parse the latest changelog
@@ -91,6 +95,12 @@ jobs:
           print("Files in Current Directory:")
           for file in files:
               print(file)
+
+          x = "${{ steps.validation.outputs.pth }}"
+          print(f'x: {x}')
+          with open(x, 'r') as file:
+              text = file.read()
+              print(f"Text in the file: '{text}'")
 
           sys.exit(9)
 
