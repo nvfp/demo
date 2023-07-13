@@ -2,7 +2,7 @@
 layout: main
 title: Page 1
 
-permalink: ""
+permalink: {{ site.url }}{{ site.baseurl }}
 redirect_from:
     - /
 ---
