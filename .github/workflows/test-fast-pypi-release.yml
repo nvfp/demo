@@ -34,13 +34,9 @@ jobs:
             echo "INFO: Version: $ver"
             echo "status=success" >> $GITHUB_OUTPUT
             echo "version=$ver" >> $GITHUB_OUTPUT
-
-            echo "## Pattern matched." >> $GITHUB_STEP_SUMMARY
           else
             echo "INFO: Pattern doesn't match."
             echo "status=fail" >> $GITHUB_OUTPUT
-
-            echo "## Pattern doesn't match." >> $GITHUB_STEP_SUMMARY
           fi
 
           # unset nocasematch option
@@ -87,32 +83,12 @@ jobs:
           import subprocess as sp
           import sys
 
-          cwd = os.getcwd()
-          print("Current Working Directory:", cwd)
-
-          # List all files in the current working directory
-          files = os.listdir(cwd)
-          print("Files in Current Directory:")
-          for file in files:
-              print(file)
-
-          x = "${{ steps.validation.outputs.pth }}"
-          print(f'x: {x}')
-          with open(x, 'r') as file:
-              text = file.read()
-              print(f"Text in the file: '{text}'")
-
-          sys.exit(9)
-
-
-          # Get the changelog file text from previous step
-          script = r"""
-          echo '${{ steps.validation.outputs.text }}'
-          """
-          text = sp.check_output(['bash', '-c', script]).decode().strip()
-          print(f'DEBUG: repr(text): {repr(text)}')
+          ## Open the Changelog file
+          with open('${{ steps.validation.outputs.pth }}', 'r') as file:
+            text = file.read()
           print(f'DEBUG: text: "{text}"')
 
+          ## Parse the latest changelog
           res = re.search(r'^(?P<latest>- \d+\.\d+\.\d+.+?)\n-', text, re.MULTILINE | re.DOTALL)
           if res is None:
             print(f'ERROR: No latest changelog matches.')
@@ -120,40 +96,28 @@ jobs:
           else:
             latest_changelog = res.group('latest')
             print(f'INFO: latest_changelog: "{latest_changelog}"')
+          
+          ## Parse the version from the latest changelog
+          ver_from_changelog = re.search(r'\d+\.\d+\.\d+', latest_changelog).group()
 
+          ## Match the versions
+          ver_from_commit = '${{ needs.check-commit-message.outputs.version }}'
+          if ver_from_changelog != ver_from_commit:
+            print(f"ERROR: Versions don't match ({ver_from_commit} != {ver_from_changelog}).")
+            sys.exit(1)
+          else:
+            print('INFO: Versions matched.')
+            sp.run(['bash', '-c', 'echo "status=success" >> $GITHUB_OUTPUT'])
+
+          ## Pass the latest changelog for the step 'create-gh-release'
+          latest_changelog = latest_changelog.replace("'", "\\'")  # Doing this because when using `echo '$x'`, x shouldn't have any single quotes.
           script = f"""
-          echo "DEBUG: Using subprocess."
-
-          # Store the multi-line `latest_changelog` into steps outputs
           EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
           echo "latest_changelog<<$EOF" >> $GITHUB_OUTPUT
           echo '{latest_changelog}' >> $GITHUB_OUTPUT
           echo "$EOF" >> $GITHUB_OUTPUT
           """
           sp.run(['bash', '-c', script])
-
-          sys.exit(9)  # Debugging purposes
-
-      - id: match2
-        name: Match the versions
-        run: |
-          # Get the parsed latest changelog
-          latest_changelog='${{ steps.parse.outputs.latest_changelog }}'
-          echo "DEBUG: latest_changelog: '$latest_changelog'"
-
-          # Parse the version from the changelog file
-          ver_from_changelog=$(echo "$latest_changelog" | grep -oP '\d+\.\d+\.\d+' | head -n 1)
-          echo "DEBUG: ver_from_changelog: '$ver_from_changelog'"
-
-          # Match the versions
-          ver_from_commit="${{ needs.check-commit-message.outputs.version }}"
-          if [[ "$ver_from_commit" != "$ver_from_changelog" ]]; then
-            echo "ERROR: Versions don't match ($ver_from_commit != $ver_from_changelog)."
-            exit 1
-          else
-            echo "INFO: Versions matched."
-            echo "status=success" >> $GITHUB_OUTPUT
-          fi
 
   rewrite-pyproject-toml:
     needs: [check-commit-message, check-changelog-file]
@@ -179,10 +143,7 @@ jobs:
         run: |
           git config user.name "Your Name"    # EDITME
           git config user.email "your@email"  # EDITME
-
-          current_date=$(date +"%Y %b %e, %l:%M %p")
-          git commit -am "Update the version in \`pyproject.toml\` — $current_date"
-
+          git commit -am "Update the version in \`pyproject.toml\` — $(date +'%Y %b %e, %l:%M %p')"
           git push
 
   create-gh-release:
