@@ -1,5 +1,7 @@
 # Changelog
 
+- 43.1.1:
+    - Why did `foo/bar/` get executed while `foo/bar` doesn't?
 - 42.1.1:
     - Fixing the bug where the code block below was being executed ([ref](https://github.com/nvfp/now-i-can-sleep/actions/runs/5540835444/jobs/10113450912)).
     - Bug fixed: The trailing slash in the homepage URL couldn't be trimmed due to an error thrown by GitHub Pages during the build process. In other words, `foo.github.io/REPO/` couldn't be redirected to `foo.github.io/REPO`.
