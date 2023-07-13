@@ -114,6 +114,7 @@ jobs:
           echo '{latest_changelog}' >> $GITHUB_OUTPUT
           echo "$EOF" >> $GITHUB_OUTPUT
           """
+          print(f'DEBUG: script: "{script}"')
           sp.run(['bash', '-c', script])
 
   rewrite-pyproject-toml:
