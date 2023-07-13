@@ -96,7 +96,6 @@ jobs:
 
           # Get the changelog file text from previous step
           script = """
-          # Note: Don't use `echo "$foo"`; instead use `echo '$foo'` to prevent `` blocks from being executed (See #1.1.0 changelog)
           echo '${{ steps.validation.outputs.text }}'
           """
           text = sp.check_output(['bash', '-c', script]).decode().strip()
