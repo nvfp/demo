@@ -46,9 +46,25 @@ jobs:
     if: needs.check-commit-msg.outputs.match
     runs-on: ubuntu-latest
     steps:
-      - name: Inspect
+      # - name: Checkout
+      #   uses: actions/checkout@v3
+
+      - name: Inspect Git tag
         run: |
-          echo "Foooo"
+          if [ $(git tag -l "${{ needs.check-commit-msg.outputs.ver }}") ]; then
+            echo "ERROR: tag exists"
+            exit 1
+          else
+            echo "tag does not exist"
+          fi
+
+      # - name: Inspect PyPI version
+      #   run: |
+      #     if [ $(git tag -l "<tagname>") ]; then
+      #       echo "tag exists"
+      #     else
+      #       echo "tag does not exist"
+      #     fi
 
   get-latest-changelog:
     needs: [check-commit-msg, verify-version-availability]
