@@ -4,7 +4,7 @@ jobs:
   job1:
     runs-on: ubuntu-latest
     outputs:
-      match: ${{ steps.run.outputs.match }}  # 
+      match: ${{ steps.run.outputs.match }}
     steps:
       - name: Run
         id: run
@@ -12,9 +12,12 @@ jobs:
         run: |
           import os
 
-          # If below code not executed, `job2` will be skipped
+          # If the code below is not executed, `job2` will be skipped.
           with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
-            print(f'match=true', file=f)
+            print(f'match=true', file=f)  # This makes `job2` to run
+            # print(f'match={True}', file=f)  # Also this
+            # print(f'match={False}', file=f)  # Also this
+            # print(f'match=YEAH!', file=f)  # Also this
 
   job2:
     needs: check
