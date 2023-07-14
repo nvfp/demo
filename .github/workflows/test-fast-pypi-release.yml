@@ -66,7 +66,7 @@ jobs:
 
           # WARNING: pip index is currently an experimental command. It may be removed/changed in a future release without prior warning.
           if pip index versions $name --pre | grep -q "$ver"; then
-            echo "ERROR: Package $name version $ver already exists."
+            echo "ERROR: Package '$name' version '$ver' already exists."
             exit 1
           fi
           exit 9
