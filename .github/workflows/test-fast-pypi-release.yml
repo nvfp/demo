@@ -42,7 +42,6 @@ jobs:
             print(f'desc={desc}', file=f)
             print(f'prerelease={prerelease}', file=f)
 
-
   prepare:
     name: Prepare The Latest Changelog
     needs: check
