@@ -37,7 +37,7 @@ jobs:
           print(f"INFO: Pattern matched [ver: {repr(ver)}] [desc: {repr(desc)}] [prerelease: {prerelease}].")
 
           with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
-            print(f'match=YEAH!', file=f)
+            print(f'match=true', file=f)
             print(f'ver={ver}', file=f)
             print(f'desc={desc}', file=f)
             print(f'prerelease={prerelease}', file=f)
@@ -52,6 +52,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      - name: Check
+        run: |
+          if [ "${{ needs.check.outputs.prerelease }}" = "True" ]; then
+            echo "prerelease!"
+          else
+            echo "latest!"
+          fi
 
   #     - id: validation
   #       name: Validating
@@ -110,7 +118,7 @@ jobs:
   #           print(latest_changelog, file=fh)
   #           print(delimiter, file=fh)
 
-  # rewrite-pyproject-toml:
+  # rewrite:
   #   needs: [check-commit-message, check-changelog-file]
 
   #   runs-on: ubuntu-latest
@@ -136,7 +144,7 @@ jobs:
   #         git commit -am "Update the version in \`pyproject.toml\` — $(date +'%Y %b %e, %l:%M %p')"
   #         git push
 
-  # create-gh-release:
+  # release:
   #   needs: [check-commit-message, check-changelog-file, rewrite-pyproject-toml]
 
   #   runs-on: ubuntu-latest
@@ -162,7 +170,7 @@ jobs:
   #         tag: ${{ needs.check-commit-message.outputs.version }}
   #         desc: ${{ needs.check-changelog-file.outputs.latest_changelog }}
 
-  # publish-to-PyPI:
+  # publish:
   #   needs: [check-commit-message, check-changelog-file, rewrite-pyproject-toml]
 
   #   runs-on: ubuntu-latest
