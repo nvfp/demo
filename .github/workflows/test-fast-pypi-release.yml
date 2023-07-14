@@ -51,13 +51,13 @@ jobs:
         with:
           fetch-depth: 0  # Fetch all tags
 
-      # - name: Inspect Git tag
-      #   run: |
-      #     tag="${{ needs.check-commit-msg.outputs.ver }}"
-      #     if [[ -n $(git tag -l "$tag") ]]; then
-      #       echo "ERROR: Tag already exists: '$tag'"
-      #       exit 1
-      #     fi
+      - name: Inspect Git tag
+        run: |
+          tag="${{ needs.check-commit-msg.outputs.ver }}"
+          if [[ -n $(git tag -l "$tag") ]]; then
+            echo "ERROR: Tag already exists: '$tag'"
+            exit 1
+          fi
 
       - name: Inspect PyPI version
         run: |
@@ -69,7 +69,6 @@ jobs:
             echo "ERROR: Package '$name' version '$ver' already exists."
             exit 1
           fi
-          exit 9
 
   get-latest-changelog:
     needs: [check-commit-msg, verify-version-availability]
