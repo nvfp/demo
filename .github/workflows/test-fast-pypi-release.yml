@@ -13,18 +13,18 @@ jobs:
     name: Check Commit Message Pattern
     runs-on: ubuntu-latest
     outputs:
-      ver: ${{ steps.check.outputs.ver }}
-      desc: ${{ steps.check.outputs.desc }}
-      match: ${{ steps.check.outputs.match }}
+      ver: ${{ steps.run.outputs.ver }}
+      desc: ${{ steps.run.outputs.desc }}
+      match: ${{ steps.run.outputs.match }}
     steps:
       - name: Run
-        id: check
+        id: run
         env:
           COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
         shell: python
         run: |
-          import sys
-          print('$COMMIT_MESSAGE')
+          import os
+          print(os.environ['COMMIT_MESSAGE'])
           sys.exit(9)
 
   # prepare:
