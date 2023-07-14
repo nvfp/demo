@@ -17,13 +17,14 @@ jobs:
       desc: ${{ steps.check.outputs.desc }}
       match: ${{ steps.check.outputs.match }}
     steps:
-      - id: check
+      - name: Run
+        id: check
         env:
           COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
         shell: python
         run: |
           import sys
-          print($COMMIT_MESSAGE)
+          print('$COMMIT_MESSAGE')
           sys.exit(9)
 
   # prepare:
