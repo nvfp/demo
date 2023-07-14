@@ -52,7 +52,7 @@ jobs:
       - name: Inspect Git tag
         run: |
           tag="${{ needs.check-commit-msg.outputs.ver }}"
-          if [ $(git tag -l "$tag") ]; then
+          if [[ -n $(git tag -l "$tag") ]]; then
             echo "ERROR: Tag already exists: '$tag'"
             exit 1
           fi
