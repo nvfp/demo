@@ -65,6 +65,8 @@ jobs:
           ver="${{ needs.check-commit-msg.outputs.ver }}"
           url="https://pypi.org/pypi/$name/$ver/"
           response=$(curl -s -o /dev/null -w "%{http_code}" "${url}")
+          echo "url: '$url'"
+          echo "response: '$response'"
           if [[ "${response}" == "200" ]]; then
             echo "ERROR: Package $name $ver is already published."
             exit 1
