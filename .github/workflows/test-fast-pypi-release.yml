@@ -66,7 +66,7 @@ jobs:
 
       - name: Inspect PyPI version
         run: |
-          name=${{ env.pypi-dist-name }}
+          name="${{ env.pypi-dist-name }}"
           ver="${{ needs.check-commit-msg.outputs.ver }}"
           echo "INFO: Inspecting package '$name' version '$ver'."
 
@@ -168,8 +168,8 @@ jobs:
 
       - name: Commit
         run: |
-          git config user.name ${{ env.git-name }}
-          git config user.email ${{ env.git-email }}
+          git config user.name "${{ env.git-name }}"
+          git config user.email "${{ env.git-email }}"
           git commit -am "Update the version in \`pyproject.toml\` — $(date +'%Y %b %e, %l:%M %p')"
           git push
 
@@ -190,11 +190,14 @@ jobs:
 
       - name: Select description
         id: select
+        env:
+          DESC: ${{ needs.check-commit-msg.outputs.desc }}
+          CHANGELOG: ${{ needs.get-latest-changelog.outputs.changelog }}
         run: |
           if [ "${{ needs.check-commit-msg.outputs.prerelease }}" = "True" ]; then
-            desc=${{ needs.check-commit-msg.outputs.desc }}
+            desc=$DESC
           else
-            desc=${{ needs.get-latest-changelog.outputs.changelog }}
+            desc=$CHANGELOG
           fi
           echo "INFO: desc: '$desc'"
 

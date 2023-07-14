@@ -1,5 +1,11 @@
 # Changelog
 
+- 48.0.7:
+    - should be the last...?
+    - foo 'bar' baz'zzz.
+    - Should be `the` Final `test` for 1.3.0.
+    - foo `bar/baz.md` abc.
+        - foo `baz/` baz.
 - 48.0.6:
     - Debugging again...
     - foo 'bar' baz'zzz.
