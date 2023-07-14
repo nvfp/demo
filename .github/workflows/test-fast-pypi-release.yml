@@ -121,7 +121,7 @@ jobs:
             print(delimiter, file=fh)
 
   update-pyproject-toml:
-    needs: get-latest-changelog
+    needs: [check-commit-msg, get-latest-changelog]
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -140,7 +140,7 @@ jobs:
           git push
 
   release:
-    needs: update-pyproject-toml
+    needs: [check-commit-msg, get-latest-changelog, update-pyproject-toml]
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -164,7 +164,7 @@ jobs:
           fi
 
       - name: Release
-        uses: nvfp/gh-action-simple-release@1.8.0
+        uses: nvfp/gh-action-simple-release@1.13.0
         env:
           GH_TOKEN: ${{ github.token }}
         with:
