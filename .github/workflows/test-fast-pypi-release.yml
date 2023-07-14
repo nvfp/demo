@@ -41,6 +41,10 @@
 #             print(f'desc={desc}', file=f)
 #             print(f'prerelease={prerelease}', file=f)
 
+#   # ensure-tag-available:
+#   #   needs: check-commit-msg
+#   #   runs-on: ubuntu-latest
+
 #   get-latest-changelog:
 #     needs: check-commit-msg
 #     if: needs.check-commit-msg.outputs.match
@@ -70,18 +74,17 @@
 #           echo "DEBUG: files: '$files'"
 
 #           # Only one changelog file should be in the "docs" folder
-#           file_count=$(echo "$files" | wc -l)
-#           echo "DEBUG: file_count: $file_count"
-#           if [ "$file_count" -ne 1 ]; then
-#             echo "ERROR: Multiple changelog files found in the "docs" folder."
+#           if [ "$(echo "$files" | wc -l)" -ne 1 ]; then
+#             echo "ERROR: Multiple changelog files found in the 'docs/' folder."
 #             exit 1
 #           fi
 
 #           # Pass the Changelog file path
 #           echo "pth=$files" >> $GITHUB_OUTPUT
 
-#       - id: parse
-#         name: Parse the latest changelog
+#       - name: Parse the latest changelog
+#         id: parse
+#         if: steps.verify.outcome == 'success'
 #         shell: python
 #         run: |
 #           import os

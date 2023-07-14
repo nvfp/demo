@@ -1,0 +1,29 @@
+name: The test checks how to gate the flow of steps
+on:
+  push:
+    branches: [main]
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: step1
+        id: step1
+        run: |
+          echo "step1"
+
+          # Uncomment the code below to make step2 run
+          echo "foo=true" >> $GITHUB_OUTPUT
+
+      - name: step2
+        id: step2
+        if: steps.step1.outputs.foo
+        run: |
+          echo "step2"
+          exit 1  # This causes step3 to stop too
+
+      # The if-statement below makes step3 only run if step2 ran
+      - name: step3
+        if: steps.step2.outcome == 'success'
+        run: |
+          echo "step3"
