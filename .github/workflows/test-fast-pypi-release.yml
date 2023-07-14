@@ -25,7 +25,7 @@ jobs:
         run: |
           import os
           import sys
-          x = """${{ github.event.head_commit.message }}""" #
+          x = """${{ github.event.head_commit.message }}""" ##
           print(x)
           print('------')
           print(repr(x))
