@@ -68,7 +68,7 @@ jobs:
           echo "output: '$output'"
 
           # WARNING: pip index is currently an experimental command. It may be removed/changed in a future release without prior warning.
-          if pip index versions $name --pre | grep -q "$ver"; then
+          if echo "$output" | grep -q "$ver"; then
             echo "ERROR: Package '$name' version '$ver' already exists."
             exit 1
           fi
