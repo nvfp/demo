@@ -1,5 +1,9 @@
 # Changelog
 
+- 48.0.0:
+    - Final `test` for 1.3.0.
+    - foo `bar/baz.md` abc.
+        - foo `baz/` baz.
 - 46.1.1:
     - It worked.
     - Now final testing.
