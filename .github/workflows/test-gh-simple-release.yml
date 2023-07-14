@@ -20,5 +20,5 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         with:
-          tag: 47.0.0
-          desc: Testing 1.9.0 version
+          tag: 47.10.200
+          desc: Testing 1.11.0 version
