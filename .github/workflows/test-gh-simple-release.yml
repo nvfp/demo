@@ -20,5 +20,5 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         with:
-          tag: 47.10.200b
+          tag: 47.10.200b321
           desc: 'Testing nvfp/gh-action-simple-release v1.12.0: beta testing'
