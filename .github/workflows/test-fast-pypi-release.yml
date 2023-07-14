@@ -51,29 +51,28 @@ jobs:
         with:
           fetch-depth: 0  # Fetch all tags
 
-      # - name: Inspect Git tag
-      #   run: |
-      #     tag="${{ needs.check-commit-msg.outputs.ver }}"
-      #     if [[ -n $(git tag -l "$tag") ]]; then
-      #       echo "ERROR: Tag already exists: '$tag'"
-      #       exit 1
-      #     fi
+      - name: Inspect Git tag
+        run: |
+          tag="${{ needs.check-commit-msg.outputs.ver }}"
+          if [[ -n $(git tag -l "$tag") ]]; then
+            echo "ERROR: Tag already exists: '$tag'"
+            exit 1
+          fi
 
       - name: Inspect PyPI version
         run: |
           name="for-testing"  # EDITME
           ver="${{ needs.check-commit-msg.outputs.ver }}"
 
-          output=$(pip index versions $name --pre)
-          echo "output: '$output'"
-
           # WARNING: pip index is currently an experimental command. It may be removed/changed in a future release without prior warning.
+
+          # Capturing pip output before piping to grep prevents BrokenPipeError caused by pip warnings (above)
+          output=$(pip index versions $name --pre)
+
           if echo "$output" | grep -q "$ver"; then
             echo "ERROR: Package '$name' version '$ver' already exists."
             exit 1
           fi
-
-          exit 9
 
   get-latest-changelog:
     needs: [check-commit-msg, verify-version-availability]
