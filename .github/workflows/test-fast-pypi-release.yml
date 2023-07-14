@@ -43,6 +43,7 @@ jobs:
 
   # verify-version-availability:
   #   needs: check-commit-msg
+  #   if: needs.check-commit-msg.outputs.match
   #   runs-on: ubuntu-latest
 
   get-latest-changelog:
