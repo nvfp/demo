@@ -28,18 +28,16 @@ jobs:
 
           res = re.match(r'^(?P<ver>\d+\.\d+\.\d+(?:b\d*)?)[ ]+RELEASE(?P<desc>.*)', os.environ['COMMIT_MESSAGE'], re.IGNORECASE)
           if res is None:
-            match = False
             print("INFO: Pattern doesn't match.")
             sys.exit(0)
 
-          match = True
           ver = res.group('ver')
           desc = re.sub(r'^(?::)?\s+', '', res.group('desc'))  # Parse description without colon and leading spaces
           prerelease = True if 'b' in ver else False
           print(f"INFO: Pattern matched [ver: {repr(ver)}] [desc: {repr(desc)}] [prerelease: {prerelease}].")
 
           with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
-            print(f'match={match}', file=f)
+            print(f'match={True}', file=f)
             print(f'ver={ver}', file=f)
             print(f'desc={desc}', file=f)
             print(f'prerelease={prerelease}', file=f)
@@ -50,8 +48,8 @@ jobs:
     needs: check
     if: needs.check.outputs.match
     runs-on: ubuntu-latest
-    outputs:
-      changelog: ${{ steps.parse.outputs.changelog }}
+    # outputs:
+    #   changelog: ${{ steps.parse.outputs.changelog }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
