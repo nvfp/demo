@@ -193,9 +193,9 @@ jobs:
           echo "INFO: desc: '$desc'"
 
           EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
-          echo "desc<<$EOF" >> $GITHUB_ENV
-          echo '$desc' >> $GITHUB_ENV
-          echo "$EOF" >> $GITHUB_ENV
+          echo "desc<<$EOF" >> $GITHUB_OUTPUT
+          echo '$desc' >> $GITHUB_OUTPUT
+          echo "$EOF" >> $GITHUB_OUTPUT
 
       - name: Release
         uses: nvfp/gh-action-simple-release@1.13.0
