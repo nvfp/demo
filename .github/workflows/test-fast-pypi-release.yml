@@ -141,7 +141,7 @@ jobs:
             sys.exit(1)
           print('INFO: Versions matched.')
 
-          ## Pass the latest changelog for the step 'create-gh-release'
+          ## Pass the latest changelog to 'create-gh-release' step
           with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
             delimiter = uuid.uuid1()
             print(f'changelog<<{delimiter}', file=fh)
