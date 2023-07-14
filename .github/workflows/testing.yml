@@ -20,5 +20,6 @@ jobs:
           echo "step2"
 
       - name: step3
+        if: steps.step2.outcome == 'success'
         run: |
           echo "step3"
