@@ -8,7 +8,21 @@ on:
     branches:
       - main  # EDITME
 
+env:
+  pypi-dist-name: for-testing  # EDITME
+  git-name: your name  # EDITME
+  git-email: your@email  # EDITME
+
 jobs:
+  test-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: test
+        run: |
+          echo "pypi: '${{ env.pypi-dist-name }}'"
+          echo "git name: '${{ env.git-name }}'"
+          echo "git email: '${{ env.git-email }}'"
+
   check-commit-msg:
     runs-on: ubuntu-latest
     outputs:
@@ -186,9 +200,9 @@ jobs:
         id: select
         run: |
           if [ "${{ needs.check-commit-msg.outputs.prerelease }}" = "True" ]; then
-            desc='${{ needs.check-commit-msg.outputs.desc }}'
+            desc="${{ needs.check-commit-msg.outputs.desc }}"
           else
-            desc='${{ needs.get-latest-changelog.outputs.changelog }}'
+            desc="${{ needs.get-latest-changelog.outputs.changelog }}"
           fi
           echo "INFO: desc: '$desc'"
 
