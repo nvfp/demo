@@ -13,13 +13,14 @@ jobs:
           echo "step1"
 
           # Uncomment the code below to make step2 run
-          # echo "foo=true" >> $GITHUB_OUTPUT
+          echo "foo=true" >> $GITHUB_OUTPUT
 
       - name: step2
         id: step2
         if: steps.step1.outputs.foo
         run: |
           echo "step2"
+          exit 1  # This causes step3 to stop too
 
       # The if-statement below makes step3 only run if step2 ran
       - name: step3
