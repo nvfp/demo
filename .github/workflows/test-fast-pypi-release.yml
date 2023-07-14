@@ -73,6 +73,8 @@ jobs:
             exit 1
           fi
 
+          exit 9
+
   get-latest-changelog:
     needs: [check-commit-msg, verify-version-availability]
     runs-on: ubuntu-latest
