@@ -63,14 +63,13 @@ jobs:
         run: |
           name="for-testing"  # EDITME
           ver="${{ needs.check-commit-msg.outputs.ver }}"
-          url="https://pypi.org/pypi/$name/$ver/"
-          response=$(curl -s -o /dev/null -w "%{http_code}" "${url}")
-          echo "url: '$url'"
-          echo "response: '$response'"
-          if [[ "${response}" == "200" ]]; then
-            echo "ERROR: Package $name $ver is already published."
+
+          # WARNING: pip index is currently an experimental command. It may be removed/changed in a future release without prior warning.
+          if pip index versions $name --pre | grep -q "$ver"; then
+            echo "ERROR: Package $name version $ver already exists."
             exit 1
           fi
+          exit 9
 
   get-latest-changelog:
     needs: [check-commit-msg, verify-version-availability]
