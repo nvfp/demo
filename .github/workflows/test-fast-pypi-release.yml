@@ -49,24 +49,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0
+          fetch-depth: 0  # Fetch all tags
 
-      - name: Inspect Git tag
-        run: |
-          tag="${{ needs.check-commit-msg.outputs.ver }}"
-          git tag -l "$tag"
-          if [[ -n $(git tag -l "$tag") ]]; then
-            echo "ERROR: Tag already exists: '$tag'"
-            exit 1
-          fi
-
-      # - name: Inspect PyPI version
+      # - name: Inspect Git tag
       #   run: |
-      #     if [ $(git tag -l "<tagname>") ]; then
-      #       echo "tag exists"
-      #     else
-      #       echo "tag does not exist"
+      #     tag="${{ needs.check-commit-msg.outputs.ver }}"
+      #     if [[ -n $(git tag -l "$tag") ]]; then
+      #       echo "ERROR: Tag already exists: '$tag'"
+      #       exit 1
       #     fi
+
+      - name: Inspect PyPI version
+        run: |
+          name="${{ github.repository }}"
+          echo "name: '$name'"
+          exit 9
+          # if [[ "${response}" == "200" ]]; then
+          #   echo "Package ${package_name} ${package_version} is already published."
+          #   exit 1
+          # fi
 
   get-latest-changelog:
     needs: [check-commit-msg, verify-version-availability]
