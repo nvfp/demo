@@ -1,5 +1,11 @@
 # Changelog
 
+- 48.0.8:
+    - All good. Test this one again.
+    - echo "$desc" not echo '$desc' .....
+    - Should be `the` Final `test` for 1.3.0.
+    - foo `bar/baz.md` abc.
+        - foo `baz/` baz.
 - 48.0.7:
     - should be the last...?
     - foo 'bar' baz'zzz.
