@@ -10,19 +10,10 @@ on:
 
 env:
   pypi-dist-name: for-testing  # EDITME
-  git-name: your name  # EDITME
+  git-name: Your Name  # EDITME
   git-email: your@email  # EDITME
 
 jobs:
-  test-job:
-    runs-on: ubuntu-latest
-    steps:
-      - name: test
-        run: |
-          echo "pypi: '${{ env.pypi-dist-name }}'"
-          echo "git name: '${{ env.git-name }}'"
-          echo "git email: '${{ env.git-email }}'"
-
   check-commit-msg:
     runs-on: ubuntu-latest
     outputs:
@@ -75,8 +66,9 @@ jobs:
 
       - name: Inspect PyPI version
         run: |
-          name="for-testing"  # EDITME
+          name=${{ env.pypi-dist-name }}
           ver="${{ needs.check-commit-msg.outputs.ver }}"
+          echo "INFO: Inspecting package '$name' version '$ver'."
 
           # WARNING: pip index is currently an experimental command. It may be removed/changed in a future release without prior warning.
 
@@ -176,8 +168,8 @@ jobs:
 
       - name: Commit
         run: |
-          git config user.name "Your Name"    # EDITME
-          git config user.email "your@email"  # EDITME
+          git config user.name ${{ env.git-name }}
+          git config user.email ${{ env.git-email }}
           git commit -am "Update the version in \`pyproject.toml\` — $(date +'%Y %b %e, %l:%M %p')"
           git push
 
@@ -200,9 +192,9 @@ jobs:
         id: select
         run: |
           if [ "${{ needs.check-commit-msg.outputs.prerelease }}" = "True" ]; then
-            desc="${{ needs.check-commit-msg.outputs.desc }}"
+            desc=${{ needs.check-commit-msg.outputs.desc }}
           else
-            desc="${{ needs.get-latest-changelog.outputs.changelog }}"
+            desc=${{ needs.get-latest-changelog.outputs.changelog }}
           fi
           echo "INFO: desc: '$desc'"
 
