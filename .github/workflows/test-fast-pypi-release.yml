@@ -46,16 +46,15 @@ jobs:
     if: needs.check-commit-msg.outputs.match
     runs-on: ubuntu-latest
     steps:
-      # - name: Checkout
-      #   uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
 
       - name: Inspect Git tag
         run: |
-          if [ $(git tag -l "${{ needs.check-commit-msg.outputs.ver }}") ]; then
-            echo "ERROR: tag exists"
+          tag="${{ needs.check-commit-msg.outputs.ver }}"
+          if [ $(git tag -l "$tag") ]; then
+            echo "ERROR: Tag already exists: '$tag'"
             exit 1
-          else
-            echo "tag does not exist"
           fi
 
       # - name: Inspect PyPI version
