@@ -41,14 +41,17 @@ jobs:
             print(f'desc={desc}', file=f)
             print(f'prerelease={prerelease}', file=f)
 
-  # verify-version-availability:
-  #   needs: check-commit-msg
-  #   if: needs.check-commit-msg.outputs.match
-  #   runs-on: ubuntu-latest
-
-  get-latest-changelog:
+  verify-version-availability:
     needs: check-commit-msg
     if: needs.check-commit-msg.outputs.match
+    runs-on: ubuntu-latest
+    steps:
+      - name: Inspect
+        run: |
+          echo "Foo"
+
+  get-latest-changelog:
+    needs: [check-commit-msg, verify-version-availability]
     runs-on: ubuntu-latest
     outputs:
       changelog: ${{ steps.parse.outputs.changelog }}
@@ -140,7 +143,7 @@ jobs:
           git commit -am "Update the version in \`pyproject.toml\` — $(date +'%Y %b %e, %l:%M %p')"
           git push
 
-  release:
+  create-gh-release:
     needs: [check-commit-msg, get-latest-changelog, update-pyproject-toml]
     runs-on: ubuntu-latest
     permissions:
@@ -172,7 +175,7 @@ jobs:
           tag: ${{ needs.check-commit-msg.outputs.ver }}
           desc: ${{ steps.select.outputs.desc }}
 
-  publish:
+  publish-to-PyPI:
     needs: update-pyproject-toml
     runs-on: ubuntu-latest
     steps:
