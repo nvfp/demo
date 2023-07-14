@@ -48,7 +48,7 @@ jobs:
     steps:
       - name: Inspect
         run: |
-          echo "Foo"
+          echo "Fooo"
 
   get-latest-changelog:
     needs: [check-commit-msg, verify-version-availability]
