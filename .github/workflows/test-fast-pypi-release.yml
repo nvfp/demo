@@ -63,7 +63,7 @@ jobs:
             echo "latest=true" >> $GITHUB_OUTPUT
           fi
 
-      - name: Foo
+      - name: Fooo
         if: steps.check.outputs.latest
         run: echo "foo"
   
