@@ -64,8 +64,8 @@ jobs:
           name="for-testing"  # EDITME
           ver="${{ needs.check-commit-msg.outputs.ver }}"
 
-          # Ignore the SIGPIPE signal to prevent BrokenPipeError when pip writes to a closed pipe
-          trap "" PIPE
+          output=$(pip index versions $name --pre)
+          echo "output: '$output'"
 
           # WARNING: pip index is currently an experimental command. It may be removed/changed in a future release without prior warning.
           if pip index versions $name --pre | grep -q "$ver"; then
