@@ -1,5 +1,10 @@
 # Changelog
 
+- 48.0.2:
+    - Test againn.
+    - Final `test` for 1.3.0.
+    - foo `bar/baz.md` abc.
+        - foo `baz/` baz.
 - 48.0.1:
     - Test again.
     - Final `test` for 1.3.0.
