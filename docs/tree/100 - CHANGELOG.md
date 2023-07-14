@@ -1,7 +1,7 @@
 # Changelog
 
 - 48.0.3:
-    - $GITHUB_OUTPUT not $GITHUB_ENV.
+    - $GITHUB_OUTPUT not $GITHUB_ENV ...
     - Should be `the` Final `test` for 1.3.0.
     - foo `bar/baz.md` abc.
         - foo `baz/` baz.
