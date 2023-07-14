@@ -1,0 +1,24 @@
+name: Test Simple release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Release
+        uses: nvfp/gh-action-simple-release@1.9.0
+        env:
+          GH_TOKEN: ${{ github.token }}
+        with:
+          tag: 47.0.0
+          desc: Testing 1.9.0 version
