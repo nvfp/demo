@@ -186,10 +186,15 @@ jobs:
         id: select
         run: |
           if [ "${{ needs.check-commit-msg.outputs.prerelease }}" = "True" ]; then
-            echo "desc=${{ needs.check-commit-msg.outputs.desc }}" >> $GITHUB_OUTPUT
+            desc='${{ needs.check-commit-msg.outputs.desc }}'
           else
-            echo "desc=${{ needs.get-latest-changelog.outputs.changelog }}" >> $GITHUB_OUTPUT
+            desc='${{ needs.get-latest-changelog.outputs.changelog }}'
           fi
+
+          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          echo "desc<<$EOF" >> $GITHUB_ENV
+          echo '$desc' >> $GITHUB_ENV
+          echo "$EOF" >> $GITHUB_ENV
 
       - name: Release
         uses: nvfp/gh-action-simple-release@1.13.0
