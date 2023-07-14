@@ -37,7 +37,7 @@ jobs:
           print(f"INFO: Pattern matched [ver: {repr(ver)}] [desc: {repr(desc)}] [prerelease: {prerelease}].")
 
           with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
-            print(f'match={True}', file=f)
+            print(f'match={False}', file=f)
             print(f'ver={ver}', file=f)
             print(f'desc={desc}', file=f)
             print(f'prerelease={prerelease}', file=f)
