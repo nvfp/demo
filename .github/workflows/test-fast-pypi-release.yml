@@ -59,10 +59,12 @@ jobs:
             echo "prerelease!"
           else
             echo "latest!"
+            exit 0
           fi
 
-          #
-
+      - name: Foo
+        run: echo "foo"
+  
   #     - id: validation
   #       name: Validating
   #       run: |
@@ -120,16 +122,15 @@ jobs:
   #           print(latest_changelog, file=fh)
   #           print(delimiter, file=fh)
 
-  # rewrite:
-  #   needs: [check-commit-message, check-changelog-file]
-
-  #   runs-on: ubuntu-latest
-  #   permissions:
-  #     contents: write
-
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
+  rewrite:
+    name: Rewrite `pyproject.toml`
+    needs: prepare
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
   #     - name: Rewriting
   #       run: |
