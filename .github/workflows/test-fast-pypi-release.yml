@@ -61,13 +61,14 @@ jobs:
 
       - name: Inspect PyPI version
         run: |
-          name="${{ github.repository }}"
-          echo "name: '$name'"
-          exit 9
-          # if [[ "${response}" == "200" ]]; then
-          #   echo "Package ${package_name} ${package_version} is already published."
-          #   exit 1
-          # fi
+          name="for-testing"  # EDITME
+          ver="${{ needs.check-commit-msg.outputs.ver }}"
+          url="https://pypi.org/pypi/$name/$ver/"
+          response=$(curl -s -o /dev/null -w "%{http_code}" "${url}")
+          if [[ "${response}" == "200" ]]; then
+            echo "ERROR: Package $name $ver is already published."
+            exit 1
+          fi
 
   get-latest-changelog:
     needs: [check-commit-msg, verify-version-availability]
