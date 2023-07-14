@@ -48,21 +48,23 @@ jobs:
     if: needs.check.outputs.match
     runs-on: ubuntu-latest
     # outputs:
-    #   changelog: ${{ steps.parse.outputs.changelog }}
+    #   changelog: ${{ steps.piping.outputs.changelog }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Check
+      - name: Check latest/prerelease version
+        id: check
         run: |
           if [ "${{ needs.check.outputs.prerelease }}" = "True" ]; then
             echo "prerelease!"
           else
             echo "latest!"
-            exit 0
+            echo "latest=true" >> $GITHUB_OUTPUT
           fi
 
       - name: Foo
+        if: steps.check.outputs.latest
         run: echo "foo"
   
   #     - id: validation
@@ -122,8 +124,8 @@ jobs:
   #           print(latest_changelog, file=fh)
   #           print(delimiter, file=fh)
 
-  rewrite:
-    name: Rewrite `pyproject.toml`
+  update:
+    name: Update version in pyproject.toml
     needs: prepare
     runs-on: ubuntu-latest
     permissions:
@@ -131,6 +133,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      # - name: Foo
+      #   run: echo "${{needs.prepare.outputs.changelog}}"
 
   #     - name: Rewriting
   #       run: |
