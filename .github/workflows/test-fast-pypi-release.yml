@@ -24,7 +24,10 @@ jobs:
         shell: python
         run: |
           import os
-          print(os.environ['COMMIT_MESSAGE'])
+          import sys
+          x = ${{ github.event.head_commit.message }}
+          print(x)
+          # print(os.environ['COMMIT_MESSAGE'])
           sys.exit(9)
 
   # prepare:
