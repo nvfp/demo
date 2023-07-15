@@ -15,7 +15,7 @@ sass:
 
 
 # Redirection purposes
-plugins:
-  - jekyll-redirect-from
+# plugins:
+#   - jekyll-redirect-from
 whitelist:
   - jekyll-redirect-from
