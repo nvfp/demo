@@ -1,0 +1,26 @@
+# Testing repo cloning with specific git tag and GitHub Actions version
+
+name: testing..
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: gh-action
+        run: |
+          git clone --depth 1 --branch 1.0.0 https://github.com/nvfp/demo-testing.git
+          echo "---"
+          ls
+          echo "---"
+          git log
+
+      - name: gh-action
+        uses: nvfp/demo-testing@1.0.0
+        with:
+          foo: 3.2.1
+          bar: 'Foo: bar baz'
