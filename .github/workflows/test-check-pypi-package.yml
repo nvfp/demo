@@ -12,9 +12,25 @@ jobs:
       - name: Run
         run: |
           url="https://pypi.org/project/for-testing/22.1.1/"
-          status_code=$(curl -s -o /dev/null -w "%{http_code}" $url)
-          echo $status_code
+          echo "url: '$url'"
 
-          url="https://pypi.org/project/for-testing/22.1.1000/"
           status_code=$(curl -s -o /dev/null -w "%{http_code}" $url)
-          echo $status_code
+          if [ $status_code -eq 200 ]; then
+            echo "CODE: 202"
+          elif [ $status_code -eq 404 ]; then
+            echo "CODE: 404"
+          fi
+
+
+          echo "------------"
+
+          
+          url="https://pypi.org/project/for-testing/22.1.1000/"
+          echo "url: '$url'"
+
+          status_code=$(curl -s -o /dev/null -w "%{http_code}" $url)
+          if [ $status_code -eq 200 ]; then
+            echo "CODE: 202"
+          elif [ $status_code -eq 404 ]; then
+            echo "CODE: 404"
+          fi
