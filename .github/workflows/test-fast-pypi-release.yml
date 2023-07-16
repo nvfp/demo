@@ -22,6 +22,7 @@ jobs:
       ver: ${{ steps.run.outputs.ver }}
       desc: ${{ steps.run.outputs.desc }}
       prerelease: ${{ steps.run.outputs.prerelease }}
+      testing: ${{ steps.run.outputs.testing }}
     steps:
       - name: Run
         id: run
@@ -31,21 +32,27 @@ jobs:
         run: |
           import os, re, sys
 
-          res = re.match(r'^(?P<ver>\d+\.\d+\.\d+(?:b\d*)?)[ ]+RELEASE(?P<desc>.*)', os.environ['COMMIT_MESSAGE'], re.IGNORECASE)
+          ## Note: Check the 'archive/' folder for the regex tests
+          res = re.match(r'^(?P<ver>\d+\.\d+\.\d+(?:b\d*)?)[ ]+(?P<mode>RELEASE)(?P<desc>.*)', input_str, re.IGNORECASE)
+          if res is None:
+            res = re.match(r'^(?P<ver>\d+\.\d+\.\d+b\d*)[ ]+(?P<mode>TESTING)(?P<desc>.*)', input_str, re.IGNORECASE)
+
           if res is None:
             print("INFO: Pattern doesn't match.")
             sys.exit(0)
 
           ver = res.group('ver')
-          desc = re.sub(r'^(?::)?\s+', '', res.group('desc'))  # Parse description without colon and leading spaces
+          desc = re.sub(r'^(?::)?\s+', '', res.group('desc'))  # Trim the leading spaces or colon-spaces
           prerelease = True if 'b' in ver else False
-          print(f"INFO: Pattern matched [ver: {repr(ver)}] [desc: {repr(desc)}] [prerelease: {prerelease}].")
+          testing = True if res.group('mode').lower() == 'testing' else False
+          print(f'INFO: Pattern matched [ver: {repr(ver)}] [desc: {repr(desc)}] [prerelease: {prerelease}] [testing: {testing}].')
 
           with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
             print(f'match=true', file=f)
             print(f'ver={ver}', file=f)
             print(f'desc={desc}', file=f)
             print(f'prerelease={prerelease}', file=f)
+            print(f'testing={testing}', file=f)
 
   verify-version-availability:
     needs: check-commit-msg
@@ -173,9 +180,26 @@ jobs:
           git config user.email "${{ env.git-email }}"
           git commit -am "Update the version in \`pyproject.toml\` — $(date +'%Y %b %e, %l:%M %p')"
           git push
-
-  create-gh-release:
+  
+  create-git-tag:
     needs: [check-commit-msg, get-latest-changelog, update-pyproject-toml]
+    if: needs.check-commit-msg.outputs.testing == 'True'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Manual pull  # actions/checkout@v3 doesn't grab the latest commit. Perform a manual 'git pull' to get it.
+        run: | 
+          git pull
+          echo "DEBUG: Run 'git log -2'"
+          git log -2
+
+  create-gh-release:  # This also includes making a Git tag
+    needs: [check-commit-msg, get-latest-changelog, update-pyproject-toml]
+    if: needs.check-commit-msg.outputs.testing == 'False'
     runs-on: ubuntu-latest
     permissions:
       contents: write
