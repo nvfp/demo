@@ -186,8 +186,8 @@ jobs:
     needs: [check-commit-msg, get-latest-changelog, update-pyproject-toml]
     if: needs.check-commit-msg.outputs.testing == 'True'
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
+    # permissions:
+    #   contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -204,9 +204,9 @@ jobs:
           DESC: ${{ needs.check-commit-msg.outputs.desc }}
         run: |
           echo "INFO: Creating tag '$TAG' with note '$DESC'."
+          git config user.name "${{ env.git-name }}"
+          git config user.email "${{ env.git-email }}"
           git tag -a $TAG -m "$DESC"
-
-          # Push the tag to the remote repository
           git push origin $TAG
 
   create-gh-release:  # This also includes making a Git tag
