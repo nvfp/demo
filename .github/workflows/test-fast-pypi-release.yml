@@ -33,9 +33,9 @@ jobs:
           import os, re, sys
 
           ## Note: Check the 'archive/' folder for the regex tests
-          res = re.match(r'^(?P<ver>\d+\.\d+\.\d+(?:b\d*)?)[ ]+(?P<mode>RELEASE)(?P<desc>.*)', input_str, re.IGNORECASE)
+          res = re.match(r'^(?P<ver>\d+\.\d+\.\d+(?:b\d*)?)[ ]+(?P<mode>RELEASE)(?P<desc>.*)', os.environ['COMMIT_MESSAGE'], re.IGNORECASE)
           if res is None:
-            res = re.match(r'^(?P<ver>\d+\.\d+\.\d+b\d*)[ ]+(?P<mode>TESTING)(?P<desc>.*)', input_str, re.IGNORECASE)
+            res = re.match(r'^(?P<ver>\d+\.\d+\.\d+b\d*)[ ]+(?P<mode>TESTING)(?P<desc>.*)', os.environ['COMMIT_MESSAGE'], re.IGNORECASE)
 
           if res is None:
             print("INFO: Pattern doesn't match.")
