@@ -199,7 +199,7 @@ jobs:
           git log -2
       
       - name: Foo
-        run: echo "foooo"
+        run: echo "fooooo"
 
   create-gh-release:  # This also includes making a Git tag
     needs: [check-commit-msg, get-latest-changelog, update-pyproject-toml]
