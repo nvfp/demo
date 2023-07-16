@@ -22,7 +22,6 @@ jobs:
 
       - name: cloning a nonexistent tag
         run: |
-          cd ..
           ls
           rm -r demo-testing
           echo "---"
