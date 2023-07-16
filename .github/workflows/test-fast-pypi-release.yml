@@ -76,14 +76,15 @@ jobs:
         run: |
           name="${{ env.pypi-dist-name }}"
           ver="${{ needs.check-commit-msg.outputs.ver }}"
-          echo "INFO: Inspecting package '$name' version '$ver'."
+          url="https://pypi.org/project/$name/$ver/"
+          echo "INFO: Inspecting package '$name' version '$ver' on '$url'."
 
-          # WARNING: pip index is currently an experimental command. It may be removed/changed in a future release without prior warning.
+          status_code=$(curl -s -o /dev/null -w "%{http_code}" $url)
+          echo "DEBUG: status_code: '$status_code'"
 
-          # Capturing pip output before piping to grep prevents BrokenPipeError caused by pip warnings (above)
-          output=$(pip index versions $name --pre)
-
-          if echo "$output" | grep -q "$ver"; then
+          if [ $status_code -eq 404 ]; then
+            echo "INFO: Version '$ver' not on PyPI. Ready to publish!"
+          else
             echo "ERROR: Package '$name' version '$ver' already exists."
             exit 1
           fi
