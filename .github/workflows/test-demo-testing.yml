@@ -11,10 +11,11 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: gh-action
+      - name: cloning
         run: |
           git clone --depth 1 --branch 1.0.0 https://github.com/nvfp/demo-testing.git
           echo "---"
+          cd demo-testing
           ls
           echo "---"
           git log
