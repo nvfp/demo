@@ -1,6 +1,6 @@
 # Changelog
 
-- 49.0.0: July `16`, 2023.
+- 49.0.0: July `16`, 2023..
 - 48.0.8:
     - All good. Test this one again.
     - echo "$desc" not echo '$desc' .....
