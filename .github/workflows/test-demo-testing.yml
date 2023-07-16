@@ -23,4 +23,4 @@ jobs:
         uses: nvfp/demo-testing@1.0.0
         with:
           foo: 3.2.1
-          bar: 'Foo: bar baz'
+          bar: 'Foo: bar baz baz'
