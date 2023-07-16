@@ -12,10 +12,11 @@ jobs:
       - name: Run
         run: |
           package_name="for-testing"
-          response=$(curl -s --head https://pypi.org/pypi/$package_name/json)
+          response=$(curl -s --head https://pypi.org/pypi/$package_name/21.1.1/json)
+          echo "response: '$response'"
           if [[ $response == *"200 OK"* ]]; then
-              echo "Package $package_name exists on PyPI"
+            echo "Package $package_name exists on PyPI"
           else
-              echo "Package $package_name does not exist on PyPI"
+            echo "Package $package_name does not exist on PyPI"
           fi
         
