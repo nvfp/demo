@@ -1,0 +1,21 @@
+name: Test pypi package
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run
+        run: |
+          package_name="for-testing"
+          response=$(curl -s --head https://pypi.org/pypi/$package_name/json)
+          if [[ $response == *"200 OK"* ]]; then
+              echo "Package $package_name exists on PyPI"
+          else
+              echo "Package $package_name does not exist on PyPI"
+          fi
+        
