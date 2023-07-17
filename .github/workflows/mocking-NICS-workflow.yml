@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Foo
-        uses: nvfp/demo-testing@3.0.11
+        uses: nvfp/demo-testing@3.0.12
         with:
-          foo: 1
+          foo: 123132
           bar: 3
