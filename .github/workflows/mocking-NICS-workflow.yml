@@ -6,15 +6,15 @@ on:
       - main
 
 env:
-  git-name: Foo bar
-  git-email: your@email
+  git_name: Foo bar
+  git_email: your@email
 
 jobs:
   foo:
     runs-on: ubuntu-latest
     steps:
       - name: Foo
-        uses: nvfp/demo-testing@3.0.10
+        uses: nvfp/demo-testing@3.0.11
         with:
           foo: 1
           bar: 3
