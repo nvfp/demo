@@ -1,1 +1,3 @@
 - GitHub Actions can be used without republishing/updating them in the marketplace. Even if the latest version in the marketplace is 1.0.0, people can still use the already published 2.0.0 release from the GitHub repository. It's easier because publishing to the marketplace needs manual authentication.
+
+- When committing changes, either manually or through a workflow, it's better to use `git add .` then `git commit -m` rather than just `git commit -am`. This is because `git commit -am` will not stage and commit new files.
