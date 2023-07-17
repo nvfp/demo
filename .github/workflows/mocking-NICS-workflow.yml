@@ -11,7 +11,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: foo
+      - name: fooo
         uses: nvfp/demo-testing@3.0.26
         with:
           load: main
