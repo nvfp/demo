@@ -58,7 +58,7 @@ runs:
       run: $GITHUB_ACTION_PATH/FOO.sh
 
         # In FOO.sh:
-        # # var1 can be used (coming from workflow)
+        # # var1 can be used (coming from workflow)        <- in my opinion: This flow is difficult to track the variable sources with so many nested workflows
         # echo "var1: '$var1'"
-        # # MY_ARG1 can be used (coming from action env)
+        # # MY_ARG1 can be used (coming from action env)   <- in my opinion: this flow way more readable
         # echo "MY_ARG1: '$MY_ARG1'"
