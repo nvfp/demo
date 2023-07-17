@@ -20,4 +20,4 @@ jobs:
           git-email: your@email
           gh-repo-name: demo
           container: test-dir
-          nics-version: 9.9.999
+          nics-version: 2.8.4
