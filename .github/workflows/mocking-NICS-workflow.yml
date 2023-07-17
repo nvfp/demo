@@ -1,0 +1,56 @@
+name: Mocking NICS workflow
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  git-name: Foo bar
+  git-email: your@email
+
+jobs:
+  foo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Foo
+        run: |
+          echo "CWD: '$(pwd)'"
+          echo "---"
+          ls
+
+      - name: Checkout main branch
+        uses: actions/checkout@v3
+        with:
+          ref: main
+
+      - name: Foo
+        run: |
+          echo "CWD: '$(pwd)'"
+          echo "---"
+          ls
+
+      # - name: Creating NICS working directory
+      #   run: |
+      #     cd ..
+      #     mkdir __nics_work_dir__
+      #     cd __nics_work_dir__
+      #     cp -r ../{gh_repo}/docs/ .
+
+      # - name: Checkout docs branch
+      #   uses: actions/checkout@v3
+      #   with:
+      #     ref: docs
+
+      # - name: Foo
+      #   uses: nvfp/demo-testing@3.0.0
+      #   with:
+      #     foo: 1
+      #     bar: 3
+
+      # - name: Deploy
+      #   run: |
+      #     git config user.name "${{ env.git-name }}"
+      #     git config user.email "${{ env.git-email }}"
+      #     git commit -am "NICS rebuilds the docs — $(date +'%Y %b %e, %l:%M %p')"
+      #     git push
