@@ -5,16 +5,16 @@ on:
     branches:
       - main
 
-env:
-  git_name: Foo bar
-  git_email: your@email
-
 jobs:
   foo:
     runs-on: ubuntu-latest
     steps:
       - name: foo
-        uses: nvfp/demo-testing@3.0.19
+        uses: nvfp/demo-testing@3.0.20
         with:
           load: main22
           dock: mocking-nics-workflow
+          git-name: myname
+          git-email: your@email
+          gh-repo-name: demo
+          container: test-dir
