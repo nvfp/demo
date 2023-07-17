@@ -18,3 +18,9 @@ jobs:
         with:
           foo: 123132
           bar: 3
+
+      - name: 3017
+        uses: nvfp/demo-testing@3.0.17
+        with:
+          foo: 123132
+          bar: 3
