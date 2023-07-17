@@ -43,7 +43,7 @@ jobs:
       #     ref: docs
 
       - name: Foo
-        uses: nvfp/demo-testing@3.0.5
+        uses: nvfp/demo-testing@3.0.6
         with:
           foo: 1
           bar: 3
