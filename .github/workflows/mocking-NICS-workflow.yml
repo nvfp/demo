@@ -12,7 +12,7 @@ jobs:
       contents: write
     steps:
       - name: fooo
-        uses: nvfp/demo-testing@3.0.26
+        uses: nvfp/demo-testing@3.0.27
         with:
           load: main
           dock: mocking-nics-workflow
@@ -20,3 +20,4 @@ jobs:
           git-email: your@email
           gh-repo-name: demo
           container: test-dir
+          nics-version: 9.9.999
