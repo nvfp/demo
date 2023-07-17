@@ -42,11 +42,11 @@ jobs:
       #   with:
       #     ref: docs
 
-      # - name: Foo
-      #   uses: nvfp/demo-testing@3.0.0
-      #   with:
-      #     foo: 1
-      #     bar: 3
+      - name: Foo
+        uses: nvfp/demo-testing@3.0.0
+        with:
+          foo: 1
+          bar: 3
 
       # - name: Deploy
       #   run: |
