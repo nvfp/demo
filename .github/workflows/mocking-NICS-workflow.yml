@@ -13,14 +13,8 @@ jobs:
   foo:
     runs-on: ubuntu-latest
     steps:
-      - name: Foo
-        uses: nvfp/demo-testing@3.0.16
+      - name: foo
+        uses: nvfp/demo-testing@3.0.18
         with:
-          foo: 123132
-          bar: 3
-
-      - name: 3017
-        uses: nvfp/demo-testing@3.0.17
-        with:
-          foo: 123132
-          bar: 3
+          load: main
+          dock: mocking-nics-workflow
