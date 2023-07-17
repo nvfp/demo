@@ -12,7 +12,7 @@ jobs:
       - name: foo
         uses: nvfp/demo-testing@3.0.20
         with:
-          load: main22
+          load: main
           dock: mocking-nics-workflow
           git-name: myname
           git-email: your@email
