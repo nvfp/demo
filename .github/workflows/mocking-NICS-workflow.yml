@@ -8,6 +8,8 @@ on:
 jobs:
   foo:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: foo
         uses: nvfp/demo-testing@3.0.24
