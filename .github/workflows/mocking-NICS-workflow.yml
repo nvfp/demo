@@ -16,7 +16,7 @@ jobs:
         with:
           load: main
           dock: mocking-nics-workflow
-          git-name: myname
+          git-name: mynamee
           git-email: your@email
           gh-repo-name: demo
           container: test-dir
