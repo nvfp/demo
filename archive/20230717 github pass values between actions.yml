@@ -1,0 +1,64 @@
+# Let's say there are 2 actions (action A and B)
+
+
+
+# Action A (workflow):
+
+name: A
+
+on:
+  # 
+
+env:
+  var1: ...
+  var2: ...
+
+jobs:
+  myjob:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ...
+        uses: USERNAME/action-b@1.0.0
+        with:
+          arg1: ...
+          arg2: ...
+
+
+
+
+# USERNAME/action-b (reusable):
+
+name: B
+description: ...
+author: ...
+branding:
+  icon: ...
+  color: ...
+
+inputs:
+  arg1:
+    description: ...
+    required: true
+  arg2:
+    description: ...
+    required: true
+
+# env:                           # INVALID
+#   MY_ARG1: ${{ inputs.arg1 }}  # INVALID
+
+runs:
+  using: 'composite'
+  # env:                           # INVALID
+  #   MY_ARG1: ${{ inputs.arg1 }}  # INVALID
+  steps:
+    - name: ...
+      shell: bash
+      env:                           # VALID: Inputs can only be used for the `env` section under specific steps
+        MY_ARG1: ${{ inputs.arg1 }}  # VALID: Inputs can only be used for the `env` section under specific steps
+      run: $GITHUB_ACTION_PATH/FOO.sh
+
+        # In FOO.sh:
+        # # var1 can be used (coming from workflow)
+        # echo "var1: '$var1'"
+        # # MY_ARG1 can be used (coming from action env)
+        # echo "MY_ARG1: '$MY_ARG1'"
