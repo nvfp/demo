@@ -12,7 +12,7 @@ jobs:
       contents: write
     steps:
       - name: fooo
-        uses: nvfp/demo-testing@3.0.31
+        uses: nvfp/demo-testing@3.0.32
         with:
           load: main
           dock: mocking-nics-workflow
