@@ -16,5 +16,5 @@ jobs:
       - name: foo
         uses: nvfp/demo-testing@3.0.19
         with:
-          load: main
+          load: main22
           dock: mocking-nics-workflow
