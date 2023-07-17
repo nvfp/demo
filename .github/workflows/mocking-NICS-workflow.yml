@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: foo
-        uses: nvfp/demo-testing@3.0.21
+        uses: nvfp/demo-testing@3.0.22
         with:
           load: main
           dock: mocking-nics-workflow
