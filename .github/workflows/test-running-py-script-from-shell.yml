@@ -21,8 +21,17 @@ jobs:
           cd demo
           echo "dir: '$(pwd)/../foodir/'"
           ls
+
+
           echo "---"
-          ls $(pwd)/../foodir/
+          ls $(pwd)/../foodir/  # These are the same
           echo "---"
-          ls $(pwd)/../foodir
+          ls $(pwd)/../foodir   # These are the same
           echo "---"
+
+
+          python test-dir/test-py.py foo bar
+          echo "---"
+          python test-dir/test-py.py $(pwd) "$(pwd)"
+          echo "---"
+          python test-dir/test-py.py $(pwd)/foo $(pwd)/foo/
