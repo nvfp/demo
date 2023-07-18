@@ -10,4 +10,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Foo
-        uses: nvfp/demo-testing@4.0.0
+        uses: nvfp/demo-testing@4.0.1
