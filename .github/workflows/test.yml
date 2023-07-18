@@ -1,0 +1,22 @@
+name: test gh action log grouping
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  foo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Foo
+        run: |
+          echo "::group::group1"
+
+          echo "Hello"
+          
+          echo "::group::group2"
+          echo "Word"
+          echo "::endgroup::"
+          
+          echo "::endgroup::"
