@@ -3,7 +3,7 @@ name: test remote workflow should stop when python raises an exception
 on:
   push:
     branches:
-      - foo
+      - main
 
 jobs:
   foo:
