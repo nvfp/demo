@@ -10,4 +10,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Foo
-        run: echo "bar"
+        run: |
+          echo "bar"
