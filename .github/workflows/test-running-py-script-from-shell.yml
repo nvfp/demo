@@ -13,4 +13,16 @@ jobs:
 
       - run: |
           echo "pwd: '$(pwd)'"
+          cd ..
+          mkdir foodir
+          cd foodir
+          echo "footext" > foo.txt
+          cd ..
+          cd demo
+          echo "dir: '$(pwd)/../foodir/'"
           ls
+          echo "---"
+          ls $(pwd)/../foodir/
+          echo "---"
+          ls $(pwd)/../foodir
+          echo "---"
