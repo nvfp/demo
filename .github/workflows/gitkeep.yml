@@ -6,9 +6,8 @@ on:
       - foo
 
 jobs:
-  test-job:
+  foo:
     runs-on: ubuntu-latest
-
     steps:
       - name: Foo
         run: echo "bar"
