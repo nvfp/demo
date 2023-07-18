@@ -1,0 +1,13 @@
+name: test remote workflow should stop when python raises an exception
+
+on:
+  push:
+    branches:
+      - foo
+
+jobs:
+  foo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Foo
+        uses: nvfp/demo-testing@4.0.0
