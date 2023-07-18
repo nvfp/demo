@@ -11,12 +11,26 @@ jobs:
     steps:
       - name: Foo
         run: |
+          echo "abc"
+
+
           echo "::group::group1"
 
           echo "Hello"
           
           echo "::group::group2"
-          echo "Word"
+          echo "World"
           echo "::endgroup::"
+
+          echo "Foo"
+          
+          echo "::group::group3"
+          echo "Bar"
+          echo "::endgroup::"
+
+          echo "Baz"
           
           echo "::endgroup::"
+
+
+          echo "xyz"
