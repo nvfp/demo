@@ -1,4 +1,4 @@
-name: test workflow stop when py raise exception
+name: test that workflow should stop when py script raises exception
 
 on:
   push:
