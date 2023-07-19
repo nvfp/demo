@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Foo
         env:
-          foo: ${{ env.TEST_ENV }}
+          foo: ${{ vars.TEST_ENV }}
         run: |
           echo "Time: $(date)"
           echo "foo: '$foo'"
