@@ -1,0 +1,17 @@
+name: test using action var
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  foo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Foo
+        env:
+          foo: ${{ env.TEST_ENV }}
+        run: |
+          echo "Time: $(date)"
+          echo "foo: '$foo'"
