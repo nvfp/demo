@@ -1,0 +1,23 @@
+
+#-- Welcome to NICS settings!
+#-- Everything starts with "#--" is a comment.
+#-- Documentation: https://nvfp.github.io/now-i-can-sleep
+
+
+author: 'nvfastplease'
+custom_license: None
+color_hue: 260
+lowercase_the_url: True
+show_credit: True
+char_map: {}
+
+
+#-- The variables below are for NICS internal use only and shouldn't be modified.
+_git_name: 'by NICS'
+_git_email: 'nicho@scapeville.com'
+_gh_username: 'nvfp'
+_gh_repo_name: 'demo-testing'
+_load: 'main'
+_dock: 'nics-docs'
+_container: 'nics-docs'
+_nics_version: '3.0.0b10'
