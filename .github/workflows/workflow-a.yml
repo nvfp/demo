@@ -1,0 +1,14 @@
+name: the A
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  work-A:
+    runs-on: ubuntu-latest
+    steps:
+      - name: The A
+        run: |
+          echo "aaa"
