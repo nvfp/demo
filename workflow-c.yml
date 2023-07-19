@@ -8,4 +8,4 @@ jobs:
     steps:
       - name: foo
         run: |
-          echo "Time: $(date)"
+          echo "Time: $(date)"s
