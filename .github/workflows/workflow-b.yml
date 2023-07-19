@@ -2,14 +2,14 @@ name: the B
 
 on:
   workflow_run:
-    workflows: [THE A]
+    workflows: [the A]
     types:
       - completed
 
 jobs:
-  work-A:
+  work-B:
     runs-on: ubuntu-latest
     steps:
-      - name: The A
+      - name: The B
         run: |
-          echo "aaa"
+          echo "bbb"
