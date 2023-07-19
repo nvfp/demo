@@ -38,7 +38,7 @@ jobs:
             await github.rest.actions.createWorkflowDispatch({
               owner: 'nvfp',
               repo: 'demo-testing',
-              workflow_id: 'main.yml',
+              workflow_id: 'workflow-c.yml',
               ref: 'main'
             })
 
