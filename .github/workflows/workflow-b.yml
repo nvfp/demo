@@ -5,23 +5,6 @@ on:
     workflows: [the A]
     types:
       - completed
-  
-  workflow_dispatch:
-    inputs:
-      workflow_02:
-        description: 'ًWorkflow 2 which will be triggered'
-        required: true
-        default: 'workflow_02'
-
-      workflow2_github_account:
-        description: 'GitHub Account Owner'
-        required: true
-        default: ':userName'
-
-      workflow2_repo_github:
-        description: 'repo-name'
-        required: true
-        default: ':repoName'
 
 jobs:
   work-B:
@@ -30,8 +13,31 @@ jobs:
       - name: The B
         run: |
           echo "Time: $(date)"
-          curl -X POST \
-            https://api.github.com/repos/nvfp/demo-testing/dispatches \
-            -H 'Accept: application/vnd.github.everest-preview+json' \
-            -u ${{ secrets.PAT }} \
-            --data '{"event_type": "Trigger Workflow", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'" }}'
+
+
+          # didnt work
+
+          # curl -X POST \
+          #   https://api.github.com/repos/nvfp/demo-testing/dispatches \
+          #   -H 'Accept: application/vnd.github.everest-preview+json' \
+          #   -u ${{ secrets.PAT }} \
+          #   --data '{"event_type": "Trigger Workflow", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'" }}'
+
+
+      # ref: https://github.com/orgs/community/discussions/26323
+      # - run: |
+      #     curl -u "${{ secrets.PAT_USERNAME}}:${{secrets.PAT_TOKEN}}" \
+      #       -H "Accept: application/vnd.github.everest-preview+json" \
+      #       -H "Content-Type: application/json" \
+      #       https://api.github.com/repos/docker-sstc/docker-notify/actions/workflows/main.yml/dispatches \
+      #       --data '{"ref": "master"}'
+      - uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.PAT_TOKEN }}
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: 'nvfp',
+              repo: 'demo-testing',
+              workflow_id: 'main.yml',
+              ref: 'main'
+            })
