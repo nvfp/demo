@@ -12,7 +12,7 @@ jobs:
       - name: The A
         run: |
           echo "Time: $(date)"
-          for i in {0..50}; do
+          for i in {0..20}; do
             echo $i
             sleep 1
           done

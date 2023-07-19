@@ -5,6 +5,23 @@ on:
     workflows: [the A]
     types:
       - completed
+  
+  workflow_dispatch:
+    inputs:
+      workflow_02:
+        description: 'ًWorkflow 2 which will be triggered'
+        required: true
+        default: 'workflow_02'
+
+      workflow2_github_account:
+        description: 'GitHub Account Owner'
+        required: true
+        default: ':userName'
+
+      workflow2_repo_github:
+        description: 'repo-name'
+        required: true
+        default: ':repoName'
 
 jobs:
   work-B:
@@ -13,3 +30,8 @@ jobs:
       - name: The B
         run: |
           echo "Time: $(date)"
+          curl -X POST \
+            https://api.github.com/repos/nvfp/demo-testing/dispatches \
+            -H 'Accept: application/vnd.github.everest-preview+json' \
+            -u ${{ secrets.PAT }} \
+            --data '{"event_type": "Trigger Workflow", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'" }}'
