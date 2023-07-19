@@ -1,3 +1,6 @@
 [submodule "archive/20230719 trigger workflow on another repo/demo-testing"]
 	path = "archive/20230719 trigger workflow on another repo/demo-testing"
 	url = https://github.com/nvfp/demo-testing
+[submodule "demo-testing"]
+	path = demo-testing
+	url = https://github.com/nvfp/demo-testing
