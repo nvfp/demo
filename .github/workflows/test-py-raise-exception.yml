@@ -1,0 +1,16 @@
+name: test workflow stop when py raise exception
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  foo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Foo
+        run: |
+          echo "foo"
+          python test-dir/testpy.py
+          echo "bar"
