@@ -11,44 +11,35 @@ jobs:
     steps:
       - name: debug
         run: |
-          echo "GITHUB_WORKSPACE: '$GITHUB_WORKSPACE'"
-          echo "+++"
-          ls
-          echo "---"
-          mkdir mycache123
-          echo "+++"
+          echo +++"
           ls
           echo "---"
 
-      - name: Create
-        run: |
-          echo "+++"
-          ls
-          echo "---"
-          
-          echo "foo123" > abcxyz.txt
-          
-          echo "+++"
-          ls
-          echo "---"
-      
       - uses: actions/cache/restore@v3
         id: restore-cache
         with:
-          path: mycache123
-          key: mycache123-key
+          path: |
+            mycache123-v1
+          key: key-mycache123-v1
     
       - name: print cache-hit
         run: |
           echo "cache-hit: '${{ steps.restore-cache.outputs.cache-hit }}'"
-          
+      
+      - name: open cache
+        run: |
+          echo +++"
+          ls
+          echo "---"
+          cd mycache123-v1
+          cat foo123.txt
     
-      # - name: Check cache hit
-      #   if: steps.restore-cache.outputs.cache-hit != 'true'
-      #   run: exit 1
+      - name: Check cache hit
+        if: steps.restore-cache.outputs.cache-hit != 'true'
+        run: exit 1
       
       - uses: actions/cache/save@v3
         with:
           path: |
-            mycache123
+            mycache123-v1
           key: ${{ steps.restore-cache.outputs.cache-primary-key }}
