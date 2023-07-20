@@ -11,64 +11,73 @@ env:
 jobs:
   job:
     runs-on: ubuntu-latest
+
     steps:
-      - name: debug
-        run: |
-          echo "cache-dir: $CACHE_DIR"
-
-          echo "pwd: '$(pwd)'"
-          echo "+++"
-          ls
-          echo "---"
-
-      - uses: actions/cache/restore@v3
-        id: restore-cache
+      - uses: actions/setup-python@v4
         with:
-          path: |
-            ${{ env.CACHE_DIR }}
-          key: key-${{ env.CACHE_DIR }}
+          python-version: '3.9'
+          # cache: 'pip' # caching pip dependencies
+      - run: pip install numpy numba requests tweepy matplotlib
+
+    # Test caching a simple file
+    # steps:
+    #   - name: debug
+    #     run: |
+    #       echo "cache-dir: $CACHE_DIR"
+
+    #       echo "pwd: '$(pwd)'"
+    #       echo "+++"
+    #       ls
+    #       echo "---"
+
+    #   - uses: actions/cache/restore@v3
+    #     id: restore-cache
+    #     with:
+    #       path: |
+    #         ${{ env.CACHE_DIR }}
+    #       key: key-${{ env.CACHE_DIR }}
     
-      - name: print cache-hit
-        run: |
-          echo "cache-hit: '${{ steps.restore-cache.outputs.cache-hit }}'"
+    #   - name: print cache-hit
+    #     run: |
+    #       echo "cache-hit: '${{ steps.restore-cache.outputs.cache-hit }}'"
       
-      - name: Cache found
-        if: steps.restore-cache.outputs.cache-hit == 'true'
-        run: |
-          echo "pwd: '$(pwd)'"
-          echo "+++"
-          ls
-          echo "---"
-          cd $CACHE_DIR
-          cat foo123.txt
+    #   - name: Cache found
+    #     if: steps.restore-cache.outputs.cache-hit == 'true'
+    #     run: |
+    #       echo "pwd: '$(pwd)'"
+    #       echo "+++"
+    #       ls
+    #       echo "---"
+    #       cd $CACHE_DIR
+    #       cat foo123.txt
     
-      - name: Cache not found
-        if: steps.restore-cache.outputs.cache-hit != 'true'
-        run: |
-          echo "pwd: '$(pwd)'"
-          echo "+++"
-          ls
-          echo "---"
+    #   - name: Cache not found
+    #     if: steps.restore-cache.outputs.cache-hit != 'true'
+    #     run: |
+    #       echo "pwd: '$(pwd)'"
+    #       echo "+++"
+    #       ls
+    #       echo "---"
           
-          mkdir $CACHE_DIR
-          echo "+++"
-          ls
-          echo "---"
+    #       mkdir $CACHE_DIR
+    #       echo "+++"
+    #       ls
+    #       echo "---"
           
-          cd $CACHE_DIR
-          echo "+++"
-          ls
-          echo "---"
+    #       cd $CACHE_DIR
+    #       echo "+++"
+    #       ls
+    #       echo "---"
           
-          echo "foo bar-baz_123" > foo123.txt
-          echo "+++"
-          ls
-          echo "---"
+    #       echo "foo bar-baz_123" > foo123.txt
+    #       echo "+++"
+    #       ls
+    #       echo "---"
 
-          cd ..
+    #       cd ..
 
-      - uses: actions/cache/save@v3
-        with:
-          path: |
-            ${{ env.CACHE_DIR }}
-          key: ${{ steps.restore-cache.outputs.cache-primary-key }}
+    #   - uses: actions/cache/save@v3
+    #     with:
+    #       path: |
+    #         ${{ env.CACHE_DIR }}
+    #       key: ${{ steps.restore-cache.outputs.cache-primary-key }}
