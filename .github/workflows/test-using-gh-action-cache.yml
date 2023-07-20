@@ -15,55 +15,55 @@ jobs:
       - name: debug
         run: |
           echo "cache-dir: $CACHE_DIR"
-          
+
           echo "+++"
           ls
           echo "---"
 
-      # - uses: actions/cache/restore@v3
-      #   id: restore-cache
-      #   with:
-      #     path: |
-      #       mycache123-v1
-      #     key: key-mycache123-v1
+      - uses: actions/cache/restore@v3
+        id: restore-cache
+        with:
+          path: |
+            $CACHE_DIR
+          key: key-$CACHE_DIR
     
-      # - name: print cache-hit
-      #   run: |
-      #     echo "cache-hit: '${{ steps.restore-cache.outputs.cache-hit }}'"
+      - name: print cache-hit
+        run: |
+          echo "cache-hit: '${{ steps.restore-cache.outputs.cache-hit }}'"
       
-      # - name: Cache found
-      #   if: steps.restore-cache.outputs.cache-hit == 'true'
-      #   run: |
-      #     echo "+++"
-      #     ls
-      #     echo "---"
-      #     cd mycache123-v1
-      #     cat foo123.txt
+      - name: Cache found
+        if: steps.restore-cache.outputs.cache-hit == 'true'
+        run: |
+          echo "+++"
+          ls
+          echo "---"
+          cd $CACHE_DIR
+          cat foo123.txt
     
-      # - name: Cache not found
-      #   if: steps.restore-cache.outputs.cache-hit != 'true'
-      #   run: |
-      #     echo "+++"
-      #     ls
-      #     echo "---"
+      - name: Cache not found
+        if: steps.restore-cache.outputs.cache-hit != 'true'
+        run: |
+          echo "+++"
+          ls
+          echo "---"
           
-      #     mkdir mycache123-v1
-      #     echo "+++"
-      #     ls
-      #     echo "---"
+          mkdir $CACHE_DIR
+          echo "+++"
+          ls
+          echo "---"
           
-      #     cd mycache123-v1
-      #     echo "+++"
-      #     ls
-      #     echo "---"
+          cd $CACHE_DIR
+          echo "+++"
+          ls
+          echo "---"
           
-      #     echo "foo bar-baz_123" > foo123.txt
-      #     echo "+++"
-      #     ls
-      #     echo "---"
+          echo "foo bar-baz_123" > foo123.txt
+          echo "+++"
+          ls
+          echo "---"
       
       # - uses: actions/cache/save@v3
       #   with:
       #     path: |
-      #       mycache123-v1
+      #       $CACHE_DIR
       #     key: ${{ steps.restore-cache.outputs.cache-primary-key }}
