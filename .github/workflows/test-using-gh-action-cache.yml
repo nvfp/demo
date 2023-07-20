@@ -40,6 +40,15 @@ jobs:
           echo "+++"
           ls
           echo "---"
+          
+          python -m venv $MY_TEST_PY_VENV
+          echo "+++"
+          ls
+          echo "---"
+
+          $MY_TEST_PY_VENV/Scripts/activate
+          pip list
+          pip install numpy
     
       - name: Activate py venv
         run: |
