@@ -45,30 +45,19 @@ jobs:
           echo "+++"
           ls
           echo "---"
-          
-          cd $MY_TEST_PY_VENV
-          echo "+++"
-          ls
-          echo "---"
 
-      #     $MY_TEST_PY_VENV/Scripts/activate
-      #     pip list
-      #     pip install numpy
+          $MY_TEST_PY_VENV/bin/activate
+          pip list
+          echo "==="
+          pip install numpy
+          echo "==="
+          pip list
     
-      # - name: Activate py venv
-      #   run: |
-      #     echo "pwd: '$(pwd)'"
-      #     echo "+++"
-      #     ls
-      #     echo "---"
-      #     $MY_TEST_PY_VENV/Scripts/activate
-      #     pip list
-    
-      # - name: Run
-      #   shell: python
-      #   run: |
-      #     import numpy as np
-      #     print(np.array)
+      - name: Run
+        shell: python
+        run: |
+          import numpy as np
+          print(np.array)
 
 
     ## Test setup-python caching (not sure how to use it)
