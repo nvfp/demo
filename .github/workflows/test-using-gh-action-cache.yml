@@ -7,7 +7,7 @@ on:
 
 env:
   CACHE_DIR: mycache123-v1
-  MY_TEST_PY_VENV: "MY_TEST_VENV_6"
+  MY_TEST_PY_VENV: "MY_TEST_VENV_7"
 
 jobs:
   job:
@@ -57,21 +57,25 @@ jobs:
           # pip install numpy
           # echo "==="
           # pip list
+          echo "::group::py"
           pip install -r requirements.txt 
+          echo "::endgroup::"
 
+          echo "::group::ff"
           sudo apt update
           sudo apt install ffmpeg
+          echo "::endgroup::"
 
           echo "+++ff"
           which ffmpeg
           echo "+++ff"
 
           echo "----"
-          ls $MY_TEST_PY_ENV
+          ls "$MY_TEST_PY_ENV"
           echo "----"
-          sudo mv $(which ffmpeg) $(pwd)/$MY_TEST_PY_ENV
+          sudo mv $(which ffmpeg) $(pwd)/$MY_TEST_PY_ENV/FFMPEG_CACHED
           echo "----"
-          ls $MY_TEST_PY_ENV
+          ls "$MY_TEST_PY_ENV"
           echo "----"
       
       - name: Cache not found -> Save the cache 
@@ -88,6 +92,8 @@ jobs:
           source $MY_TEST_PY_VENV/bin/activate
           which python
           python test-dir/testpy.py 
+
+          echo "MY_TEST_PY_ENV: '$$MY_TEST_PY_ENV'"
 
           $MY_TEST_PY_ENV/ffmpeg
           echo "---"
