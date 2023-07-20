@@ -1,0 +1,8 @@
+numpy
+numba
+requests
+tweepy
+matplotlib
+pandas
+scipy
+django
