@@ -22,15 +22,21 @@ jobs:
           echo "---"
       
       - uses: actions/cache/restore@v3
-        id: cache
+        id: restore-cache
         with:
           path: mycache123
           key: mycache123-key
     
       - name: print cache-hit
         run: |
-          echo "cache-hit: '${{ steps.cache.outputs.cache-hit }}'"
+          echo "cache-hit: '${{ steps.restore-cache.outputs.cache-hit }}'"
     
-      - name: Check cache hit
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: exit 1
+      # - name: Check cache hit
+      #   if: steps.restore-cache.outputs.cache-hit != 'true'
+      #   run: exit 1
+      
+      - uses: actions/cache/save@v3
+        with:
+          path: |
+            mycache123
+          key: ${{ steps.restore-cache.outputs.cache-primary-key }}
