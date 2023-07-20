@@ -28,7 +28,7 @@ jobs:
       
       - name: open cache
         run: |
-          echo +++"
+          echo "+++"
           ls
           echo "---"
           cd mycache123-v1
