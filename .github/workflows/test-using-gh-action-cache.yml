@@ -48,11 +48,11 @@ jobs:
 
           chmod +x $MY_TEST_PY_VENV/bin/activate  # it requires permission to be executed
           $MY_TEST_PY_VENV/bin/activate
-          pip list
-          echo "==="
-          pip install numpy
-          echo "==="
-          pip list
+          # pip list
+          # echo "==="
+          # pip install numpy
+          # echo "==="
+          # pip list
     
       - name: Run
         shell: python
