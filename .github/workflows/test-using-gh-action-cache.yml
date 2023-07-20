@@ -46,6 +46,7 @@ jobs:
           ls
           echo "---"
 
+          chmod +x $MY_TEST_PY_VENV/bin/activate  # it requires permission to be executed
           $MY_TEST_PY_VENV/bin/activate
           pip list
           echo "==="
