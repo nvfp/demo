@@ -7,7 +7,7 @@ on:
 
 env:
   CACHE_DIR: mycache123-v1
-  MY_TEST_PY_VENV: "MY_TEST_VENV_7"
+  MY_TEST_PY_VENV: "MY_TEST_VENV_8"
 
 jobs:
   job:
@@ -40,6 +40,7 @@ jobs:
         if: steps.restore-cache.outputs.cache-hit != 'true'
         run: |
           echo "pwd: '$(pwd)'"
+          echo "MY_TEST_PY_ENV: '$$MY_TEST_PY_ENV'"
           echo "+++"
           ls
           echo "---"
@@ -58,18 +59,19 @@ jobs:
           # echo "==="
           # pip list
           echo "::group::py"
-          pip install -r requirements.txt 
+          # pip install -r requirements.txt 
           echo "::endgroup::"
 
           echo "::group::ff"
-          sudo apt update
-          sudo apt install ffmpeg
+          # sudo apt update
+          # sudo apt install ffmpeg
           echo "::endgroup::"
 
           echo "+++ff"
           which ffmpeg
           echo "+++ff"
 
+          echo "MY_TEST_PY_ENV: '$$MY_TEST_PY_ENV'"
           echo "----"
           ls "$MY_TEST_PY_ENV"
           echo "----"
