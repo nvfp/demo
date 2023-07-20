@@ -9,6 +9,17 @@ jobs:
   job:
     runs-on: ubuntu-latest
     steps:
+      - name: debug
+        run: |
+          echo "GITHUB_WORKSPACE: '$GITHUB_WORKSPACE'"
+          echo "+++"
+          ls
+          echo "---"
+          mkdir mycache123
+          echo "+++"
+          ls
+          echo "---"
+
       - name: Create
         run: |
           echo "+++"
