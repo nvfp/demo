@@ -56,12 +56,21 @@ jobs:
           # echo "==="
           # pip list
           pip install -r requirements.txt 
+      
+      - name: Cache not found -> Save the cache
+        if: steps.restore-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v3
+        with:
+          path: |
+            ${{ env.MY_TEST_PY_VENV }}
+          key: ${{ steps.restore-cache.outputs.cache-primary-key }}
     
       - name: Run
         shell: python
         run: |
           import numpy as np
           print(np.array)
+      
 
 
     ## Test setup-python caching (not sure how to use it)
