@@ -5,41 +5,65 @@ on:
     branches:
       - main
 
+env:
+  cache-dir: mycache123-v1
+
 jobs:
   job:
     runs-on: ubuntu-latest
     steps:
       - name: debug
         run: |
+          echo "cache-dir: $cache-dir"
+          
           echo "+++"
           ls
           echo "---"
 
-      - uses: actions/cache/restore@v3
-        id: restore-cache
-        with:
-          path: |
-            mycache123-v1
-          key: key-mycache123-v1
+      # - uses: actions/cache/restore@v3
+      #   id: restore-cache
+      #   with:
+      #     path: |
+      #       mycache123-v1
+      #     key: key-mycache123-v1
     
-      - name: print cache-hit
-        run: |
-          echo "cache-hit: '${{ steps.restore-cache.outputs.cache-hit }}'"
+      # - name: print cache-hit
+      #   run: |
+      #     echo "cache-hit: '${{ steps.restore-cache.outputs.cache-hit }}'"
       
-      - name: open cache
-        run: |
-          echo "+++"
-          ls
-          echo "---"
-          cd mycache123-v1
-          cat foo123.txt
+      # - name: Cache found
+      #   if: steps.restore-cache.outputs.cache-hit == 'true'
+      #   run: |
+      #     echo "+++"
+      #     ls
+      #     echo "---"
+      #     cd mycache123-v1
+      #     cat foo123.txt
     
-      - name: Check cache hit
-        if: steps.restore-cache.outputs.cache-hit != 'true'
-        run: exit 1
+      # - name: Cache not found
+      #   if: steps.restore-cache.outputs.cache-hit != 'true'
+      #   run: |
+      #     echo "+++"
+      #     ls
+      #     echo "---"
+          
+      #     mkdir mycache123-v1
+      #     echo "+++"
+      #     ls
+      #     echo "---"
+          
+      #     cd mycache123-v1
+      #     echo "+++"
+      #     ls
+      #     echo "---"
+          
+      #     echo "foo bar-baz_123" > foo123.txt
+      #     echo "+++"
+      #     ls
+      #     echo "---"
       
-      - uses: actions/cache/save@v3
-        with:
-          path: |
-            mycache123-v1
-          key: ${{ steps.restore-cache.outputs.cache-primary-key }}
+      # - uses: actions/cache/save@v3
+      #   with:
+      #     path: |
+      #       mycache123-v1
+      #     key: ${{ steps.restore-cache.outputs.cache-primary-key }}
