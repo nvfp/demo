@@ -18,6 +18,13 @@ jobs:
         with:
           python-version: '3.9'
           cache: 'pip' # caching pip dependencies 
+
+      - name: try
+        shell: python
+        run: |
+          import numpy as np
+          print(np.array)
+
       - run: pip install -r requirements.txt
 
     # Test caching a simple file
