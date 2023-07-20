@@ -16,6 +16,7 @@ jobs:
         run: |
           echo "cache-dir: $CACHE_DIR"
 
+          echo "pwd: '$(pwd)'"
           echo "+++"
           ls
           echo "---"
@@ -34,6 +35,7 @@ jobs:
       - name: Cache found
         if: steps.restore-cache.outputs.cache-hit == 'true'
         run: |
+          echo "pwd: '$(pwd)'"
           echo "+++"
           ls
           echo "---"
@@ -43,6 +45,7 @@ jobs:
       - name: Cache not found
         if: steps.restore-cache.outputs.cache-hit != 'true'
         run: |
+          echo "pwd: '$(pwd)'"
           echo "+++"
           ls
           echo "---"
