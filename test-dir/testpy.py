@@ -1,5 +1,2 @@
-def f():
-    raise AssertionError('foo')
-
-
-f()
+import numpy as np
+print(np.array)

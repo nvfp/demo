@@ -7,7 +7,7 @@ on:
 
 env:
   CACHE_DIR: mycache123-v1
-  MY_TEST_PY_VENV: "MY_TEST_VENV_3"
+  MY_TEST_PY_VENV: "MY_TEST_VENV_4"
 
 jobs:
   job:
@@ -33,7 +33,7 @@ jobs:
           ls
           echo "---"
 
-          $MY_TEST_PY_VENV/bin/activate
+          source $MY_TEST_PY_VENV/bin/activate
           which python
     
       - name: Cache not found
@@ -49,7 +49,7 @@ jobs:
           ls
           echo "---"
 
-          # chmod +x $MY_TEST_PY_VENV/bin/activate  # it requires permission to be executed
+          # chmod +x $MY_TEST_PY_VENV/bin/activate  # it requires permission to be executed; but no if using 'source ' in `source $MY_TEST_PY_VENV/bin/activate`
           source $MY_TEST_PY_VENV/bin/activate
           which python
           # pip list
@@ -68,10 +68,7 @@ jobs:
           key: ${{ steps.restore-cache.outputs.cache-primary-key }}
     
       - name: Run
-        shell: python
-        run: |
-          import numpy as np
-          print(np.array)
+        run: python test-dir/testpy.py
       
 
 
