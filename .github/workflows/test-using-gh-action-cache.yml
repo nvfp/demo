@@ -24,7 +24,7 @@ jobs:
         id: restore-cache
         with:
           path: |
-            $CACHE_DIR
+            ${{ env.CACHE_DIR }}
           key: key-${{ env.CACHE_DIR }}
     
       - name: print cache-hit
@@ -67,5 +67,5 @@ jobs:
       - uses: actions/cache/save@v3
         with:
           path: |
-            $CACHE_DIR
+            ${{ env.CACHE_DIR }}
           key: ${{ steps.restore-cache.outputs.cache-primary-key }}
