@@ -72,7 +72,7 @@ jobs:
           which python
           source $MY_TEST_PY_VENV/bin/activate
           which python
-          python test-dir/testpy.py
+          python test-dir/testpy.py 
       
 
 
