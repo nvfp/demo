@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: debug
         run: |
-          echo +++"
+          echo "+++"
           ls
           echo "---"
 
