@@ -25,7 +25,7 @@ jobs:
         with:
           path: |
             $CACHE_DIR
-          key: key-$CACHE_DIR
+          key: key-${{ env.CACHE_DIR }}
     
       - name: print cache-hit
         run: |
