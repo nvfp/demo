@@ -7,7 +7,7 @@ on:
 
 env:
   CACHE_DIR: mycache123-v1
-  MY_TEST_PY_VENV: "MY_TEST_VENV_2"
+  MY_TEST_PY_VENV: "MY_TEST_VENV_3"
 
 jobs:
   job:
@@ -49,8 +49,8 @@ jobs:
           ls
           echo "---"
 
-          chmod +x $MY_TEST_PY_VENV/bin/activate  # it requires permission to be executed
-          $MY_TEST_PY_VENV/bin/activate
+          # chmod +x $MY_TEST_PY_VENV/bin/activate  # it requires permission to be executed
+          source $MY_TEST_PY_VENV/bin/activate
           which python
           # pip list
           # echo "==="
