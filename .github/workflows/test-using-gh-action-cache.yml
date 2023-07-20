@@ -61,9 +61,9 @@ jobs:
           echo "+++"
           ls
           echo "---"
-      
-      # - uses: actions/cache/save@v3
-      #   with:
-      #     path: |
-      #       $CACHE_DIR
-      #     key: ${{ steps.restore-cache.outputs.cache-primary-key }}
+
+      - uses: actions/cache/save@v3
+        with:
+          path: |
+            $CACHE_DIR
+          key: ${{ steps.restore-cache.outputs.cache-primary-key }}
