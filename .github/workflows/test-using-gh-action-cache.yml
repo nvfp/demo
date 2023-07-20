@@ -7,7 +7,7 @@ on:
 
 env:
   CACHE_DIR: mycache123-v1
-  MY_TEST_PY_VENV: "MY_TEST_VENV_5"
+  MY_TEST_PY_VENV: "MY_TEST_VENV_6"
 
 jobs:
   job:
@@ -58,6 +58,21 @@ jobs:
           # echo "==="
           # pip list
           pip install -r requirements.txt 
+
+          sudo apt update
+          sudo apt install ffmpeg
+
+          echo "+++ff"
+          which ffmpeg
+          echo "+++ff"
+
+          echo "----"
+          ls $MY_TEST_PY_ENV
+          echo "----"
+          sudo mv $(which ffmpeg) $(pwd)/$MY_TEST_PY_ENV
+          echo "----"
+          ls $MY_TEST_PY_ENV
+          echo "----"
       
       - name: Cache not found -> Save the cache 
         if: steps.restore-cache.outputs.cache-hit != 'true'
@@ -74,6 +89,8 @@ jobs:
           which python
           python test-dir/testpy.py 
 
+          $MY_TEST_PY_ENV/ffmpeg
+          echo "---"
           ffmpeg
       
 
