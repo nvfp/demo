@@ -20,3 +20,17 @@ jobs:
           echo "+++"
           ls
           echo "---"
+      
+      - uses: actions/cache/restore@v3
+        id: cache
+        with:
+          path: mycache123
+          key: mycache123-key
+    
+      - name: print cache-hit
+        run: |
+          echo "cache-hit: '${{ steps.cache.outputs.cache-hit }}'"
+    
+      - name: Check cache hit
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: exit 1
