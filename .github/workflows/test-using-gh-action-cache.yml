@@ -9,7 +9,14 @@ jobs:
   job:
     runs-on: ubuntu-latest
     steps:
-      - name: run
+      - name: Create
         run: |
-          echo "${{ runner.os }}"
-          echo "${{ env.cache-name }}"
+          echo "+++"
+          ls
+          echo "---"
+          
+          echo "foo123" > abcxyz.txt
+          
+          echo "+++"
+          ls
+          echo "---"
