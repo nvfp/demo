@@ -62,6 +62,8 @@ jobs:
           ls
           echo "---"
 
+          cd ..
+
       - uses: actions/cache/save@v3
         with:
           path: |
