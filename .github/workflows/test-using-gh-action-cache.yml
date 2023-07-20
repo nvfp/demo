@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  cache-dir: mycache123-v1
+  CACHE_DIR: mycache123-v1
 
 jobs:
   job:
@@ -14,7 +14,7 @@ jobs:
     steps:
       - name: debug
         run: |
-          echo "cache-dir: $cache-dir"
+          echo "cache-dir: $CACHE_DIR"
           
           echo "+++"
           ls
