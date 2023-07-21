@@ -66,12 +66,12 @@ jobs:
           echo "::endgroup::"
 
           echo "::group::ff"
-          # sudo apt update
-          # sudo apt install ffmpeg
+          sudo apt update
+          sudo apt install ffmpeg
           echo "::endgroup::"
 
           echo "+++ff"
-          # which ffmpeg
+          which ffmpeg
           echo "+++ff"
 
           echo "MY_TEST_PY_VENV: '$MY_TEST_PY_VENV'"
