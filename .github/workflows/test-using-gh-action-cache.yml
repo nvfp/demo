@@ -7,7 +7,7 @@ on:
 
 env:
   CACHE_DIR: mycache123-v1
-  MY_TEST_PY_VENV: "MY_TEST_VENV_9"
+  MY_TEST_PY_VENV: "MY_TEST_VENV_10"
 
 jobs:
   job:
@@ -65,10 +65,18 @@ jobs:
           # pip install -r requirements.txt 
           echo "::endgroup::"
 
+          echo "usr/bin"
+          ls /usr/bin/
+          echo "usr/bin"
+
           echo "::group::ff"
           sudo apt update
           sudo apt install ffmpeg
           echo "::endgroup::"
+
+          echo "usr/bin"
+          ls /usr/bin/
+          echo "usr/bin"
 
           echo "+++ff"
           which ffmpeg
@@ -103,6 +111,7 @@ jobs:
           echo "MY_TEST_PY_VENV: '$MY_TEST_PY_VENV'"
 
           $MY_TEST_PY_VENV/ffmpeg
+          echo "---"
           echo "---"
           ffmpeg
       
