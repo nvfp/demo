@@ -7,16 +7,13 @@ on:
 
 env:
   CACHE_DIR: mycache123-v1
-  MY_TEST_PY_VENV: "MY_TEST_VENV_19"
+  MY_TEST_PY_VENV: "MY_TEST_VENV_20"
 
 jobs:
   job:
     runs-on: ubuntu-latest
     
     steps:
-      - name: debug
-        run: |
-          echo "MY_TEST_PY_VENV: '$MY_TEST_PY_VENV'"
       - name: Checkout
         uses: actions/checkout@v3
 
@@ -36,10 +33,7 @@ jobs:
           ls
           echo "---"
 
-          source $MY_TEST_PY_VENV/bin/activate
-          which python
-
-          echo "ffmpeg_dir=$(pwd)/$MY_TEST_PY_VENV/FFMPEG_STATIC" >> $GITHUB_ENV
+          echo "ffmpeg_dir=$(pwd)/$MY_TEST_PY_VENV/FFMPEG_BIN" >> $GITHUB_ENV
     
       - name: Cache not found
         if: steps.restore-cache.outputs.cache-hit != 'true'
@@ -55,28 +49,19 @@ jobs:
           ls
           echo "---"
 
-          # chmod +x $MY_TEST_PY_VENV/bin/activate  # it requires permission to be executed; but no if using 'source ' in `source $MY_TEST_PY_VENV/bin/activate`
-          source $MY_TEST_PY_VENV/bin/activate
-          which python
-          # pip list
-          # echo "==="
-          # pip install numpy
-          # echo "==="
-          # pip list
           echo "::group::py"
           # pip install -r requirements.txt 
           echo "::endgroup::"
 
           cd $MY_TEST_PY_VENV
-          mkdir FFMPEG_STATIC
-          ls
-          echo "---------"
-          cd FFMPEG_STATIC
+          mkdir FFMPEG_EXTRACT
+          cd FFMPEG_EXTRACT
 
           echo "::group::ff"
           # ref: https://ffmpeg.org/download.html#LinuxBuilds https://johnvansickle.com/ffmpeg/
           sudo wget https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz
           sudo wget https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz.md5
+          echo "::endgroup::"
 
           # Verify the MD5 checksum
           md5sum -c ffmpeg-release-amd64-static.tar.xz.md5
@@ -85,16 +70,15 @@ jobs:
           if [ $? -eq 0 ]; then
               # Extract the static build from the archive
               sudo tar xvf ffmpeg-release-amd64-static.tar.xz
-              cd ffmpeg-*-static
+
+              # move it
+              sudo mv ffmpeg-*-static $(pwd)/$MY_TEST_PY_VENV/FFMPEG_BIN
+
+              # remove the extract folder
+              rm -r $(pwd)/$MY_TEST_PY_VENV/FFMPEG_EXTRACT
 
               # Add FFmpeg path to the PATH variable temporarily
               # export PATH="$PATH:$(pwd)"  # didnt work
-
-              # Display the contents of the extracted directory
-              echo "--pwd: $(pwd)--"
-              ls
-
-              # ffmpeg -version
 
               # Add the export command to the user's .bashrc
               # (Add FFmpeg path to the PATH variable permanently)
@@ -103,22 +87,20 @@ jobs:
 
               # hoping this one work for github actions
               # echo "export PATH=\$PATH:$(pwd)" >> $GITHUB_ENV  # didnt work either
-
-              echo "ffmpeg_dir=$(pwd)" >> $GITHUB_ENV
           else
               echo "MD5 checksum verification failed. Aborting installation."
           fi
-          echo "::endgroup::"
 
-          # $GITHUB_WORKSPACE/$MY_TEST_PY_VENV/FFMPEG_STATICffmpeg -version
-          echo "--pwd: $(pwd)--"
-          ls
-          echo "----"
+          echo "ffmpeg_dir=$(pwd)/$MY_TEST_PY_VENV/FFMPEG_BIN" >> $GITHUB_ENV
 
-          cd ..
-          echo "--pwd: $(pwd)--"
-          ls
-          echo "----"
+          echo "-+-+"
+          ls $(pwd)/$MY_TEST_PY_VENV
+          echo "-+-+"
+
+          echo "-+-+"
+          ls $(pwd)/$MY_TEST_PY_VENV/FFMPEG_BIN
+          echo "-+-+"
+
       
       - name: Cache not found -> Save the cache 
         if: steps.restore-cache.outputs.cache-hit != 'true'
@@ -137,6 +119,7 @@ jobs:
 
           echo "MY_TEST_PY_VENV: '$MY_TEST_PY_VENV'"
 
+          echo "ffmpeg_dir: ${{ env.ffmpeg_dir }}"
           ${{ env.ffmpeg_dir }}/ffmpeg -version 
       
 
