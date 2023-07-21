@@ -1,0 +1,1 @@
+echo "myvar: $MY_VAR"

@@ -1,0 +1,19 @@
+name: test accessing global env in bash shell script
+
+on:
+  push:
+    branches:
+      - foo
+
+env:
+  MY_VAR: FOO-bar
+
+jobs:
+  foo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Foo
+        run: |
+          chmod +x test-dir/test.sh
+          test-dir/test.sh
