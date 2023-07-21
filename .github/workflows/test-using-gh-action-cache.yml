@@ -92,7 +92,7 @@ jobs:
               echo "--pwd: $(pwd)--"
               ls
 
-              ffmpeg -version
+              # ffmpeg -version
 
               # Add the export command to the user's .bashrc
               # (Add FFmpeg path to the PATH variable permanently)
