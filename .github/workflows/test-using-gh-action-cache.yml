@@ -7,7 +7,7 @@ on:
 
 env:
   CACHE_DIR: mycache123-v1
-  MY_TEST_PY_VENV: "MY_TEST_VENV_17"
+  MY_TEST_PY_VENV: "MY_TEST_VENV_18"
 
 jobs:
   job:
@@ -130,13 +130,7 @@ jobs:
 
           echo "MY_TEST_PY_VENV: '$MY_TEST_PY_VENV'"
 
-          echo "${{ env.ffmpeg_dir }}"
-          echo "---"
-          echo "---"
-          ffmpeg
-          echo "---"
-          echo "---"
-          $MY_TEST_PY_VENV/ffmpeg
+          ${{ env.ffmpeg_dir }}/ffmpeg -version
       
 
 
