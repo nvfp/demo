@@ -14,6 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+      - name: debug
+        run: |
+          echo "MY_TEST_PY_VENV: '$MY_TEST_PY_VENV'"
       - name: Checkout
         uses: actions/checkout@v3
 
@@ -40,7 +43,7 @@ jobs:
         if: steps.restore-cache.outputs.cache-hit != 'true'
         run: |
           echo "pwd: '$(pwd)'"
-          echo "MY_TEST_PY_ENV: '$$MY_TEST_PY_ENV'"
+          echo "MY_TEST_PY_VENV: '$$MY_TEST_PY_VENV'"
           echo "+++"
           ls
           echo "---"
@@ -71,13 +74,13 @@ jobs:
           # which ffmpeg
           echo "+++ff"
 
-          echo "MY_TEST_PY_ENV: '$$MY_TEST_PY_ENV'"
+          echo "MY_TEST_PY_VENV: '$$MY_TEST_PY_VENV'"
           echo "----"
-          ls "$MY_TEST_PY_ENV"
+          ls $MY_TEST_PY_VENV
           echo "----"
-          sudo mv $(which ffmpeg) $(pwd)/$MY_TEST_PY_ENV/FFMPEG_CACHED
+          sudo mv $(which ffmpeg) $(pwd)/$MY_TEST_PY_VENV/FFMPEG_CACHED
           echo "----"
-          ls "$MY_TEST_PY_ENV"
+          ls $MY_TEST_PY_VENV
           echo "----"
       
       - name: Cache not found -> Save the cache 
@@ -95,9 +98,9 @@ jobs:
           which python
           python test-dir/testpy.py 
 
-          echo "MY_TEST_PY_ENV: '$$MY_TEST_PY_ENV'"
+          echo "MY_TEST_PY_VENV: '$$MY_TEST_PY_VENV'"
 
-          $MY_TEST_PY_ENV/ffmpeg
+          $MY_TEST_PY_VENV/ffmpeg
           echo "---"
           ffmpeg
       
