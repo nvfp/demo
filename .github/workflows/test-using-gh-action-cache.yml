@@ -7,7 +7,7 @@ on:
 
 env:
   CACHE_DIR: mycache123-v1
-  MY_TEST_PY_VENV: "MY_TEST_VENV_16"
+  MY_TEST_PY_VENV: "MY_TEST_VENV_17"
 
 jobs:
   job:
@@ -100,13 +100,15 @@ jobs:
               # source ~/.bashrc  # didnt work
 
               # hoping this one work for github actions
-              echo "export PATH=\$PATH:$(pwd)" >> $GITHUB_ENV
+              # echo "export PATH=\$PATH:$(pwd)" >> $GITHUB_ENV  # didnt work either
+
+              echo "ffmpeg_dir=$(pwd)" >> $GITHUB_ENV
           else
               echo "MD5 checksum verification failed. Aborting installation."
           fi
           echo "::endgroup::"
 
-          ffmpeg -version
+          # $GITHUB_WORKSPACE/$MY_TEST_PY_VENV/FFMPEG_STATICffmpeg -version
           echo "--pwd: $(pwd)--"
           ls
           echo "----"
@@ -128,6 +130,9 @@ jobs:
 
           echo "MY_TEST_PY_VENV: '$MY_TEST_PY_VENV'"
 
+          echo "${{ env.ffmpeg_dir }}"
+          echo "---"
+          echo "---"
           ffmpeg
           echo "---"
           echo "---"
