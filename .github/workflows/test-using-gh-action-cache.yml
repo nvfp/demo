@@ -7,7 +7,7 @@ on:
 
 env:
   CACHE_DIR: mycache123-v1
-  MY_TEST_PY_VENV: "MY_TEST_VENV_11"
+  MY_TEST_PY_VENV: "MY_TEST_VENV_12"
 
 jobs:
   job:
@@ -72,6 +72,7 @@ jobs:
           cd FFMPEG_STATIC
 
           echo "::group::ff"
+          # ref: https://ffmpeg.org/download.html#LinuxBuilds https://johnvansickle.com/ffmpeg/
           sudo wget https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz
           sudo wget https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz.md5
 
@@ -85,6 +86,7 @@ jobs:
               cd ffmpeg-*-static
 
               # Display the contents of the extracted directory
+              echo "--pwd: $(pwd)--"
               ls
           else
               echo "MD5 checksum verification failed. Aborting installation."
@@ -112,10 +114,10 @@ jobs:
 
           echo "MY_TEST_PY_VENV: '$MY_TEST_PY_VENV'"
 
-          $MY_TEST_PY_VENV/ffmpeg
-          echo "---"
-          echo "---"
           ffmpeg
+          echo "---"
+          echo "---"
+          $MY_TEST_PY_VENV/ffmpeg
       
 
 
