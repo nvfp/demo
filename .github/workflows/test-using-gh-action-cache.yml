@@ -85,9 +85,14 @@ jobs:
               sudo tar xvf ffmpeg-release-amd64-static.tar.xz
               cd ffmpeg-*-static
 
+              # Add FFmpeg path to the PATH variable temporarily
+              export PATH="$PATH:$(pwd)"
+
               # Display the contents of the extracted directory
               echo "--pwd: $(pwd)--"
               ls
+
+              ffmpeg -version
           else
               echo "MD5 checksum verification failed. Aborting installation."
           fi
