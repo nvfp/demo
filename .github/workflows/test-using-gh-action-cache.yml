@@ -33,7 +33,7 @@ jobs:
           ls
           echo "---"
 
-          echo "ffmpeg_dir=$(pwd)/$MY_TEST_PY_VENV/FFMPEG_BIN" >> $GITHUB_ENV
+          echo "ffmpeg_dir=$GITHUB_WORKSPACE/$MY_TEST_PY_VENV/FFMPEG_BIN" >> $GITHUB_ENV
     
       - name: Cache not found
         if: steps.restore-cache.outputs.cache-hit != 'true'
@@ -72,10 +72,10 @@ jobs:
               sudo tar xvf ffmpeg-release-amd64-static.tar.xz
 
               # move it
-              sudo mv ffmpeg-*-static $(pwd)/$MY_TEST_PY_VENV/FFMPEG_BIN
+              sudo mv ffmpeg-*-static $GITHUB_WORKSPACE/$MY_TEST_PY_VENV/FFMPEG_BIN
 
               # remove the extract folder
-              rm -r $(pwd)/$MY_TEST_PY_VENV/FFMPEG_EXTRACT
+              rm -r $GITHUB_WORKSPACE/$MY_TEST_PY_VENV/FFMPEG_EXTRACT
 
               # Add FFmpeg path to the PATH variable temporarily
               # export PATH="$PATH:$(pwd)"  # didnt work
@@ -91,14 +91,14 @@ jobs:
               echo "MD5 checksum verification failed. Aborting installation."
           fi
 
-          echo "ffmpeg_dir=$(pwd)/$MY_TEST_PY_VENV/FFMPEG_BIN" >> $GITHUB_ENV
+          echo "ffmpeg_dir=$GITHUB_WORKSPACE/$MY_TEST_PY_VENV/FFMPEG_BIN" >> $GITHUB_ENV
 
           echo "-+-+"
-          ls $(pwd)/$MY_TEST_PY_VENV
+          ls $GITHUB_WORKSPACE/$MY_TEST_PY_VENV
           echo "-+-+"
 
           echo "-+-+"
-          ls $(pwd)/$MY_TEST_PY_VENV/FFMPEG_BIN
+          ls $GITHUB_WORKSPACE/$MY_TEST_PY_VENV/FFMPEG_BIN
           echo "-+-+"
 
       
