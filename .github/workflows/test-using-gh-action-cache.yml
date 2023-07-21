@@ -7,7 +7,7 @@ on:
 
 env:
   CACHE_DIR: mycache123-v1
-  MY_TEST_PY_VENV: "MY_TEST_VENV_10"
+  MY_TEST_PY_VENV: "MY_TEST_VENV_11"
 
 jobs:
   job:
@@ -65,33 +65,35 @@ jobs:
           # pip install -r requirements.txt 
           echo "::endgroup::"
 
-          echo "usr/bin"
-          ls /usr/bin/
-          echo "usr/bin"
+          cd $MY_TEST_PY_VENV
+          mkdir FFMPEG_STATIC
+          ls
+          echo "---------"
+          cd FFMPEG_STATIC
 
           echo "::group::ff"
-          sudo apt update
-          sudo apt install ffmpeg
+          sudo wget https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz
+          sudo wget https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz.md5
+
+          # Verify the MD5 checksum
+          md5sum -c ffmpeg-release-amd64-static.tar.xz.md5
+
+          # Check if the MD5 verification was successful before proceeding
+          if [ $? -eq 0 ]; then
+              # Extract the static build from the archive
+              sudo tar xvf ffmpeg-release-amd64-static.tar.xz
+              cd ffmpeg-*-static
+
+              # Display the contents of the extracted directory
+              ls
+          else
+              echo "MD5 checksum verification failed. Aborting installation."
+          fi
           echo "::endgroup::"
 
-          echo "usr/bin"
-          ls /usr/bin/
-          echo "usr/bin"
-
-          echo "+++ff"
-          which ffmpeg
-          echo "+++ff"
-
-          echo "MY_TEST_PY_VENV: '$MY_TEST_PY_VENV'"
+          echo "--pwd: $(pwd)--"
+          ls
           echo "----"
-          ls $MY_TEST_PY_VENV
-          echo "----"
-          sudo mv $(which ffmpeg) $(pwd)/$MY_TEST_PY_VENV/
-          echo "----"
-          ls $MY_TEST_PY_VENV
-          echo "----"
-
-          echo "size: '$(stat -c "%s" $(pwd)/$MY_TEST_PY_VENV/ffmpeg)'"
       
       - name: Cache not found -> Save the cache 
         if: steps.restore-cache.outputs.cache-hit != 'true'
