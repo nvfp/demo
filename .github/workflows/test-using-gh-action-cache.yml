@@ -130,7 +130,7 @@ jobs:
 
           echo "MY_TEST_PY_VENV: '$MY_TEST_PY_VENV'"
 
-          ${{ env.ffmpeg_dir }}/ffmpeg -version
+          ${{ env.ffmpeg_dir }}/ffmpeg -version 
       
 
 
