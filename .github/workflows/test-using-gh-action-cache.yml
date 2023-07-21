@@ -7,7 +7,7 @@ on:
 
 env:
   CACHE_DIR: mycache123-v1
-  MY_TEST_PY_VENV: "MY_TEST_VENV_18"
+  MY_TEST_PY_VENV: "MY_TEST_VENV_19"
 
 jobs:
   job:
@@ -38,6 +38,8 @@ jobs:
 
           source $MY_TEST_PY_VENV/bin/activate
           which python
+
+          echo "ffmpeg_dir=$(pwd)/$MY_TEST_PY_VENV/FFMPEG_STATIC" >> $GITHUB_ENV
     
       - name: Cache not found
         if: steps.restore-cache.outputs.cache-hit != 'true'
@@ -109,6 +111,11 @@ jobs:
           echo "::endgroup::"
 
           # $GITHUB_WORKSPACE/$MY_TEST_PY_VENV/FFMPEG_STATICffmpeg -version
+          echo "--pwd: $(pwd)--"
+          ls
+          echo "----"
+
+          cd ..
           echo "--pwd: $(pwd)--"
           ls
           echo "----"
