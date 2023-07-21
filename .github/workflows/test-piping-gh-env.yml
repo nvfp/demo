@@ -1,0 +1,18 @@
+name: test piping gh action env
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  foo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Foo
+        env:
+          GITHUB_WORKSPACE: $GITHUB_WORKSPACE
+        run: |
+          # chmod +x test-dir/test.sh
+          test-dir/test.sh
