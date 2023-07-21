@@ -7,7 +7,7 @@ on:
 
 env:
   CACHE_DIR: mycache123-v1
-  MY_TEST_PY_VENV: "MY_TEST_VENV_15"
+  MY_TEST_PY_VENV: "MY_TEST_VENV_16"
 
 jobs:
   job:
@@ -86,7 +86,7 @@ jobs:
               cd ffmpeg-*-static
 
               # Add FFmpeg path to the PATH variable temporarily
-              export PATH="$PATH:$(pwd)"
+              # export PATH="$PATH:$(pwd)"  # didnt work
 
               # Display the contents of the extracted directory
               echo "--pwd: $(pwd)--"
@@ -96,13 +96,17 @@ jobs:
 
               # Add the export command to the user's .bashrc
               # (Add FFmpeg path to the PATH variable permanently)
-              echo "export PATH=\"\$PATH:$(pwd)\"" >> ~/.bashrc
-              source ~/.bashrc
+              # echo "export PATH=\"\$PATH:$(pwd)\"" >> ~/.bashrc  # didnt work
+              # source ~/.bashrc  # didnt work
+
+              # hoping this one work for github actions
+              echo "export PATH=\$PATH:$(pwd)" >> $GITHUB_ENV
           else
               echo "MD5 checksum verification failed. Aborting installation."
           fi
           echo "::endgroup::"
 
+          ffmpeg -version
           echo "--pwd: $(pwd)--"
           ls
           echo "----"
