@@ -3,7 +3,7 @@ name: test accessing global env in bash shell script
 on:
   push:
     branches:
-      - foo
+      - main
 
 env:
   MY_VAR: FOO-bar
