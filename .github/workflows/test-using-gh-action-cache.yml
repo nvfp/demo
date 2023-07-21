@@ -43,7 +43,7 @@ jobs:
         if: steps.restore-cache.outputs.cache-hit != 'true'
         run: |
           echo "pwd: '$(pwd)'"
-          echo "MY_TEST_PY_VENV: '$$MY_TEST_PY_VENV'"
+          echo "MY_TEST_PY_VENV: '$MY_TEST_PY_VENV'"
           echo "+++"
           ls
           echo "---"
@@ -74,11 +74,11 @@ jobs:
           # which ffmpeg
           echo "+++ff"
 
-          echo "MY_TEST_PY_VENV: '$$MY_TEST_PY_VENV'"
+          echo "MY_TEST_PY_VENV: '$MY_TEST_PY_VENV'"
           echo "----"
           ls $MY_TEST_PY_VENV
           echo "----"
-          sudo mv $(which ffmpeg) $(pwd)/$MY_TEST_PY_VENV/FFMPEG_CACHED
+          sudo mv $(which ffmpeg) $(pwd)/$MY_TEST_PY_VENV/
           echo "----"
           ls $MY_TEST_PY_VENV
           echo "----"
@@ -98,7 +98,7 @@ jobs:
           which python
           python test-dir/testpy.py 
 
-          echo "MY_TEST_PY_VENV: '$$MY_TEST_PY_VENV'"
+          echo "MY_TEST_PY_VENV: '$MY_TEST_PY_VENV'"
 
           $MY_TEST_PY_VENV/ffmpeg
           echo "---"
