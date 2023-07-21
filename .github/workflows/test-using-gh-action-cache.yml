@@ -7,7 +7,7 @@ on:
 
 env:
   CACHE_DIR: mycache123-v1
-  MY_TEST_PY_VENV: "MY_TEST_VENV_14"
+  MY_TEST_PY_VENV: "MY_TEST_VENV_15"
 
 jobs:
   job:
@@ -97,6 +97,7 @@ jobs:
               # Add the export command to the user's .bashrc
               # (Add FFmpeg path to the PATH variable permanently)
               echo "export PATH=\"\$PATH:$(pwd)\"" >> ~/.bashrc
+              source ~/.bashrc
           else
               echo "MD5 checksum verification failed. Aborting installation."
           fi
