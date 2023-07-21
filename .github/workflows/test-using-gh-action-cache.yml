@@ -82,6 +82,8 @@ jobs:
           echo "----"
           ls $MY_TEST_PY_VENV
           echo "----"
+
+          echo "size: '$(stat -c "%s" $(pwd)/$MY_TEST_PY_VENV/ffmpeg)'"
       
       - name: Cache not found -> Save the cache 
         if: steps.restore-cache.outputs.cache-hit != 'true'
@@ -96,7 +98,7 @@ jobs:
           which python
           source $MY_TEST_PY_VENV/bin/activate
           which python
-          python test-dir/testpy.py 
+          # python test-dir/testpy.py 
 
           echo "MY_TEST_PY_VENV: '$MY_TEST_PY_VENV'"
 
