@@ -11,4 +11,7 @@ jobs:
     steps:
       - name: Foo
         run: |
-          echo "actor: ${{github.actor}}"
+          echo "github.actor: ${{github.actor}}"
+          echo "github.event.commits: ${{ github.event.commits }}"
+          echo "github.event.commits[0]: ${{ github.event.commits[0] }}"
+          echo "github.event.commits[0].author: ${{ github.event.commits[0].author }}"
