@@ -1,0 +1,29 @@
+name: test transfer value in gh actions
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  foo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: step 1
+        id: step1
+        run: |
+          # the value
+          x=100
+
+          # store the value
+          # echo "{NAME}={VALUE}" >> $GITHUB_OUTPUT
+          echo "foo=$x" >> $GITHUB_OUTPUT
+
+      - name: step 2
+        run: |
+          # get the value from step 1
+          x=${{ steps.step1.outputs.foo }}
+          echo $x
+
+          # or use it immediately
+          echo "x: ${{ steps.step1.outputs.foo }}"
