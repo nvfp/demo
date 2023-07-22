@@ -1,4 +1,4 @@
-name: Testing github Action context
+name: Testing GH Action expression
 
 on:
   push:
@@ -11,10 +11,5 @@ jobs:
     steps:
       - name: Foo
         run: |
-          echo "github.actor: ${{github.actor}}"
-
-          echo "github.event.commits: ${{ github.event.commits }}"
-          echo "github.event.commits[0]: ${{ github.event.commits[0] }}"
-          echo "github.event.commits[0].author: ${{ github.event.commits[0].author }}"
-          echo "github.event.commits[0].author.name: ${{ github.event.commits[0].author.name }}"
-          echo "github.event.commits[0].author.username: ${{ github.event.commits[0].author.username }}"  # same as github.actor
+          echo "start with 'foo': ${{ startsWith(github.event.commits[0].author.name, 'foo') }}"
+          echo "start with 'Nic': ${{ startsWith(github.event.commits[0].author.name, 'Nic') }}"
