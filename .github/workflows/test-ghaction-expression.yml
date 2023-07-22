@@ -1,0 +1,20 @@
+name: Testing github Action context
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Foo
+        run: |
+          echo "github.actor: ${{github.actor}}"
+
+          echo "github.event.commits: ${{ github.event.commits }}"
+          echo "github.event.commits[0]: ${{ github.event.commits[0] }}"
+          echo "github.event.commits[0].author: ${{ github.event.commits[0].author }}"
+          echo "github.event.commits[0].author.name: ${{ github.event.commits[0].author.name }}"
+          echo "github.event.commits[0].author.username: ${{ github.event.commits[0].author.username }}"  # same as github.actor

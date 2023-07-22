@@ -17,4 +17,4 @@ jobs:
           echo "github.event.commits[0]: ${{ github.event.commits[0] }}"
           echo "github.event.commits[0].author: ${{ github.event.commits[0].author }}"
           echo "github.event.commits[0].author.name: ${{ github.event.commits[0].author.name }}"
-          echo "github.event.commits[0].author.username: ${{ github.event.commits[0].author.username }}"
+          echo "github.event.commits[0].author.username: ${{ github.event.commits[0].author.username }}"  # same as github.actor
