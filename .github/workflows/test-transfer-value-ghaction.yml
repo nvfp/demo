@@ -6,11 +6,42 @@ on:
       - main
 
 jobs:
-  foo:
+
+  ## Between steps
+  
+  # foo:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: step 1
+  #       id: step1
+  #       run: |
+  #         # the value
+  #         x=100
+
+  #         # store the value
+  #         # echo "{NAME}={VALUE}" >> $GITHUB_OUTPUT
+  #         echo "foo=$x" >> $GITHUB_OUTPUT
+
+  #     - name: step 2
+  #       run: |
+  #         # get the value from step 1
+  #         x=${{ steps.step1.outputs.foo }}
+  #         echo $x
+
+  #         # or use it immediately
+  #         echo "x: ${{ steps.step1.outputs.foo }}"
+
+
+
+  ## Between jobs
+
+  job1:
     runs-on: ubuntu-latest
+    outputs:
+      foo: steps.my-step.outputs.foo
     steps:
-      - name: step 1
-        id: step1
+      - name: my step
+        id: my-step
         run: |
           # the value
           x=100
@@ -19,11 +50,15 @@ jobs:
           # echo "{NAME}={VALUE}" >> $GITHUB_OUTPUT
           echo "foo=$x" >> $GITHUB_OUTPUT
 
-      - name: step 2
+  job2:
+    needs: job1
+    runs-on: ubuntu-latest
+    steps:
+      - name: my step
         run: |
           # get the value from step 1
-          x=${{ steps.step1.outputs.foo }}
+          {% raw %}x=${{ needs.job1.outputs.foo }}{% endraw %}
           echo $x
 
-          # or use it immediately
-          echo "x: ${{ steps.step1.outputs.foo }}"
+          # or use it directly
+          {% raw %}echo "x: ${{ needs.job1.outputs.foo }}"{% endraw %}
