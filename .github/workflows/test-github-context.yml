@@ -1,0 +1,14 @@
+name: Testing github Action context
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Foo
+        run: |
+          echo "actor: ${{github.actor}}"
