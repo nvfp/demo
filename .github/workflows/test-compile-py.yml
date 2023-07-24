@@ -34,3 +34,12 @@ jobs:
 
           # dist/main.exe  # work on windows-latest but not in ubuntu-latest
           dist/main  # For Ubuntu
+      
+      - name: release
+        run: |
+          echo "-- $(pwd) --"
+          ls
+          echo "---"
+
+          gh release create 50.0.0 --title "test building python app" --notes "test build py app"
+          gh release upload 50.0.0 20230724_test_compile_py/test_app/dist/main
