@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEMO TESTING</title>
+</head>
+<body>
+    <a id="dl" href="https://github.com/nvfp/demo/archive/refs/tags/49.0.0.zip">TEST ONLY</a>
+    <script>
+        function dl() {
+            alert("testing...");
+        }
+        const theLink = document.getElementById("dl");
+        theLink.addEventListener("click", (e) => {
+            e.preventDefault();  // Prevent the default behavior of the link (i.e., navigating to the URL)
+            dl();
+        });
+    </script>
+</body>
+</html>
