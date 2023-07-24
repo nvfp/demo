@@ -32,10 +32,14 @@ jobs:
           ls dist
           echo "---"
 
+          # Windows ffmpeg: https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-n4.4-latest-win64-gpl-4.4.zip
+
           # dist/main.exe  # work on windows-latest but not in ubuntu-latest
           dist/main  # For Ubuntu
       
       - name: release
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           echo "-- $(pwd) --"
           ls
