@@ -28,4 +28,8 @@ jobs:
           ls
           echo "---"
 
-          dist/main.exe
+          echo "-- $(pwd)/dist --"
+          ls dist
+          echo "---"
+
+          # dist/main.exe  # work on windows-latest but not in ubuntu-latest
