@@ -33,3 +33,4 @@ jobs:
           echo "---"
 
           # dist/main.exe  # work on windows-latest but not in ubuntu-latest
+          dist/main  # For Ubuntu
