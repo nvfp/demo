@@ -1,0 +1,31 @@
+name: test compile py
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  foo:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Foo
+        run: |
+          echo "-- $(pwd) --"
+          ls
+          echo "---"
+
+          cd 20230724_test_compile_py/test_app
+          echo "-- $(pwd) --"
+          ls
+          echo "---"
+          
+          pip install pyinstaller
+          pyinstaller --onefile main.py
+
+          echo "-- $(pwd) --"
+          ls
+          echo "---"
+
+          dist/main.exe
