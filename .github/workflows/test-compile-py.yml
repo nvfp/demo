@@ -89,35 +89,35 @@ jobs:
           echo "---"
 
           curl -o dependencies/mytestapp.exe https://github.com/nvfp/demo/releases/download/50.0.0/mytestapp.exe
+          curl -o dependencies/ffmpeg.zip https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-n4.4-latest-win64-gpl-4.4.zip
 
           echo "-- $(pwd)/dependencies --"
           ls dependencies
           echo "---"
           
-          # dependencies/mytestapp.exe  # cant be run on GH actions Windows server
-          echo "::endgroup::"
+      #     # dependencies/mytestapp.exe  # cant be run on GH actions Windows server
+      #     echo "::endgroup::"
 
           
-          echo "-- $(pwd) --"
-          ls
-          echo "---"
+      #     echo "-- $(pwd) --"
+      #     ls
+      #     echo "---"
 
-          pip install pyinstaller
-          pyinstaller --onefile --noconsole --hidden-import=tkinter --name myGUI4 main.py
+      #     echo "::group::build"
+      #     pip install pyinstaller
+      #     pyinstaller --onefile --noconsole --hidden-import=tkinter --name myGUI4 main.py
+      #     echo "::endgroup::"
 
-          echo "-- $(pwd) --"
-          ls
-          echo "---"
+      #     echo "-- $(pwd) --"
+      #     ls
+      #     echo "---"
 
-          echo "-- $(pwd)/dist --"
-          ls dist
-          echo "---"
+      #     echo "-- $(pwd)/dist --"
+      #     ls dist
+      #     echo "---"
 
-          # Windows ffmpeg: https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-n4.4-latest-win64-gpl-4.4.zip
-
-
-      - name: release
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          gh release upload 50.0.0 "20230724_test_compile_py/test_gui/dist/myGUI4.exe"
+      # - name: release
+      #   env:
+      #     GH_TOKEN: ${{ github.token }}
+      #   run: |
+      #     gh release upload 50.0.0 "20230724_test_compile_py/test_gui/dist/myGUI4.exe"
