@@ -19,8 +19,9 @@ def main():
     root.geometry('355x230+30+30')
     root.configure(bg='#111')
 
-    p = sp.run([DEPENDENCY], capture_output=True, text=True)
-    text = p.stdout.strip()
+    # p = sp.run([DEPENDENCY], capture_output=True, text=True)
+    # text = p.stdout.strip()
+    text = 'abcdefg'
     # print(text)
     # print(repr(text))
 
