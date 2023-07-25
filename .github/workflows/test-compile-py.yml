@@ -5,9 +5,67 @@ on:
     branches:
       - main
 
+## test_app/
+
+# jobs:
+#   foo:
+#     # runs-on: ubuntu-latest
+#     runs-on: windows-latest
+#     permissions:
+#       contents: write
+#     steps:
+#       - uses: actions/checkout@v3
+#       - name: Foo
+#         run: |
+#           echo "-- $(pwd) --"
+#           ls
+#           echo "---"
+
+#           cd 20230724_test_compile_py/test_app
+#           echo "-- $(pwd) --"
+#           ls
+#           echo "---"
+          
+#           pip install pyinstaller
+#           pyinstaller --onefile --name mytestapp main.py
+
+#           echo "-- $(pwd) --"
+#           ls
+#           echo "---"
+
+#           echo "-- $(pwd)/dist --"
+#           ls dist
+#           echo "---"
+
+#           # Windows ffmpeg: https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-n4.4-latest-win64-gpl-4.4.zip
+
+#           # dist/main.exe  # work on windows-latest but not in ubuntu-latest
+#           # dist/main  # For Ubuntu
+#           # dist/foo
+
+#       - name: release
+#         env:
+#           GH_TOKEN: ${{ github.token }}
+#         run: |
+#           echo "-- $(pwd) --"
+#           ls
+#           echo "---"
+
+#           # gh release create 50.0.0 --title "test building python app" --notes "test build py app"
+#           gh release upload 50.0.0 "20230724_test_compile_py/test_app/dist/mytestapp.exe"
+
+
+#           # NOTE: 2 assets can share the same GitHub release assets label name,
+#           # but they can't share the same name path. For example,
+#           # asset 1 (label: main, path: foo/one) and asset 2 (label: main, path: foo/two).
+
+
+
+
+## test_gui/
+
 jobs:
   foo:
-    # runs-on: ubuntu-latest
     runs-on: windows-latest
     permissions:
       contents: write
@@ -19,40 +77,51 @@ jobs:
           ls
           echo "---"
 
-          cd 20230724_test_compile_py/test_app
+          cd 20230724_test_compile_py/test_gui
           echo "-- $(pwd) --"
           ls
           echo "---"
+
+
+          echo "::group::Download bin"
+          echo "-- $(pwd)/dependencies --"
+          ls dependencies
+          echo "---"
+
+          curl -o dependencies/boo.exe https://github.com/nvfp/demo/releases/download/50.0.0/mytestapp.exe
+
+          echo "-- $(pwd)/dependencies --"
+          ls dependencies
+          echo "---"
+          echo "::endgroup::"
+
           
-          pip install pyinstaller
-          pyinstaller --onefile --name mytestapp main.py
+          # pip install pyinstaller
+          # pyinstaller --onefile --name mytestapp main.py
 
-          echo "-- $(pwd) --"
-          ls
-          echo "---"
+          # echo "-- $(pwd) --"
+          # ls
+          # echo "---"
 
-          echo "-- $(pwd)/dist --"
-          ls dist
-          echo "---"
+          # echo "-- $(pwd)/dist --"
+          # ls dist
+          # echo "---"
 
           # Windows ffmpeg: https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-n4.4-latest-win64-gpl-4.4.zip
 
-          # dist/main.exe  # work on windows-latest but not in ubuntu-latest
-          # dist/main  # For Ubuntu
-          # dist/foo
-      
-      - name: release
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          echo "-- $(pwd) --"
-          ls
-          echo "---"
 
-          # gh release create 50.0.0 --title "test building python app" --notes "test build py app"
-          gh release upload 50.0.0 "20230724_test_compile_py/test_app/dist/mytestapp.exe"
+      # - name: release
+      #   env:
+      #     GH_TOKEN: ${{ github.token }}
+      #   run: |
+      #     echo "-- $(pwd) --"
+      #     ls
+      #     echo "---"
+
+      #     # gh release create 50.0.0 --title "test building python app" --notes "test build py app"
+      #     gh release upload 50.0.0 "20230724_test_compile_py/test_app/dist/mytestapp.exe"
 
 
-          # NOTE: 2 assets can share the same GitHub release assets label name,
-          # but they can't share the same name path. For example,
-          # asset 1 (label: main, path: foo/one) and asset 2 (label: main, path: foo/two).
+      #     # NOTE: 2 assets can share the same GitHub release assets label name,
+      #     # but they can't share the same name path. For example,
+      #     # asset 1 (label: main, path: foo/one) and asset 2 (label: main, path: foo/two).
