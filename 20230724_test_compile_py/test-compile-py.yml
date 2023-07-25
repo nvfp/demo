@@ -97,7 +97,7 @@ jobs:
           echo "-- $(pwd)/dependencies --"
           ls dependencies
           echo "---"
-          
+
           # dependencies/mytestapp.exe  # cant be run on GH actions Windows server (because using curl results in 0 byte downloaded)
           dependencies/mytestapp.exe
           echo "::endgroup::"
@@ -109,7 +109,7 @@ jobs:
 
           echo "::group::build"
           pip install pyinstaller
-          pyinstaller --onefile --noconsole --hidden-import=tkinter --name myGUI5 main.py
+          pyinstaller --onefile --noconsole --hidden-import=tkinter --hidden-import=tkinter.filedialog --name myGUI5 main.py
           echo "::endgroup::"
 
           echo "-- $(pwd) --"
