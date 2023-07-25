@@ -88,8 +88,10 @@ jobs:
           ls dependencies
           echo "---"
 
-          curl -o dependencies/mytestapp.exe https://github.com/nvfp/demo/releases/download/50.0.0/mytestapp.exe
-          curl -o dependencies/ffmpeg.zip https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-n4.4-latest-win64-gpl-4.4.zip
+          # curl -o dependencies/mytestapp.exe https://github.com/nvfp/demo/releases/download/50.0.0/mytestapp.exe
+          # curl -o dependencies/ffmpeg.zip https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-n4.4-latest-win64-gpl-4.4.zip
+
+          powershell -Command "Invoke-WebRequest -Uri 'https://github.com/nvfp/demo/releases/download/50.0.0/mytestapp.exe' -OutFile 'dependencies/mytestapp.exe'"
 
           echo "-- $(pwd)/dependencies --"
           ls dependencies
