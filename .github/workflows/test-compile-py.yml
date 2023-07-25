@@ -24,7 +24,7 @@ jobs:
           echo "---"
           
           pip install pyinstaller
-          pyinstaller --onefile --name bar main.py
+          pyinstaller --onefile --name foobar main.py
 
           echo "-- $(pwd) --"
           ls
@@ -49,7 +49,7 @@ jobs:
           echo "---"
 
           # gh release create 50.0.0 --title "test building python app" --notes "test build py app"
-          gh release upload 50.0.0 "20230724_test_compile_py/test_app/dist/bar#barr"
+          gh release upload 50.0.0 "20230724_test_compile_py/test_app/dist/foobar"
 
 
           # NOTE: 2 assets can share the same GitHub release assets label name,
