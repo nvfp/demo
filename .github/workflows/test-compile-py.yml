@@ -24,7 +24,7 @@ jobs:
           echo "---"
           
           pip install pyinstaller
-          pyinstaller --onefile main.py
+          pyinstaller --onefile --name foo main.py
 
           echo "-- $(pwd) --"
           ls
@@ -48,4 +48,4 @@ jobs:
           echo "---"
 
           # gh release create 50.0.0 --title "test building python app" --notes "test build py app"
-          gh release upload 50.0.0 "20230724_test_compile_py/test_app/dist/main#testmain"
+          gh release upload 50.0.0 "20230724_test_compile_py/test_app/dist/main#main"
