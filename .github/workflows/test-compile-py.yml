@@ -103,7 +103,7 @@ jobs:
           echo "---"
 
           pip install pyinstaller
-          pyinstaller --onefile --name myGUI2 main.py
+          pyinstaller --onefile --hidden-import=tkinter --name myGUI3 main.py
 
           echo "-- $(pwd) --"
           ls
@@ -120,4 +120,4 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release upload 50.0.0 "20230724_test_compile_py/test_gui/dist/myGUI2.exe"
+          gh release upload 50.0.0 "20230724_test_compile_py/test_gui/dist/myGUI3.exe"
