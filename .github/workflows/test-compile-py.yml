@@ -94,7 +94,7 @@ jobs:
           ls dependencies
           echo "---"
           
-          dependencies/mytestapp.exe
+          # dependencies/mytestapp.exe  # cant be run on GH actions Windows server
           echo "::endgroup::"
 
           
