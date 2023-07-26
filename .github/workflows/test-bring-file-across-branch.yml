@@ -8,6 +8,8 @@ on:
 jobs:
   run:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: 1
         run: |
@@ -43,3 +45,13 @@ jobs:
           echo "pwd: '$(pwd)'"
           ls
           cat $(pwd)/../arch_temp/foobarbaz321.txt
+
+          mv $(pwd)/../arch_temp/foobarbaz321.txt .
+          echo "pwd: '$(pwd)'"
+          ls
+
+          git config user.name "test bringing file across branches"
+          git config user.email "asjdovheoiefbaeoecbsa@email"
+          git add .
+          git commit -m "test bringing file across branches"
+          git push
