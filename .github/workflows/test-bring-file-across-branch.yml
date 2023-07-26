@@ -21,9 +21,20 @@ jobs:
         run: |
           echo "pwd: '$(pwd)'"
           ls
+          cd ..
+          echo "pwd: '$(pwd)'"
+          ls
+          cd demo
+          echo "pwd: '$(pwd)'"
+          ls
           python test-dir/test.py
           echo "--------"
           ls
+          cd ..
+          echo "pwd: '$(pwd)'"
+          ls
+          echo "====="
+          ls arch_temp
       - uses: actions/checkout@v3
         with:
           ref: web-download-button
@@ -31,4 +42,4 @@ jobs:
         run: |
           echo "pwd: '$(pwd)'"
           ls
-          cat foobarbaz321.txt
+          cat $(pwd)/../arch_temp/foobarbaz321.txt
