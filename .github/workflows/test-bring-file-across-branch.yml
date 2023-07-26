@@ -1,0 +1,22 @@
+name: test bringing a file across branches
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: run
+        run: |
+          ls
+          python test-dir/test.py
+      - uses: actions/checkout@v3
+        with:
+          ref: web-download-button
+      - name: foo
+        run: |
+          ls
