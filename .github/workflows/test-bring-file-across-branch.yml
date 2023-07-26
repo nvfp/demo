@@ -9,14 +9,26 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
+      - name: 1
+        run: |
+          echo "---pwd: '$(pwd)'"
+          ls
+          cd ..
+          echo "---pwd: '$(pwd)'"
+          ls
       - uses: actions/checkout@v3
       - name: run
         run: |
+          echo "pwd: '$(pwd)'"
           ls
           python test-dir/test.py
+          echo "--------"
+          ls
       - uses: actions/checkout@v3
         with:
           ref: web-download-button
       - name: foo
         run: |
+          echo "pwd: '$(pwd)'"
           ls
+          cat foobarbaz321.txt
